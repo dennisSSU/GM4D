@@ -11,9 +11,11 @@ namespace GM4D
 {
     public partial class MainWindow : Form
     {
+        private Settings settings;
         public MainWindow()
         {
             InitializeComponent();
+            this.settings = new Settings();
         }
 
         private void btnOverview_Click(object sender, EventArgs e)
@@ -46,6 +48,16 @@ namespace GM4D
             this.panelSettings.Visible = false;
             this.panelStaticLeases.Visible = false;
             this.panelClients.Visible = true;
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            settings.HostIP = "192.168.100.100";
+        }
+
+        private void MainWindow_Load(object sender, EventArgs e)
+        {
+
         }
 
         
