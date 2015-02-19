@@ -60,6 +60,21 @@ namespace GM4D
 
         }
 
+        private void tbIPRangeStart_Validating(object sender, CancelEventArgs e)
+        {
+            if (tbIPRangeStart.Text.Length <= 0)
+            {
+                MessageBox.Show("Please enter a valid IP address", "Error");
+                e.Cancel = true;
+            }
+            else
+            {
+                e.Cancel = false;
+            }
+        }
+
+
+
         
     }
 }
