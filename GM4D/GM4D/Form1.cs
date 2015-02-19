@@ -18,6 +18,11 @@ namespace GM4D
             this.settings = _settings;
         }
 
+        public void MainWindow_Load(object sender, EventArgs e)
+        {
+            
+        }
+
         private void btnOverview_Click(object sender, EventArgs e)
         {
             this.overview_panelMain.Visible = true;
@@ -41,7 +46,7 @@ namespace GM4D
             this.staticLeases_panelMain.Visible = true;
             this.clients_panelMain.Visible = false;
         }
-
+        
         private void btnClients_Click(object sender, EventArgs e)
         {
             this.overview_panelMain.Visible = false;
@@ -55,27 +60,21 @@ namespace GM4D
             
         }
 
-        private void MainWindow_Load(object sender, EventArgs e)
+        private void settings_validateIpInput(object sender, EventArgs e)
         {
-
-        }
-
-        private void IpRangeStart_tb_Validating(object sender, CancelEventArgs e)
-        {
-            if (ipRangeStart_tb.Text.Length <= 5)
+            System.Net.IPAddress ipAddress;
+            if (System.Net.IPAddress.TryParse(((IPAddressControlLib.IPAddressControl)sender).Text, out ipAddress))
             {
-                this.ipRangeStart_validationStatus_error.SetError(ipRangeStart_tb, "please enter valid IP address!");
-                this.ipRangeStart_validationStatus_ok.SetError(ipRangeStart_tb, "");
-                e.Cancel = true;
+                this.ipRange_validationStatus_error.Clear();
+                this.ipRange_validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "valid IP address");
             }
+            else
+            {
+                ipRange_validationStatus_ok.Clear();
+                ipRange_validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "please enter valid IP address");
+            }
+            
         }
-
-        private void IpRangeStart_tb_Validated(object sender, EventArgs e)
-        {
-            this.ipRangeStart_validationStatus_error.SetError(ipRangeStart_tb, "");
-            this.ipRangeStart_validationStatus_ok.SetError(ipRangeStart_tb, "valid IP addres");
-        }
-
         
     }
 }
