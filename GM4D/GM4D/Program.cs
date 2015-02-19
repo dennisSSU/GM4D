@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
+
 
 namespace GM4D
 {
@@ -12,9 +12,9 @@ namespace GM4D
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainWindow());
+            Controller ctrl;
+            ctrl = new GM4D.Controller();
+            ctrl.Run();
         }
     }
 }

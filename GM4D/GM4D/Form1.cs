@@ -12,47 +12,47 @@ namespace GM4D
     public partial class MainWindow : Form
     {
         private Settings settings;
-        public MainWindow()
+        public MainWindow(Settings _settings)
         {
             InitializeComponent();
-            this.settings = new Settings();
+            this.settings = _settings;
         }
 
         private void btnOverview_Click(object sender, EventArgs e)
         {
-            this.panelOverview.Visible = true;
-            this.panelSettings.Visible = false;
-            this.panelStaticLeases.Visible = false;
-            this.panelClients.Visible = false;            
+            this.overview_panelMain.Visible = true;
+            this.settings_panelMain.Visible = false;
+            this.staticLeases_panelMain.Visible = false;
+            this.clients_panelMain.Visible = false;            
         }
 
         private void btnBasicSettings_Click(object sender, EventArgs e)
         {
-            this.panelOverview.Visible = false;
-            this.panelSettings.Visible = true;
-            this.panelStaticLeases.Visible = false;
-            this.panelClients.Visible = false;
+            this.overview_panelMain.Visible = false;
+            this.settings_panelMain.Visible = true;
+            this.staticLeases_panelMain.Visible = false;
+            this.clients_panelMain.Visible = false;
         }
 
         private void btnStaticLeases_Click(object sender, EventArgs e)
         {
-            this.panelOverview.Visible = false;
-            this.panelSettings.Visible = false;
-            this.panelStaticLeases.Visible = true;
-            this.panelClients.Visible = false;
+            this.overview_panelMain.Visible = false;
+            this.settings_panelMain.Visible = false;
+            this.staticLeases_panelMain.Visible = true;
+            this.clients_panelMain.Visible = false;
         }
 
         private void btnClients_Click(object sender, EventArgs e)
         {
-            this.panelOverview.Visible = false;
-            this.panelSettings.Visible = false;
-            this.panelStaticLeases.Visible = false;
-            this.panelClients.Visible = true;
+            this.overview_panelMain.Visible = false;
+            this.settings_panelMain.Visible = false;
+            this.staticLeases_panelMain.Visible = false;
+            this.clients_panelMain.Visible = true;
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            settings.HostIP = "192.168.100.100";
+            
         }
 
         private void MainWindow_Load(object sender, EventArgs e)
@@ -60,20 +60,21 @@ namespace GM4D
 
         }
 
-        private void tbIPRangeStart_Validating(object sender, CancelEventArgs e)
+        private void IpRangeStart_tb_Validating(object sender, CancelEventArgs e)
         {
-            if (tbIPRangeStart.Text.Length <= 0)
+            if (ipRangeStart_tb.Text.Length <= 5)
             {
-                MessageBox.Show("Please enter a valid IP address", "Error");
+                this.ipRangeStart_validationStatus_error.SetError(ipRangeStart_tb, "please enter valid IP address!");
+                this.ipRangeStart_validationStatus_ok.SetError(ipRangeStart_tb, "");
                 e.Cancel = true;
-            }
-            else
-            {
-                e.Cancel = false;
             }
         }
 
-
+        private void IpRangeStart_tb_Validated(object sender, EventArgs e)
+        {
+            this.ipRangeStart_validationStatus_error.SetError(ipRangeStart_tb, "");
+            this.ipRangeStart_validationStatus_ok.SetError(ipRangeStart_tb, "valid IP addres");
+        }
 
         
     }

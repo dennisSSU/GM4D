@@ -34,48 +34,48 @@
             this.btnBasicSettings = new System.Windows.Forms.Button();
             this.btnStaticLeases = new System.Windows.Forms.Button();
             this.btnClients = new System.Windows.Forms.Button();
-            this.panelMenu = new System.Windows.Forms.FlowLayoutPanel();
+            this.menu_panelMain = new System.Windows.Forms.FlowLayoutPanel();
             this.btnSave = new System.Windows.Forms.Button();
-            this.panelSettings = new System.Windows.Forms.FlowLayoutPanel();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.lblHostIP = new System.Windows.Forms.Label();
-            this.lblHostSubnetMask = new System.Windows.Forms.Label();
-            this.tbHostSubnetMask = new System.Windows.Forms.TextBox();
-            this.lblHostIPInfo = new System.Windows.Forms.Label();
-            this.lblHostSubnetMaskInfo = new System.Windows.Forms.Label();
-            this.tbHostIP = new System.Windows.Forms.TextBox();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.lblIPRangeStartInfo = new System.Windows.Forms.Label();
-            this.lblIPRangeEnd = new System.Windows.Forms.Label();
-            this.lblIPRangeEndInfo = new System.Windows.Forms.Label();
-            this.tbIPRangeStart = new System.Windows.Forms.TextBox();
-            this.tbIPRangeEnd = new System.Windows.Forms.TextBox();
-            this.lblIPRangeStart = new System.Windows.Forms.Label();
-            this.tbSubnetMask = new System.Windows.Forms.TextBox();
-            this.tbGateway = new System.Windows.Forms.TextBox();
-            this.lblSubnetMask = new System.Windows.Forms.Label();
-            this.lblGateway = new System.Windows.Forms.Label();
-            this.lblSubnetMaskInfo = new System.Windows.Forms.Label();
-            this.lblGatewayInfo = new System.Windows.Forms.Label();
-            this.panelStaticLeases = new System.Windows.Forms.FlowLayoutPanel();
-            this.panelClients = new System.Windows.Forms.FlowLayoutPanel();
-            this.panelOverview = new System.Windows.Forms.FlowLayoutPanel();
-            this.panelOverviewIP = new System.Windows.Forms.FlowLayoutPanel();
+            this.settings_panelMain = new System.Windows.Forms.FlowLayoutPanel();
+            this.settings_panelInfo = new System.Windows.Forms.TableLayoutPanel();
+            this.hostIP_lbl = new System.Windows.Forms.Label();
+            this.hostSubnetMask_lbl = new System.Windows.Forms.Label();
+            this.hostSubnetMask_tb = new System.Windows.Forms.TextBox();
+            this.hostIP_lblInfo = new System.Windows.Forms.Label();
+            this.hostSubnetMask_lblInfo = new System.Windows.Forms.Label();
+            this.hostIP_tb = new System.Windows.Forms.TextBox();
+            this.settings_panelInput = new System.Windows.Forms.TableLayoutPanel();
+            this.ipRangeStart_lblInfo = new System.Windows.Forms.Label();
+            this.ipRangeEnd_lbl = new System.Windows.Forms.Label();
+            this.ipRangeEnd_lblInfo = new System.Windows.Forms.Label();
+            this.ipRangeStart_tb = new System.Windows.Forms.TextBox();
+            this.ipRangeEnd_tb = new System.Windows.Forms.TextBox();
+            this.ipRangeStart_lbl = new System.Windows.Forms.Label();
+            this.subnetMask_tb = new System.Windows.Forms.TextBox();
+            this.gateway_tb = new System.Windows.Forms.TextBox();
+            this.subnetMask_lbl = new System.Windows.Forms.Label();
+            this.gateway_lbl = new System.Windows.Forms.Label();
+            this.subnetMask_Info = new System.Windows.Forms.Label();
+            this.gateway_lblInfo = new System.Windows.Forms.Label();
+            this.staticLeases_panelMain = new System.Windows.Forms.FlowLayoutPanel();
+            this.clients_panelMain = new System.Windows.Forms.FlowLayoutPanel();
+            this.overview_panelMain = new System.Windows.Forms.FlowLayoutPanel();
+            this.overview_panelIP = new System.Windows.Forms.FlowLayoutPanel();
             this.labelIP1 = new System.Windows.Forms.Label();
             this.labelIP2 = new System.Windows.Forms.Label();
             this.labelIP3 = new System.Windows.Forms.Label();
+            this.ipRangeStart_validationStatus_error = new System.Windows.Forms.ErrorProvider(this.components);
+            this.ipRangeStart_validationStatus_ok = new System.Windows.Forms.ErrorProvider(this.components);
             this.dataBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
-            this.errorProvider2 = new System.Windows.Forms.ErrorProvider(this.components);
-            this.panelMenu.SuspendLayout();
-            this.panelSettings.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
-            this.panelOverview.SuspendLayout();
-            this.panelOverviewIP.SuspendLayout();
+            this.menu_panelMain.SuspendLayout();
+            this.settings_panelMain.SuspendLayout();
+            this.settings_panelInfo.SuspendLayout();
+            this.settings_panelInput.SuspendLayout();
+            this.overview_panelMain.SuspendLayout();
+            this.overview_panelIP.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ipRangeStart_validationStatus_error)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ipRangeStart_validationStatus_ok)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.errorProvider2)).BeginInit();
             this.SuspendLayout();
             // 
             // btnOverview
@@ -142,22 +142,22 @@
             this.btnClients.UseVisualStyleBackColor = false;
             this.btnClients.Click += new System.EventHandler(this.btnClients_Click);
             // 
-            // panelMenu
+            // menu_panelMain
             // 
-            this.panelMenu.AutoScroll = true;
-            this.panelMenu.AutoScrollMinSize = new System.Drawing.Size(115, 200);
-            this.panelMenu.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.panelMenu.Controls.Add(this.btnOverview);
-            this.panelMenu.Controls.Add(this.btnBasicSettings);
-            this.panelMenu.Controls.Add(this.btnStaticLeases);
-            this.panelMenu.Controls.Add(this.btnClients);
-            this.panelMenu.Controls.Add(this.btnSave);
-            this.panelMenu.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panelMenu.Location = new System.Drawing.Point(0, 0);
-            this.panelMenu.Name = "panelMenu";
-            this.panelMenu.Padding = new System.Windows.Forms.Padding(5, 5, 0, 5);
-            this.panelMenu.Size = new System.Drawing.Size(140, 617);
-            this.panelMenu.TabIndex = 1;
+            this.menu_panelMain.AutoScroll = true;
+            this.menu_panelMain.AutoScrollMinSize = new System.Drawing.Size(115, 200);
+            this.menu_panelMain.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.menu_panelMain.Controls.Add(this.btnOverview);
+            this.menu_panelMain.Controls.Add(this.btnBasicSettings);
+            this.menu_panelMain.Controls.Add(this.btnStaticLeases);
+            this.menu_panelMain.Controls.Add(this.btnClients);
+            this.menu_panelMain.Controls.Add(this.btnSave);
+            this.menu_panelMain.Dock = System.Windows.Forms.DockStyle.Left;
+            this.menu_panelMain.Location = new System.Drawing.Point(0, 0);
+            this.menu_panelMain.Name = "menu_panelMain";
+            this.menu_panelMain.Padding = new System.Windows.Forms.Padding(5, 5, 0, 5);
+            this.menu_panelMain.Size = new System.Drawing.Size(140, 617);
+            this.menu_panelMain.TabIndex = 1;
             // 
             // btnSave
             // 
@@ -175,277 +175,279 @@
             this.btnSave.UseVisualStyleBackColor = false;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
-            // panelSettings
+            // settings_panelMain
             // 
-            this.panelSettings.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.settings_panelMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelSettings.AutoScroll = true;
-            this.panelSettings.BackColor = System.Drawing.Color.Green;
-            this.panelSettings.Controls.Add(this.tableLayoutPanel2);
-            this.panelSettings.Controls.Add(this.tableLayoutPanel1);
-            this.panelSettings.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.panelSettings.Location = new System.Drawing.Point(143, 0);
-            this.panelSettings.Margin = new System.Windows.Forms.Padding(0);
-            this.panelSettings.Name = "panelSettings";
-            this.panelSettings.Size = new System.Drawing.Size(729, 617);
-            this.panelSettings.TabIndex = 3;
-            this.panelSettings.Visible = false;
+            this.settings_panelMain.AutoScroll = true;
+            this.settings_panelMain.BackColor = System.Drawing.Color.Green;
+            this.settings_panelMain.Controls.Add(this.settings_panelInfo);
+            this.settings_panelMain.Controls.Add(this.settings_panelInput);
+            this.settings_panelMain.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.settings_panelMain.Location = new System.Drawing.Point(143, 0);
+            this.settings_panelMain.Margin = new System.Windows.Forms.Padding(0);
+            this.settings_panelMain.Name = "settings_panelMain";
+            this.settings_panelMain.Size = new System.Drawing.Size(729, 617);
+            this.settings_panelMain.TabIndex = 3;
+            this.settings_panelMain.Visible = false;
             // 
-            // tableLayoutPanel2
+            // settings_panelInfo
             // 
-            this.tableLayoutPanel2.ColumnCount = 3;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel2.Controls.Add(this.lblHostIP, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.lblHostSubnetMask, 0, 1);
-            this.tableLayoutPanel2.Controls.Add(this.tbHostSubnetMask, 1, 1);
-            this.tableLayoutPanel2.Controls.Add(this.lblHostIPInfo, 2, 0);
-            this.tableLayoutPanel2.Controls.Add(this.lblHostSubnetMaskInfo, 2, 1);
-            this.tableLayoutPanel2.Controls.Add(this.tbHostIP, 1, 0);
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 3);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 2;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(726, 67);
-            this.tableLayoutPanel2.TabIndex = 1;
+            this.settings_panelInfo.ColumnCount = 3;
+            this.settings_panelInfo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.settings_panelInfo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.settings_panelInfo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.settings_panelInfo.Controls.Add(this.hostIP_lbl, 0, 0);
+            this.settings_panelInfo.Controls.Add(this.hostSubnetMask_lbl, 0, 1);
+            this.settings_panelInfo.Controls.Add(this.hostSubnetMask_tb, 1, 1);
+            this.settings_panelInfo.Controls.Add(this.hostIP_lblInfo, 2, 0);
+            this.settings_panelInfo.Controls.Add(this.hostSubnetMask_lblInfo, 2, 1);
+            this.settings_panelInfo.Controls.Add(this.hostIP_tb, 1, 0);
+            this.settings_panelInfo.Location = new System.Drawing.Point(3, 3);
+            this.settings_panelInfo.Name = "settings_panelInfo";
+            this.settings_panelInfo.RowCount = 2;
+            this.settings_panelInfo.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.settings_panelInfo.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.settings_panelInfo.Size = new System.Drawing.Size(726, 67);
+            this.settings_panelInfo.TabIndex = 1;
             // 
-            // lblHostIP
+            // hostIP_lbl
             // 
-            this.lblHostIP.AutoSize = true;
-            this.lblHostIP.Location = new System.Drawing.Point(3, 0);
-            this.lblHostIP.Name = "lblHostIP";
-            this.lblHostIP.Size = new System.Drawing.Size(60, 20);
-            this.lblHostIP.TabIndex = 0;
-            this.lblHostIP.Text = "Host IP";
+            this.hostIP_lbl.AutoSize = true;
+            this.hostIP_lbl.Location = new System.Drawing.Point(3, 0);
+            this.hostIP_lbl.Name = "hostIP_lbl";
+            this.hostIP_lbl.Size = new System.Drawing.Size(60, 20);
+            this.hostIP_lbl.TabIndex = 0;
+            this.hostIP_lbl.Text = "Host IP";
             // 
-            // lblHostSubnetMask
+            // hostSubnetMask_lbl
             // 
-            this.lblHostSubnetMask.AutoSize = true;
-            this.lblHostSubnetMask.Location = new System.Drawing.Point(3, 32);
-            this.lblHostSubnetMask.Name = "lblHostSubnetMask";
-            this.lblHostSubnetMask.Size = new System.Drawing.Size(138, 20);
-            this.lblHostSubnetMask.TabIndex = 1;
-            this.lblHostSubnetMask.Text = "Host Subnet Mask";
+            this.hostSubnetMask_lbl.AutoSize = true;
+            this.hostSubnetMask_lbl.Location = new System.Drawing.Point(3, 32);
+            this.hostSubnetMask_lbl.Name = "hostSubnetMask_lbl";
+            this.hostSubnetMask_lbl.Size = new System.Drawing.Size(138, 20);
+            this.hostSubnetMask_lbl.TabIndex = 1;
+            this.hostSubnetMask_lbl.Text = "Host Subnet Mask";
             // 
-            // tbHostSubnetMask
+            // hostSubnetMask_tb
             // 
-            this.tbHostSubnetMask.Location = new System.Drawing.Point(147, 35);
-            this.tbHostSubnetMask.Name = "tbHostSubnetMask";
-            this.tbHostSubnetMask.Size = new System.Drawing.Size(100, 26);
-            this.tbHostSubnetMask.TabIndex = 3;
+            this.hostSubnetMask_tb.Location = new System.Drawing.Point(147, 35);
+            this.hostSubnetMask_tb.Name = "hostSubnetMask_tb";
+            this.hostSubnetMask_tb.Size = new System.Drawing.Size(100, 26);
+            this.hostSubnetMask_tb.TabIndex = 3;
             // 
-            // lblHostIPInfo
+            // hostIP_lblInfo
             // 
-            this.lblHostIPInfo.AutoSize = true;
-            this.lblHostIPInfo.Location = new System.Drawing.Point(253, 0);
-            this.lblHostIPInfo.Name = "lblHostIPInfo";
-            this.lblHostIPInfo.Size = new System.Drawing.Size(84, 20);
-            this.lblHostIPInfo.TabIndex = 4;
-            this.lblHostIPInfo.Text = "HostIPInfo";
+            this.hostIP_lblInfo.AutoSize = true;
+            this.hostIP_lblInfo.Location = new System.Drawing.Point(253, 0);
+            this.hostIP_lblInfo.Name = "hostIP_lblInfo";
+            this.hostIP_lblInfo.Size = new System.Drawing.Size(84, 20);
+            this.hostIP_lblInfo.TabIndex = 4;
+            this.hostIP_lblInfo.Text = "HostIPInfo";
             // 
-            // lblHostSubnetMaskInfo
+            // hostSubnetMask_lblInfo
             // 
-            this.lblHostSubnetMaskInfo.AutoSize = true;
-            this.lblHostSubnetMaskInfo.Location = new System.Drawing.Point(253, 32);
-            this.lblHostSubnetMaskInfo.Name = "lblHostSubnetMaskInfo";
-            this.lblHostSubnetMaskInfo.Size = new System.Drawing.Size(158, 20);
-            this.lblHostSubnetMaskInfo.TabIndex = 5;
-            this.lblHostSubnetMaskInfo.Text = "HostSubnetMaskInfo";
+            this.hostSubnetMask_lblInfo.AutoSize = true;
+            this.hostSubnetMask_lblInfo.Location = new System.Drawing.Point(253, 32);
+            this.hostSubnetMask_lblInfo.Name = "hostSubnetMask_lblInfo";
+            this.hostSubnetMask_lblInfo.Size = new System.Drawing.Size(158, 20);
+            this.hostSubnetMask_lblInfo.TabIndex = 5;
+            this.hostSubnetMask_lblInfo.Text = "HostSubnetMaskInfo";
             // 
-            // tbHostIP
+            // hostIP_tb
             // 
-            this.tbHostIP.Location = new System.Drawing.Point(147, 3);
-            this.tbHostIP.Name = "tbHostIP";
-            this.tbHostIP.Size = new System.Drawing.Size(100, 26);
-            this.tbHostIP.TabIndex = 2;
+            this.hostIP_tb.Location = new System.Drawing.Point(147, 3);
+            this.hostIP_tb.Name = "hostIP_tb";
+            this.hostIP_tb.Size = new System.Drawing.Size(100, 26);
+            this.hostIP_tb.TabIndex = 2;
             // 
-            // tableLayoutPanel1
+            // settings_panelInput
             // 
-            this.tableLayoutPanel1.ColumnCount = 4;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 200F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.Controls.Add(this.lblIPRangeStartInfo, 3, 0);
-            this.tableLayoutPanel1.Controls.Add(this.lblIPRangeEnd, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.lblIPRangeEndInfo, 3, 1);
-            this.tableLayoutPanel1.Controls.Add(this.tbIPRangeStart, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.tbIPRangeEnd, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.lblIPRangeStart, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.tbSubnetMask, 1, 2);
-            this.tableLayoutPanel1.Controls.Add(this.tbGateway, 1, 3);
-            this.tableLayoutPanel1.Controls.Add(this.lblSubnetMask, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.lblGateway, 0, 3);
-            this.tableLayoutPanel1.Controls.Add(this.lblSubnetMaskInfo, 3, 2);
-            this.tableLayoutPanel1.Controls.Add(this.lblGatewayInfo, 3, 3);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 76);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 5;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(726, 150);
-            this.tableLayoutPanel1.TabIndex = 0;
+            this.settings_panelInput.ColumnCount = 4;
+            this.settings_panelInput.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 150F));
+            this.settings_panelInput.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.settings_panelInput.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.settings_panelInput.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.settings_panelInput.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.settings_panelInput.Controls.Add(this.ipRangeStart_lblInfo, 3, 0);
+            this.settings_panelInput.Controls.Add(this.ipRangeEnd_lbl, 0, 1);
+            this.settings_panelInput.Controls.Add(this.ipRangeEnd_lblInfo, 3, 1);
+            this.settings_panelInput.Controls.Add(this.ipRangeStart_tb, 1, 0);
+            this.settings_panelInput.Controls.Add(this.ipRangeEnd_tb, 1, 1);
+            this.settings_panelInput.Controls.Add(this.ipRangeStart_lbl, 0, 0);
+            this.settings_panelInput.Controls.Add(this.subnetMask_tb, 1, 2);
+            this.settings_panelInput.Controls.Add(this.gateway_tb, 1, 3);
+            this.settings_panelInput.Controls.Add(this.subnetMask_lbl, 0, 2);
+            this.settings_panelInput.Controls.Add(this.gateway_lbl, 0, 3);
+            this.settings_panelInput.Controls.Add(this.subnetMask_Info, 3, 2);
+            this.settings_panelInput.Controls.Add(this.gateway_lblInfo, 3, 3);
+            this.settings_panelInput.Location = new System.Drawing.Point(3, 76);
+            this.settings_panelInput.Name = "settings_panelInput";
+            this.settings_panelInput.RowCount = 5;
+            this.settings_panelInput.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.settings_panelInput.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.settings_panelInput.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.settings_panelInput.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.settings_panelInput.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.settings_panelInput.Size = new System.Drawing.Size(726, 150);
+            this.settings_panelInput.TabIndex = 0;
             // 
-            // lblIPRangeStartInfo
+            // ipRangeStart_lblInfo
             // 
-            this.lblIPRangeStartInfo.AutoSize = true;
-            this.lblIPRangeStartInfo.Location = new System.Drawing.Point(363, 0);
-            this.lblIPRangeStartInfo.Name = "lblIPRangeStartInfo";
-            this.lblIPRangeStartInfo.Size = new System.Drawing.Size(130, 20);
-            this.lblIPRangeStartInfo.TabIndex = 1;
-            this.lblIPRangeStartInfo.Text = "IPRangeStartInfo";
+            this.ipRangeStart_lblInfo.AutoSize = true;
+            this.ipRangeStart_lblInfo.Location = new System.Drawing.Point(299, 0);
+            this.ipRangeStart_lblInfo.Name = "ipRangeStart_lblInfo";
+            this.ipRangeStart_lblInfo.Size = new System.Drawing.Size(130, 20);
+            this.ipRangeStart_lblInfo.TabIndex = 1;
+            this.ipRangeStart_lblInfo.Text = "IPRangeStartInfo";
             // 
-            // lblIPRangeEnd
+            // ipRangeEnd_lbl
             // 
-            this.lblIPRangeEnd.AutoSize = true;
-            this.lblIPRangeEnd.Location = new System.Drawing.Point(3, 32);
-            this.lblIPRangeEnd.Name = "lblIPRangeEnd";
-            this.lblIPRangeEnd.Size = new System.Drawing.Size(102, 20);
-            this.lblIPRangeEnd.TabIndex = 2;
-            this.lblIPRangeEnd.Text = "IP Range End";
+            this.ipRangeEnd_lbl.AutoSize = true;
+            this.ipRangeEnd_lbl.Location = new System.Drawing.Point(3, 32);
+            this.ipRangeEnd_lbl.Name = "ipRangeEnd_lbl";
+            this.ipRangeEnd_lbl.Size = new System.Drawing.Size(102, 20);
+            this.ipRangeEnd_lbl.TabIndex = 2;
+            this.ipRangeEnd_lbl.Text = "IP Range End";
             // 
-            // lblIPRangeEndInfo
+            // ipRangeEnd_lblInfo
             // 
-            this.lblIPRangeEndInfo.AutoSize = true;
-            this.lblIPRangeEndInfo.Location = new System.Drawing.Point(363, 32);
-            this.lblIPRangeEndInfo.Name = "lblIPRangeEndInfo";
-            this.lblIPRangeEndInfo.Size = new System.Drawing.Size(122, 20);
-            this.lblIPRangeEndInfo.TabIndex = 3;
-            this.lblIPRangeEndInfo.Text = "IPRangeEndInfo";
+            this.ipRangeEnd_lblInfo.AutoSize = true;
+            this.ipRangeEnd_lblInfo.Location = new System.Drawing.Point(299, 32);
+            this.ipRangeEnd_lblInfo.Name = "ipRangeEnd_lblInfo";
+            this.ipRangeEnd_lblInfo.Size = new System.Drawing.Size(122, 20);
+            this.ipRangeEnd_lblInfo.TabIndex = 3;
+            this.ipRangeEnd_lblInfo.Text = "IPRangeEndInfo";
             // 
-            // tbIPRangeStart
+            // ipRangeStart_tb
             // 
-            this.tbIPRangeStart.Location = new System.Drawing.Point(203, 3);
-            this.tbIPRangeStart.Name = "tbIPRangeStart";
-            this.tbIPRangeStart.Size = new System.Drawing.Size(100, 26);
-            this.tbIPRangeStart.TabIndex = 4;
-            this.tbIPRangeStart.Validating += new System.ComponentModel.CancelEventHandler(this.tbIPRangeStart_Validating);
+            this.ipRangeStart_tb.Location = new System.Drawing.Point(153, 3);
+            this.ipRangeStart_tb.Name = "ipRangeStart_tb";
+            this.ipRangeStart_tb.Size = new System.Drawing.Size(100, 26);
+            this.ipRangeStart_tb.TabIndex = 4;
+            this.ipRangeStart_tb.Validating += new System.ComponentModel.CancelEventHandler(this.IpRangeStart_tb_Validating);
+            this.ipRangeStart_tb.Validated += new System.EventHandler(this.IpRangeStart_tb_Validated);
             // 
-            // tbIPRangeEnd
+            // ipRangeEnd_tb
             // 
-            this.tbIPRangeEnd.Location = new System.Drawing.Point(203, 35);
-            this.tbIPRangeEnd.Name = "tbIPRangeEnd";
-            this.tbIPRangeEnd.Size = new System.Drawing.Size(100, 26);
-            this.tbIPRangeEnd.TabIndex = 5;
+            this.ipRangeEnd_tb.Location = new System.Drawing.Point(153, 35);
+            this.ipRangeEnd_tb.Name = "ipRangeEnd_tb";
+            this.ipRangeEnd_tb.Size = new System.Drawing.Size(100, 26);
+            this.ipRangeEnd_tb.TabIndex = 5;
             // 
-            // lblIPRangeStart
+            // ipRangeStart_lbl
             // 
-            this.lblIPRangeStart.AutoSize = true;
-            this.lblIPRangeStart.Location = new System.Drawing.Point(3, 0);
-            this.lblIPRangeStart.Name = "lblIPRangeStart";
-            this.lblIPRangeStart.Size = new System.Drawing.Size(110, 20);
-            this.lblIPRangeStart.TabIndex = 0;
-            this.lblIPRangeStart.Text = "IP Range Start";
+            this.ipRangeStart_lbl.AutoSize = true;
+            this.ipRangeStart_lbl.Location = new System.Drawing.Point(3, 0);
+            this.ipRangeStart_lbl.Name = "ipRangeStart_lbl";
+            this.ipRangeStart_lbl.Size = new System.Drawing.Size(110, 20);
+            this.ipRangeStart_lbl.TabIndex = 0;
+            this.ipRangeStart_lbl.Text = "IP Range Start";
             // 
-            // tbSubnetMask
+            // subnetMask_tb
             // 
-            this.tbSubnetMask.Location = new System.Drawing.Point(203, 67);
-            this.tbSubnetMask.Name = "tbSubnetMask";
-            this.tbSubnetMask.Size = new System.Drawing.Size(100, 26);
-            this.tbSubnetMask.TabIndex = 6;
+            this.subnetMask_tb.Location = new System.Drawing.Point(153, 67);
+            this.subnetMask_tb.Name = "subnetMask_tb";
+            this.subnetMask_tb.Size = new System.Drawing.Size(100, 26);
+            this.subnetMask_tb.TabIndex = 6;
             // 
-            // tbGateway
+            // gateway_tb
             // 
-            this.tbGateway.Location = new System.Drawing.Point(203, 99);
-            this.tbGateway.Name = "tbGateway";
-            this.tbGateway.Size = new System.Drawing.Size(100, 26);
-            this.tbGateway.TabIndex = 7;
+            this.gateway_tb.Location = new System.Drawing.Point(153, 99);
+            this.gateway_tb.Name = "gateway_tb";
+            this.gateway_tb.Size = new System.Drawing.Size(100, 26);
+            this.gateway_tb.TabIndex = 7;
             // 
-            // lblSubnetMask
+            // subnetMask_lbl
             // 
-            this.lblSubnetMask.AutoSize = true;
-            this.lblSubnetMask.Location = new System.Drawing.Point(3, 64);
-            this.lblSubnetMask.Name = "lblSubnetMask";
-            this.lblSubnetMask.Size = new System.Drawing.Size(100, 20);
-            this.lblSubnetMask.TabIndex = 8;
-            this.lblSubnetMask.Text = "Subnet Mask";
+            this.subnetMask_lbl.AutoSize = true;
+            this.subnetMask_lbl.Location = new System.Drawing.Point(3, 64);
+            this.subnetMask_lbl.Name = "subnetMask_lbl";
+            this.subnetMask_lbl.Size = new System.Drawing.Size(100, 20);
+            this.subnetMask_lbl.TabIndex = 8;
+            this.subnetMask_lbl.Text = "Subnet Mask";
             // 
-            // lblGateway
+            // gateway_lbl
             // 
-            this.lblGateway.AutoSize = true;
-            this.lblGateway.Location = new System.Drawing.Point(3, 96);
-            this.lblGateway.Name = "lblGateway";
-            this.lblGateway.Size = new System.Drawing.Size(71, 20);
-            this.lblGateway.TabIndex = 9;
-            this.lblGateway.Text = "Gateway";
+            this.gateway_lbl.AutoSize = true;
+            this.gateway_lbl.Location = new System.Drawing.Point(3, 96);
+            this.gateway_lbl.Name = "gateway_lbl";
+            this.gateway_lbl.Size = new System.Drawing.Size(71, 20);
+            this.gateway_lbl.TabIndex = 9;
+            this.gateway_lbl.Text = "Gateway";
             // 
-            // lblSubnetMaskInfo
+            // subnetMask_Info
             // 
-            this.lblSubnetMaskInfo.AutoSize = true;
-            this.lblSubnetMaskInfo.Location = new System.Drawing.Point(363, 64);
-            this.lblSubnetMaskInfo.Name = "lblSubnetMaskInfo";
-            this.lblSubnetMaskInfo.Size = new System.Drawing.Size(124, 20);
-            this.lblSubnetMaskInfo.TabIndex = 10;
-            this.lblSubnetMaskInfo.Text = "SubnetMaskInfo";
+            this.subnetMask_Info.AutoSize = true;
+            this.subnetMask_Info.Location = new System.Drawing.Point(299, 64);
+            this.subnetMask_Info.Name = "subnetMask_Info";
+            this.subnetMask_Info.Size = new System.Drawing.Size(124, 20);
+            this.subnetMask_Info.TabIndex = 10;
+            this.subnetMask_Info.Text = "SubnetMaskInfo";
             // 
-            // lblGatewayInfo
+            // gateway_lblInfo
             // 
-            this.lblGatewayInfo.AutoSize = true;
-            this.lblGatewayInfo.Location = new System.Drawing.Point(363, 96);
-            this.lblGatewayInfo.Name = "lblGatewayInfo";
-            this.lblGatewayInfo.Size = new System.Drawing.Size(99, 20);
-            this.lblGatewayInfo.TabIndex = 11;
-            this.lblGatewayInfo.Text = "GatewayInfo";
+            this.gateway_lblInfo.AutoSize = true;
+            this.gateway_lblInfo.Location = new System.Drawing.Point(299, 96);
+            this.gateway_lblInfo.Name = "gateway_lblInfo";
+            this.gateway_lblInfo.Size = new System.Drawing.Size(99, 20);
+            this.gateway_lblInfo.TabIndex = 11;
+            this.gateway_lblInfo.Text = "GatewayInfo";
             // 
-            // panelStaticLeases
+            // staticLeases_panelMain
             // 
-            this.panelStaticLeases.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.staticLeases_panelMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelStaticLeases.AutoScroll = true;
-            this.panelStaticLeases.BackColor = System.Drawing.Color.Blue;
-            this.panelStaticLeases.Location = new System.Drawing.Point(143, 0);
-            this.panelStaticLeases.Margin = new System.Windows.Forms.Padding(0);
-            this.panelStaticLeases.Name = "panelStaticLeases";
-            this.panelStaticLeases.Size = new System.Drawing.Size(729, 617);
-            this.panelStaticLeases.TabIndex = 4;
-            this.panelStaticLeases.Visible = false;
+            this.staticLeases_panelMain.AutoScroll = true;
+            this.staticLeases_panelMain.BackColor = System.Drawing.Color.Blue;
+            this.staticLeases_panelMain.Location = new System.Drawing.Point(143, 0);
+            this.staticLeases_panelMain.Margin = new System.Windows.Forms.Padding(0);
+            this.staticLeases_panelMain.Name = "staticLeases_panelMain";
+            this.staticLeases_panelMain.Size = new System.Drawing.Size(729, 617);
+            this.staticLeases_panelMain.TabIndex = 4;
+            this.staticLeases_panelMain.Visible = false;
             // 
-            // panelClients
+            // clients_panelMain
             // 
-            this.panelClients.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.clients_panelMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelClients.AutoScroll = true;
-            this.panelClients.BackColor = System.Drawing.Color.Red;
-            this.panelClients.Location = new System.Drawing.Point(143, 0);
-            this.panelClients.Margin = new System.Windows.Forms.Padding(0);
-            this.panelClients.Name = "panelClients";
-            this.panelClients.Size = new System.Drawing.Size(729, 617);
-            this.panelClients.TabIndex = 5;
-            this.panelClients.Visible = false;
+            this.clients_panelMain.AutoScroll = true;
+            this.clients_panelMain.BackColor = System.Drawing.Color.Red;
+            this.clients_panelMain.Location = new System.Drawing.Point(143, 0);
+            this.clients_panelMain.Margin = new System.Windows.Forms.Padding(0);
+            this.clients_panelMain.Name = "clients_panelMain";
+            this.clients_panelMain.Size = new System.Drawing.Size(729, 617);
+            this.clients_panelMain.TabIndex = 5;
+            this.clients_panelMain.Visible = false;
             // 
-            // panelOverview
+            // overview_panelMain
             // 
-            this.panelOverview.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.overview_panelMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelOverview.AutoScroll = true;
-            this.panelOverview.BackColor = System.Drawing.Color.Yellow;
-            this.panelOverview.Controls.Add(this.panelOverviewIP);
-            this.panelOverview.Location = new System.Drawing.Point(143, 0);
-            this.panelOverview.Margin = new System.Windows.Forms.Padding(0);
-            this.panelOverview.Name = "panelOverview";
-            this.panelOverview.Size = new System.Drawing.Size(729, 617);
-            this.panelOverview.TabIndex = 2;
-            this.panelOverview.Visible = false;
+            this.overview_panelMain.AutoScroll = true;
+            this.overview_panelMain.BackColor = System.Drawing.Color.Yellow;
+            this.overview_panelMain.Controls.Add(this.overview_panelIP);
+            this.overview_panelMain.Location = new System.Drawing.Point(143, 0);
+            this.overview_panelMain.Margin = new System.Windows.Forms.Padding(0);
+            this.overview_panelMain.Name = "overview_panelMain";
+            this.overview_panelMain.Size = new System.Drawing.Size(729, 617);
+            this.overview_panelMain.TabIndex = 2;
+            this.overview_panelMain.Visible = false;
             // 
-            // panelOverviewIP
+            // overview_panelIP
             // 
-            this.panelOverviewIP.Controls.Add(this.labelIP1);
-            this.panelOverviewIP.Controls.Add(this.labelIP2);
-            this.panelOverviewIP.Controls.Add(this.labelIP3);
-            this.panelOverviewIP.Location = new System.Drawing.Point(3, 3);
-            this.panelOverviewIP.Name = "panelOverviewIP";
-            this.panelOverviewIP.Padding = new System.Windows.Forms.Padding(5);
-            this.panelOverviewIP.Size = new System.Drawing.Size(658, 57);
-            this.panelOverviewIP.TabIndex = 0;
+            this.overview_panelIP.Controls.Add(this.labelIP1);
+            this.overview_panelIP.Controls.Add(this.labelIP2);
+            this.overview_panelIP.Controls.Add(this.labelIP3);
+            this.overview_panelIP.Location = new System.Drawing.Point(3, 3);
+            this.overview_panelIP.Name = "overview_panelIP";
+            this.overview_panelIP.Padding = new System.Windows.Forms.Padding(5);
+            this.overview_panelIP.Size = new System.Drawing.Size(658, 57);
+            this.overview_panelIP.TabIndex = 0;
             // 
             // labelIP1
             // 
@@ -475,17 +477,19 @@
             this.labelIP3.TabIndex = 2;
             this.labelIP3.Text = "label1";
             // 
+            // ipRangeStart_validationStatus_error
+            // 
+            this.ipRangeStart_validationStatus_error.ContainerControl = this;
+            this.ipRangeStart_validationStatus_error.Icon = ((System.Drawing.Icon)(resources.GetObject("ipRangeStart_validationStatus_error.Icon")));
+            // 
+            // ipRangeStart_validationStatus_ok
+            // 
+            this.ipRangeStart_validationStatus_ok.ContainerControl = this;
+            this.ipRangeStart_validationStatus_ok.Icon = ((System.Drawing.Icon)(resources.GetObject("ipRangeStart_validationStatus_ok.Icon")));
+            // 
             // dataBindingSource
             // 
             this.dataBindingSource.DataSource = typeof(GM4D.Settings);
-            // 
-            // errorProvider1
-            // 
-            this.errorProvider1.ContainerControl = this;
-            // 
-            // errorProvider2
-            // 
-            this.errorProvider2.ContainerControl = this;
             // 
             // MainWindow
             // 
@@ -493,11 +497,11 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.ClientSize = new System.Drawing.Size(872, 617);
-            this.Controls.Add(this.panelMenu);
-            this.Controls.Add(this.panelSettings);
-            this.Controls.Add(this.panelStaticLeases);
-            this.Controls.Add(this.panelClients);
-            this.Controls.Add(this.panelOverview);
+            this.Controls.Add(this.menu_panelMain);
+            this.Controls.Add(this.settings_panelMain);
+            this.Controls.Add(this.staticLeases_panelMain);
+            this.Controls.Add(this.clients_panelMain);
+            this.Controls.Add(this.overview_panelMain);
             this.Font = new System.Drawing.Font("Ubuntu", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
@@ -505,18 +509,18 @@
             this.Name = "MainWindow";
             this.Text = "GM4D - Graphical Manager for DHCP";
             this.Load += new System.EventHandler(this.MainWindow_Load);
-            this.panelMenu.ResumeLayout(false);
-            this.panelSettings.ResumeLayout(false);
-            this.tableLayoutPanel2.ResumeLayout(false);
-            this.tableLayoutPanel2.PerformLayout();
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
-            this.panelOverview.ResumeLayout(false);
-            this.panelOverviewIP.ResumeLayout(false);
-            this.panelOverviewIP.PerformLayout();
+            this.menu_panelMain.ResumeLayout(false);
+            this.settings_panelMain.ResumeLayout(false);
+            this.settings_panelInfo.ResumeLayout(false);
+            this.settings_panelInfo.PerformLayout();
+            this.settings_panelInput.ResumeLayout(false);
+            this.settings_panelInput.PerformLayout();
+            this.overview_panelMain.ResumeLayout(false);
+            this.overview_panelIP.ResumeLayout(false);
+            this.overview_panelIP.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ipRangeStart_validationStatus_error)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ipRangeStart_validationStatus_ok)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.errorProvider2)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -531,40 +535,40 @@
         private System.Windows.Forms.Button btnBasicSettings;
         private System.Windows.Forms.Button btnStaticLeases;
         private System.Windows.Forms.Button btnClients;
-        private System.Windows.Forms.FlowLayoutPanel panelMenu;
-        private System.Windows.Forms.FlowLayoutPanel panelSettings;
-        private System.Windows.Forms.FlowLayoutPanel panelStaticLeases;
-        private System.Windows.Forms.FlowLayoutPanel panelClients;
-        private System.Windows.Forms.FlowLayoutPanel panelOverview;
+        private System.Windows.Forms.FlowLayoutPanel menu_panelMain;
+        private System.Windows.Forms.FlowLayoutPanel settings_panelMain;
+        private System.Windows.Forms.FlowLayoutPanel staticLeases_panelMain;
+        private System.Windows.Forms.FlowLayoutPanel clients_panelMain;
+        private System.Windows.Forms.FlowLayoutPanel overview_panelMain;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnOverview;
-        private System.Windows.Forms.FlowLayoutPanel panelOverviewIP;
+        private System.Windows.Forms.FlowLayoutPanel overview_panelIP;
         private System.Windows.Forms.Label labelIP1;
         private System.Windows.Forms.Label labelIP2;
         private System.Windows.Forms.BindingSource dataBindingSource;
         private System.Windows.Forms.Label labelIP3;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.Label lblIPRangeStartInfo;
-        private System.Windows.Forms.Label lblIPRangeEnd;
-        private System.Windows.Forms.Label lblIPRangeEndInfo;
-        private System.Windows.Forms.TextBox tbIPRangeStart;
-        private System.Windows.Forms.TextBox tbIPRangeEnd;
-        private System.Windows.Forms.Label lblIPRangeStart;
-        private System.Windows.Forms.TextBox tbSubnetMask;
-        private System.Windows.Forms.TextBox tbGateway;
-        private System.Windows.Forms.Label lblSubnetMask;
-        private System.Windows.Forms.Label lblGateway;
-        private System.Windows.Forms.Label lblSubnetMaskInfo;
-        private System.Windows.Forms.Label lblGatewayInfo;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private System.Windows.Forms.Label lblHostIP;
-        private System.Windows.Forms.Label lblHostSubnetMask;
-        private System.Windows.Forms.TextBox tbHostSubnetMask;
-        private System.Windows.Forms.Label lblHostIPInfo;
-        private System.Windows.Forms.Label lblHostSubnetMaskInfo;
-        private System.Windows.Forms.TextBox tbHostIP;
-        private System.Windows.Forms.ErrorProvider errorProvider1;
-        private System.Windows.Forms.ErrorProvider errorProvider2;
+        private System.Windows.Forms.TableLayoutPanel settings_panelInput;
+        private System.Windows.Forms.Label ipRangeStart_lblInfo;
+        private System.Windows.Forms.Label ipRangeEnd_lbl;
+        private System.Windows.Forms.Label ipRangeEnd_lblInfo;
+        private System.Windows.Forms.TextBox ipRangeStart_tb;
+        private System.Windows.Forms.TextBox ipRangeEnd_tb;
+        private System.Windows.Forms.Label ipRangeStart_lbl;
+        private System.Windows.Forms.TextBox subnetMask_tb;
+        private System.Windows.Forms.TextBox gateway_tb;
+        private System.Windows.Forms.Label subnetMask_lbl;
+        private System.Windows.Forms.Label gateway_lbl;
+        private System.Windows.Forms.Label subnetMask_Info;
+        private System.Windows.Forms.Label gateway_lblInfo;
+        private System.Windows.Forms.TableLayoutPanel settings_panelInfo;
+        private System.Windows.Forms.Label hostIP_lbl;
+        private System.Windows.Forms.Label hostSubnetMask_lbl;
+        private System.Windows.Forms.TextBox hostSubnetMask_tb;
+        private System.Windows.Forms.Label hostIP_lblInfo;
+        private System.Windows.Forms.Label hostSubnetMask_lblInfo;
+        private System.Windows.Forms.TextBox hostIP_tb;
+        private System.Windows.Forms.ErrorProvider ipRangeStart_validationStatus_error;
+        private System.Windows.Forms.ErrorProvider ipRangeStart_validationStatus_ok;
     }
 }
 
