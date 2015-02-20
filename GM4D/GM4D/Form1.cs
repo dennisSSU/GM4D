@@ -9,26 +9,35 @@ using System.Windows.Forms;
 
 namespace GM4D
 {
-    public partial class MainWindow : Form
+    partial class MainWindow : Form
     {
+        #region Main
         private Settings settings;
-        public MainWindow(Settings _settings)
+        private IOController ioController;
+        public MainWindow(Settings _settings, IOController _ioCOntroller)
         {
             InitializeComponent();
             this.settings = _settings;
+            this.ioController = _ioCOntroller;
         }
 
         public void MainWindow_Load(object sender, EventArgs e)
         {
-            
+            this.statusRequired.SetError(this.ipRangeStart_input, "this field is required");
+            this.statusRequired.SetError(this.ipRangeEnd_input, "this field is required");
+            this.statusRequired.SetError(this.subnet_input, "this field is required");
+            this.statusRequired.SetError(this.subnetMask_input, "this field is required");
         }
 
+        #endregion Main
+
+        #region MenuPanel
         private void btnOverview_Click(object sender, EventArgs e)
         {
             this.overview_panelMain.Visible = true;
             this.settings_panelMain.Visible = false;
             this.staticLeases_panelMain.Visible = false;
-            this.clients_panelMain.Visible = false;            
+            this.clients_panelMain.Visible = false;
         }
 
         private void btnBasicSettings_Click(object sender, EventArgs e)
@@ -46,7 +55,7 @@ namespace GM4D
             this.staticLeases_panelMain.Visible = true;
             this.clients_panelMain.Visible = false;
         }
-        
+
         private void btnClients_Click(object sender, EventArgs e)
         {
             this.overview_panelMain.Visible = false;
@@ -54,27 +63,176 @@ namespace GM4D
             this.staticLeases_panelMain.Visible = false;
             this.clients_panelMain.Visible = true;
         }
+        #endregion MenuPanel
 
-        private void btnSave_Click(object sender, EventArgs e)
+        #region SettingsPanel
+        private void settings_validateIpInput(object sender, EventArgs e)
         {
-            
+            this.statusRequired.SetError((IPAddressControlLib.IPAddressControl)sender,"");
+            System.Net.IPAddress ipAddress;
+            if (System.Net.IPAddress.TryParse(((IPAddressControlLib.IPAddressControl)sender).Text, out ipAddress))
+            {
+                this.validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "");
+                this.validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "valid IP address");
+                this.settings.IpRangeStart = ipAddress.ToString();
+            }
+            else
+            {
+                validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "");
+                validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "please enter valid IP address");
+            }
         }
 
-        private void settings_validateIpInput(object sender, EventArgs e)
+        private void settings_validateIpRangeEndInput(object sender, EventArgs e)
+        {
+            this.statusRequired.SetError((IPAddressControlLib.IPAddressControl)sender, "");
+            System.Net.IPAddress ipAddress;
+            if (System.Net.IPAddress.TryParse(((IPAddressControlLib.IPAddressControl)sender).Text, out ipAddress))
+            {
+                this.validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "");
+                this.validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "valid IP address");
+                this.settings.IpRangeEnd = ipAddress.ToString();
+            }
+            else
+            {
+                validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "");
+                validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "please enter valid IP address");
+            }
+        }
+        private void settings_validateSubnetInput(object sender, EventArgs e)
+        {
+            this.statusRequired.SetError((IPAddressControlLib.IPAddressControl)sender, "");
+            System.Net.IPAddress ipAddress;
+            if (System.Net.IPAddress.TryParse(((IPAddressControlLib.IPAddressControl)sender).Text, out ipAddress))
+            {
+                this.validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "");
+                this.validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "valid IP address");
+                this.settings.Subnet = ipAddress.ToString();
+            }
+            else
+            {
+                validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "");
+                validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "please enter valid IP address");
+            }
+        }
+        private void settings_validateSubnetMaskInput(object sender, EventArgs e)
         {
             System.Net.IPAddress ipAddress;
             if (System.Net.IPAddress.TryParse(((IPAddressControlLib.IPAddressControl)sender).Text, out ipAddress))
             {
-                this.ipRange_validationStatus_error.Clear();
-                this.ipRange_validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "valid IP address");
+                this.validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "");
+                this.validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "valid IP address");
+                this.settings.SubnetMask = ipAddress.ToString();
             }
             else
             {
-                ipRange_validationStatus_ok.Clear();
-                ipRange_validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "please enter valid IP address");
+                validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "");
+                validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "please enter valid IP address");
+            }
+        }
+        private void settings_validateGatewayInput(object sender, EventArgs e)
+        {
+            if (((IPAddressControlLib.IPAddressControl)sender).Text == "...")
+            {
+                this.validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "");
+                this.validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "");
+                return;
+            }
+            System.Net.IPAddress ipAddress;
+            if (System.Net.IPAddress.TryParse(((IPAddressControlLib.IPAddressControl)sender).Text, out ipAddress))
+            {
+                this.validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "");
+                this.validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "valid IP address");
+                this.settings.Gateway = ipAddress.ToString();
+            }
+            else
+            {
+                this.validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "");
+                this.validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "please enter valid IP address");
+            }
+        }
+        private void settings_validatePrimaryDNSInput(object sender, EventArgs e)
+        {
+            if (((IPAddressControlLib.IPAddressControl)sender).Text == "...")
+            {
+                this.validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "");
+                this.validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "");
+                return;
+            }
+            System.Net.IPAddress ipAddress;
+            if (System.Net.IPAddress.TryParse(((IPAddressControlLib.IPAddressControl)sender).Text, out ipAddress))
+            {
+                this.validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "");
+                this.validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "valid IP address");
+                this.settings.PrimaryDNS = ipAddress.ToString();
+            }
+            else
+            {
+                validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "");
+                validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "please enter valid IP address");
+            }
+        }
+
+        private void settings_validateSecondaryDNSInput(object sender, EventArgs e)
+        {
+            if (((IPAddressControlLib.IPAddressControl)sender).Text == "...")
+            {
+                this.validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "");
+                this.validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "");
+                return;
+            }
+            System.Net.IPAddress ipAddress;
+            if (System.Net.IPAddress.TryParse(((IPAddressControlLib.IPAddressControl)sender).Text, out ipAddress))
+            {
+                this.validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "");
+                this.validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "valid IP address");
+                this.settings.SecondaryDNS = ipAddress.ToString();
+            }
+            else
+            {
+                validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "");
+                validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "please enter valid IP address");
+            }
+        }
+
+        #endregion SettingsPanel
+
+        #region MenuBottomPanel
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            this.saveFileDialog.ShowDialog();
+        }
+        private void saveFileDialog_FileOk(object sender, CancelEventArgs e)
+        {
+            ioController.SaveSettingsFile(((SaveFileDialog)sender).FileName);
+        }
+
+        private void openFileDialog_FileOk(object sender, CancelEventArgs e)
+        {
+            ioController.LoadSettingsFile(((OpenFileDialog)sender).FileName);
+        }
+
+        private void menuBottom_btnApply_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ioController.ApplySettingsToDHCPServer();
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show("This feature requires a Unix environment!");
             }
             
         }
+        private void menuBottom_backUpConfig_Click(object sender, EventArgs e)
+        {
+
+        }
+        #endregion MenuBottomPanel
+
+       
+
         
+
     }
 }
