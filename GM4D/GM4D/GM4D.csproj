@@ -86,6 +86,12 @@
     <Compile Include="Controller.cs" />
     <Compile Include="InputValidation.cs" />
     <Compile Include="IOController.cs" />
+    <Compile Include="IpInput.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="IpInput.Designer.cs">
+      <DependentUpon>IpInput.cs</DependentUpon>
+    </Compile>
     <Compile Include="Settings.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -98,6 +104,9 @@
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IpInput.resx">
+      <DependentUpon>IpInput.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

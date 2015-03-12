@@ -81,10 +81,10 @@
             this.menuBottom_panelMain = new System.Windows.Forms.FlowLayoutPanel();
             this.menuBottom_btnLoad = new System.Windows.Forms.Button();
             this.menuBottom_btnApply = new System.Windows.Forms.Button();
+            this.menuBottom_backUpConfig = new System.Windows.Forms.Button();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.statusRequired = new System.Windows.Forms.ErrorProvider(this.components);
-            this.menuBottom_backUpConfig = new System.Windows.Forms.Button();
             this.menu_panelMain.SuspendLayout();
             this.settings_panelMain.SuspendLayout();
             this.settings_panelInfo.SuspendLayout();
@@ -797,23 +797,6 @@
             this.menuBottom_btnApply.UseVisualStyleBackColor = false;
             this.menuBottom_btnApply.Click += new System.EventHandler(this.menuBottom_btnApply_Click);
             // 
-            // saveFileDialog
-            // 
-            this.saveFileDialog.DefaultExt = "gm4d";
-            this.saveFileDialog.InitialDirectory = "C:\\Program Files (x86)\\Microsoft Visual Studio 12.0\\Common7\\IDE";
-            this.saveFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.saveFileDialog_FileOk);
-            // 
-            // openFileDialog
-            // 
-            this.openFileDialog.DefaultExt = "gm4d";
-            this.openFileDialog.InitialDirectory = "C:\\Program Files (x86)\\Microsoft Visual Studio 12.0\\Common7\\IDE";
-            this.openFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog_FileOk);
-            // 
-            // statusRequired
-            // 
-            this.statusRequired.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
-            this.statusRequired.ContainerControl = this;
-            // 
             // menuBottom_backUpConfig
             // 
             this.menuBottom_backUpConfig.Anchor = System.Windows.Forms.AnchorStyles.None;
@@ -831,6 +814,23 @@
             this.menuBottom_backUpConfig.UseVisualStyleBackColor = false;
             this.menuBottom_backUpConfig.Click += new System.EventHandler(this.menuBottom_backUpConfig_Click);
             // 
+            // saveFileDialog
+            // 
+            this.saveFileDialog.DefaultExt = "gm4d";
+            this.saveFileDialog.InitialDirectory = "C:\\Program Files (x86)\\Microsoft Visual Studio 12.0\\Common7\\IDE";
+            this.saveFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.saveFileDialog_FileOk);
+            // 
+            // openFileDialog
+            // 
+            this.openFileDialog.DefaultExt = "gm4d";
+            this.openFileDialog.InitialDirectory = "C:\\Program Files (x86)\\Microsoft Visual Studio 12.0\\Common7\\IDE";
+            this.openFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog_FileOk);
+            // 
+            // statusRequired
+            // 
+            this.statusRequired.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.statusRequired.ContainerControl = this;
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -839,10 +839,10 @@
             this.ClientSize = new System.Drawing.Size(872, 617);
             this.Controls.Add(this.menuBottom_panelMain);
             this.Controls.Add(this.menu_panelMain);
+            this.Controls.Add(this.overview_panelMain);
             this.Controls.Add(this.settings_panelMain);
             this.Controls.Add(this.staticLeases_panelMain);
             this.Controls.Add(this.clients_panelMain);
-            this.Controls.Add(this.overview_panelMain);
             this.Font = new System.Drawing.Font("Ubuntu", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
