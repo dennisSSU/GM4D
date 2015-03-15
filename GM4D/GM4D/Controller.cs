@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Net;
+using System.Net.NetworkInformation;
+using System.Net.Sockets;
 using System.Text;
 
 namespace GM4D
@@ -20,8 +24,16 @@ namespace GM4D
 
         public void Run()
         {
+            mainWindow.Shown += mainWindow_Shown;
             System.Windows.Forms.Application.Run(mainWindow);
         }
+
+        private void mainWindow_Shown(object sender, EventArgs e)
+        {
+            this.ioController.getHostInfo();
+            settings.selectInterface(0);
+        }
+
 
     }
 }

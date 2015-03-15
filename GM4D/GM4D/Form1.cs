@@ -27,8 +27,21 @@ namespace GM4D
             this.statusRequired.SetError(this.ipRangeEnd_input, "this field is required");
             this.statusRequired.SetError(this.subnet_input, "this field is required");
             this.statusRequired.SetError(this.subnetMask_input, "this field is required");
+            //set source of databindings source
+            this.settingsBindingSource.DataSource = settings;
         }
 
+        public void MainWindow_Shown(object sender, EventArgs e)
+        {
+            if (settings.HostHasStaticIp)
+            {
+                this.overview_lbl_dhcp_onoff.Text = "enabled";
+            }
+            else
+            {
+                this.overview_lbl_dhcp_onoff.Text = "disabled";
+            }
+        }
         #endregion Main
 
         #region MenuPanel
@@ -72,14 +85,15 @@ namespace GM4D
             System.Net.IPAddress ipAddress;
             if (System.Net.IPAddress.TryParse(((IPAddressControlLib.IPAddressControl)sender).Text, out ipAddress))
             {
-                this.validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "");
-                this.validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "valid IP address");
-                this.settings.IpRangeStart = ipAddress.ToString();
+                if (settings.NetCalcTool.CheckSameSubnet(ipAddress.ToString(), settings.HostIP, settings.HostSubnet))
+                {
+                    setValidationOk(sender,"valid IP address");
+                    this.settings.IpRangeStart = ipAddress.ToString();
+                }
             }
             else
             {
-                validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "");
-                validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "please enter valid IP address");
+                setValidationError(sender,"please enter valid IP address");
             }
         }
 
@@ -117,6 +131,7 @@ namespace GM4D
         }
         private void settings_validateSubnetMaskInput(object sender, EventArgs e)
         {
+            this.statusRequired.SetError((IPAddressControlLib.IPAddressControl)sender, "");
             System.Net.IPAddress ipAddress;
             if (System.Net.IPAddress.TryParse(((IPAddressControlLib.IPAddressControl)sender).Text, out ipAddress))
             {
@@ -190,8 +205,7 @@ namespace GM4D
             }
             else
             {
-                validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "");
-                validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "please enter valid IP address");
+                setValidationError(sender,"please enter valid IP address");
             }
         }
 
@@ -224,15 +238,27 @@ namespace GM4D
             }
             
         }
+        private int testint = 123456;
         private void menuBottom_backUpConfig_Click(object sender, EventArgs e)
         {
-
+            
         }
         #endregion MenuBottomPanel
 
-       
-
-        
+        #region Validation
+        private void setValidationError (object sender, string message)
+        {
+            this.statusRequired.SetError((IPAddressControlLib.IPAddressControl)sender, "");
+            this.validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "");
+            this.validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, message);
+        }
+        private void setValidationOk(object sender, string message)
+        {
+            this.statusRequired.SetError((IPAddressControlLib.IPAddressControl)sender, "");
+            this.validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "");
+            this.validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, message);
+        }
+        #endregion Validation
 
     }
 }

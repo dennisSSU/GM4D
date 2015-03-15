@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
+using System.Net.Sockets;
 using System.Text;
 
 namespace GM4D
@@ -89,7 +91,96 @@ namespace GM4D
             }
             else
             {
-                throw new System.Exception("not a Unix environment");
+                throw new System.Exception("Error in IOController - ApplySettingsToDHCPServer - System is not a Unix environment");
+            }
+        }
+
+        public void getHostInfo()
+        {
+            NetworkInterface[] nics = NetworkInterface.GetAllNetworkInterfaces();
+            IPGlobalProperties properties = IPGlobalProperties.GetIPGlobalProperties();
+            foreach (NetworkInterface adapter in nics)
+            {
+                //check if adapter is up
+                if (adapter.OperationalStatus != OperationalStatus.Up)
+                {
+                    continue;
+                }
+                //check if nic supports ipv4
+                if (adapter.Supports(NetworkInterfaceComponent.IPv4) == false)
+                {
+                    continue;
+                }
+                // check if ipv4 setting are present
+                if (adapter.GetIPProperties().GetIPv4Properties() == null)
+                {
+                    continue;
+                }
+                //create new HostNIC
+                HostNIC nic = new HostNIC();
+                nic.Name = adapter.Name;
+                nic.Id = adapter.Id;
+                nic.MacAddress = adapter.GetPhysicalAddress().ToString();
+                nic.StaticIPAddress = !adapter.GetIPProperties().GetIPv4Properties().IsDhcpEnabled;
+                // get gateway addresses and set first if present
+                GatewayIPAddressInformationCollection gateways = adapter.GetIPProperties().GatewayAddresses;
+                if (gateways.Count > 0)
+                {
+                    nic.Gateway = gateways[0].Address.ToString();
+                }
+                // get unicast addresses
+                foreach (UnicastIPAddressInformation unicastIPAddressInformation in adapter.GetIPProperties().UnicastAddresses)
+                {
+                    // check if ipv4 address
+                    if (unicastIPAddressInformation.Address.AddressFamily == AddressFamily.InterNetwork)
+                    {
+                        // set ip adress
+                        nic.IPAddress = unicastIPAddressInformation.Address.ToString();
+                        // get subnet mask
+                        String snetMask;
+                        try
+                        {
+                            // IPv4Mask not implemented in mono (yet)
+                            snetMask = unicastIPAddressInformation.IPv4Mask.ToString();
+                        }
+                        catch (NotImplementedException e)
+                        {
+                            try
+                            {
+                                // workaround to get subnetmask in unix using mono if IPv4Mask fails
+                                snetMask = SubnetMask.GetIPv4Mask(adapter.Name);
+                            }
+                            catch (Exception ex)
+                            {
+                                System.Console.WriteLine("Errror in IOController getHostInfo - not able to get subnet mask" + ex);
+                                snetMask = "";
+                            }
+                        }
+                        nic.SubnetMask = snetMask;
+                    }
+                }
+                try
+                {
+                    IPAddressCollection dnsAddresses = adapter.GetIPProperties().DnsAddresses;
+                    if (dnsAddresses.Count >= 1) nic.PrimaryDNS = dnsAddresses[0].ToString();
+                    if (dnsAddresses.Count >= 2) nic.SecondaryDNS = dnsAddresses[0].ToString();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Errror in IOController getHostInfo - failed to get DNS server addresses - " + e);
+                }
+                NetCalcTool nct = settings.NetCalcTool;
+                try
+                {
+                    nct.calculate(nic.IPAddress, nic.SubnetMask);
+                    nic.SubnetIdentifier = nct.NetworkId;
+                }
+                catch (Exception e) 
+                {
+                    Console.WriteLine("Errror in IOController getHostInfo - failed calculate network address - " + e);
+                }
+                settings.Interfaces.Add(nic);
+                System.Console.WriteLine(nic);
             }
         }
     }

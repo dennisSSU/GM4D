@@ -84,8 +84,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controller.cs" />
+    <Compile Include="HostInfo.cs" />
+    <Compile Include="HostNIC.cs" />
     <Compile Include="InputValidation.cs" />
     <Compile Include="IOController.cs" />
+    <Compile Include="NetCalcTool.cs" />
     <Compile Include="IpInput.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -101,6 +104,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SubnetMask.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -120,6 +124,7 @@
     </Compile>
     <None Include="app.config" />
     <None Include="GM4D_TemporaryKey.pfx" />
+    <None Include="Properties\DataSources\Settings.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -147,9 +152,7 @@
     <Content Include="res\okIcon.ico" />
     <Content Include="res\testIcon.ico" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Properties\DataSources\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -29,14 +29,14 @@
         private void InitializeComponent()
         {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.dot3 = new System.Windows.Forms.TextBox();
+            this.dot2 = new System.Windows.Forms.TextBox();
             this.block1 = new System.Windows.Forms.TextBox();
             this.block2 = new System.Windows.Forms.TextBox();
             this.block3 = new System.Windows.Forms.TextBox();
             this.block4 = new System.Windows.Forms.TextBox();
             this.dot1 = new System.Windows.Forms.TextBox();
             this.status = new System.Windows.Forms.PictureBox();
-            this.dot2 = new System.Windows.Forms.TextBox();
-            this.dot3 = new System.Windows.Forms.TextBox();
             this.hint = new System.Windows.Forms.HelpProvider();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.status)).BeginInit();
@@ -71,6 +71,32 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(192, 23);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
+            // dot3
+            // 
+            this.dot3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dot3.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dot3.Enabled = false;
+            this.dot3.Location = new System.Drawing.Point(125, 0);
+            this.dot3.Margin = new System.Windows.Forms.Padding(0);
+            this.dot3.Name = "dot3";
+            this.dot3.Size = new System.Drawing.Size(10, 19);
+            this.dot3.TabIndex = 7;
+            this.dot3.Text = ".";
+            // 
+            // dot2
+            // 
+            this.dot2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dot2.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dot2.Enabled = false;
+            this.dot2.Location = new System.Drawing.Point(80, 0);
+            this.dot2.Margin = new System.Windows.Forms.Padding(0);
+            this.dot2.Name = "dot2";
+            this.dot2.Size = new System.Drawing.Size(10, 19);
+            this.dot2.TabIndex = 6;
+            this.dot2.Text = ".";
+            // 
             // block1
             // 
             this.block1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -82,7 +108,7 @@
             this.block1.MaxLength = 3;
             this.block1.MinimumSize = new System.Drawing.Size(20, 20);
             this.block1.Name = "block1";
-            this.block1.Size = new System.Drawing.Size(35, 20);
+            this.block1.Size = new System.Drawing.Size(35, 19);
             this.block1.TabIndex = 0;
             this.block1.Text = "255";
             this.block1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -99,7 +125,7 @@
             this.block2.MaxLength = 3;
             this.block2.MinimumSize = new System.Drawing.Size(20, 20);
             this.block2.Name = "block2";
-            this.block2.Size = new System.Drawing.Size(35, 20);
+            this.block2.Size = new System.Drawing.Size(35, 19);
             this.block2.TabIndex = 1;
             this.block2.Text = "255";
             this.block2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -115,7 +141,7 @@
             this.block3.MaxLength = 3;
             this.block3.MinimumSize = new System.Drawing.Size(20, 20);
             this.block3.Name = "block3";
-            this.block3.Size = new System.Drawing.Size(35, 20);
+            this.block3.Size = new System.Drawing.Size(35, 19);
             this.block3.TabIndex = 2;
             this.block3.Text = "255";
             this.block3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -131,7 +157,7 @@
             this.block4.MaxLength = 3;
             this.block4.MinimumSize = new System.Drawing.Size(20, 20);
             this.block4.Name = "block4";
-            this.block4.Size = new System.Drawing.Size(35, 20);
+            this.block4.Size = new System.Drawing.Size(35, 19);
             this.block4.TabIndex = 3;
             this.block4.Text = "255";
             this.block4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -161,38 +187,12 @@
             this.status.TabIndex = 5;
             this.status.TabStop = false;
             // 
-            // dot2
-            // 
-            this.dot2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dot2.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.dot2.Enabled = false;
-            this.dot2.Location = new System.Drawing.Point(80, 0);
-            this.dot2.Margin = new System.Windows.Forms.Padding(0);
-            this.dot2.Name = "dot2";
-            this.dot2.Size = new System.Drawing.Size(10, 19);
-            this.dot2.TabIndex = 6;
-            this.dot2.Text = ".";
-            // 
-            // dot3
-            // 
-            this.dot3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dot3.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.dot3.Enabled = false;
-            this.dot3.Location = new System.Drawing.Point(125, 0);
-            this.dot3.Margin = new System.Windows.Forms.Padding(0);
-            this.dot3.Name = "dot3";
-            this.dot3.Size = new System.Drawing.Size(10, 19);
-            this.dot3.TabIndex = 7;
-            this.dot3.Text = ".";
-            // 
             // IpInput
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 19F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tableLayoutPanel1);
-            this.Font = new System.Drawing.Font("Ubuntu Condensed", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MinimumSize = new System.Drawing.Size(180, 30);
             this.Name = "IpInput";

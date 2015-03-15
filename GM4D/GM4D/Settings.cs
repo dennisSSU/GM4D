@@ -1,11 +1,80 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections;
+using System.ComponentModel;
 using System.Text;
 
 namespace GM4D
 {
-    public class Settings
+    public class Settings : INotifyPropertyChanged 
     {
+        public Settings()
+        {
+            this.staticLeases = new System.Collections.ArrayList();
+            this.PrimaryDNSIsSet = false;
+            this.SecondaryDNSIsSet = false;
+            this.StaticLeasesIsSet = false;
+            this.SubnetIsSet = false;
+            this.SubnetMaskIsSet = false;
+            this.MaxLeaseTimeIsSet = false;
+            this.GatewayIsSet = false;
+            this.DefaultLeaseTimeIsSet = false;
+            this.HostIpIsSet = false;
+            this.HostSubnetMaskIsSet = false;
+            this.HostSubnetIsSet = false;
+            this.IpRangeStartIsSet = false;
+            this.IpRangeEndIsSet = false;
+            this.HostNameIsSet = false;
+            this.HostGatewayIsSet = false;
+            this.Interfaces = new ArrayList();
+            this.NetCalcTool = new NetCalcTool();
+        }
+        #region eventhandling
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void NotifyPropertyChanged(String value)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(value));
+            }
+        }
+        private void NotifyPropertyChanged(int value)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(value.ToString()));
+            }
+        }
+        #endregion eventhandling
+        #region interface selection
+        public void selectInterface(int i)
+        {
+            if (i >= Interfaces.Count)
+            {
+                throw new IndexOutOfRangeException("Index for interface out of range. Index: " + i + " number of interfaces: " + Interfaces.Count);
+            }
+            HostNIC nic = (HostNIC)Interfaces[i];
+            this.HostIP = nic.IPAddress;
+            this.HostSubnetMask = nic.SubnetMask;
+            this.HostSubnet = nic.SubnetIdentifier;
+            this.HostHasStaticIp = nic.StaticIPAddress;
+            this.SelectedInterface = i;
+        }
+        public ArrayList Interfaces { get; set; }
+        private int selectedInterface;
+        public int SelectedInterface
+        {
+            get
+            {
+                return this.selectedInterface;
+            }
+            private set
+            {
+                this.selectedInterface = value;
+                NotifyPropertyChanged(this.SelectedInterface);
+            }
+        }
+        #endregion interface selection
+        #region host
         public bool HostIpIsSet { get; private set; }
         private String hostIP;
         public String HostIP
@@ -18,6 +87,23 @@ namespace GM4D
             {
                 this.hostIP = value;
                 this.HostIpIsSet = true;
+                NotifyPropertyChanged(this.HostIP);
+            }
+        }
+        public bool HostHasStaticIp { get; set; }
+        public bool HostNameIsSet { get; private set; }
+        private String hostName;
+        public String HostName
+        {
+            get
+            {
+                return this.hostName;
+            }
+            set
+            {
+                this.hostName = value;
+                this.HostNameIsSet = true;
+                NotifyPropertyChanged(this.HostName);
             }
         }
         public bool HostSubnetMaskIsSet { get; private set; }
@@ -32,6 +118,7 @@ namespace GM4D
             {
                 this.hostSubnetMask = value;
                 this.HostSubnetMaskIsSet = true;
+                NotifyPropertyChanged(HostSubnetMask);
             }
         }
         public bool HostSubnetIsSet { get; private set; }
@@ -46,8 +133,26 @@ namespace GM4D
             {
                 this.hostSubnet = value;
                 this.HostSubnetIsSet = true;
+                NotifyPropertyChanged(HostSubnet);
             }
         }
+        public bool HostGatewayIsSet { get; private set; }
+        private String hostGateway;
+        public String HostGateway
+        {
+            get
+            {
+                return this.hostGateway;
+            }
+            set
+            {
+                this.hostGateway = value;
+                this.HostGatewayIsSet = true;
+                NotifyPropertyChanged(this.HostGateway);
+            }
+        }
+        #endregion host
+        #region network
         public bool IpRangeStartIsSet { get; private set; }
         private String ipRangeStart;
         public String IpRangeStart
@@ -60,6 +165,7 @@ namespace GM4D
             {
                 this.ipRangeStart = value;
                 this.IpRangeStartIsSet = true;
+                NotifyPropertyChanged(IpRangeStart);
             }
         }
         public bool IpRangeEndIsSet { get; private set; }
@@ -74,6 +180,7 @@ namespace GM4D
             {
                 this.ipRangeEnd = value;
                 this.IpRangeEndIsSet = true;
+                NotifyPropertyChanged(IpRangeEnd);
             }
         }
         public bool SubnetIsSet { get; private set;}
@@ -82,19 +189,13 @@ namespace GM4D
         {
             get
             {
-                if (SubnetIsSet)
-                {
-                    return this.subnet;
-                }
-                else
-                {
-                    return this.hostSubnet;
-                }
+                return this.subnet;
             }
             set
             {
                 this.subnet = value;
                 SubnetIsSet = true;
+                NotifyPropertyChanged(Subnet);
             }
         }
         public bool SubnetMaskIsSet { get; private set; }
@@ -109,6 +210,7 @@ namespace GM4D
             {
                 this.subnetMask = value;
                 this.SubnetMaskIsSet = true;
+                NotifyPropertyChanged(SubnetMask);
             }
         }
         public bool GatewayIsSet { get; private set; }
@@ -130,6 +232,7 @@ namespace GM4D
             {
                 this.gateway = value;
                 GatewayIsSet = true;
+                NotifyPropertyChanged(Gateway);
             }
         }
         public bool PrimaryDNSIsSet { get; private set; }
@@ -143,6 +246,8 @@ namespace GM4D
             set
             {
                 this.primaryDNS = value;
+                this.PrimaryDNSIsSet = true;
+                NotifyPropertyChanged(PrimaryDNS);
             }
         }
         public bool SecondaryDNSIsSet { get; private set; }
@@ -151,18 +256,13 @@ namespace GM4D
         {
             get
             {
-                if (SecondaryDNSIsSet)
-                {
-                    return this.secondaryDNS;
-                }
-                else{
-                    return "8.8.4.4";
-                }
+                return this.secondaryDNS;
             }
             set
             {
                 this.secondaryDNS = value;
-                SecondaryDNSIsSet = true;
+                this.SecondaryDNSIsSet = true;
+                NotifyPropertyChanged(SecondaryDNS);
             }
         }
         public bool StaticLeasesIsSet { get; private set; }
@@ -183,7 +283,7 @@ namespace GM4D
             set
             {
                 this.staticLeases = value;
-                StaticLeasesIsSet = true;
+                this.StaticLeasesIsSet = true;
             }
         }
         public bool DefaultLeaseTimeIsSet { get; private set; }
@@ -205,6 +305,7 @@ namespace GM4D
             {
                 this.defaultLeaseTime = value;
                 DefaultLeaseTimeIsSet = true;
+                NotifyPropertyChanged(DefaultLeaseTime);
             }
         }
         public bool MaxLeaseTimeIsSet { get; private set; }
@@ -226,24 +327,10 @@ namespace GM4D
             {
                 this.maxLeaseTime = value;
                 MaxLeaseTimeIsSet = true;
+                NotifyPropertyChanged(MaxLeaseTime);
             }
         }
-        public Settings()
-        {
-            this.staticLeases = new System.Collections.ArrayList();
-            this.PrimaryDNSIsSet = false;
-            this.SecondaryDNSIsSet = false;
-            this.StaticLeasesIsSet = false;
-            this.SubnetIsSet = false;
-            this.SubnetMaskIsSet = false;
-            this.MaxLeaseTimeIsSet = false;
-            this.GatewayIsSet = false;
-            this.DefaultLeaseTimeIsSet = false;
-            this.HostIpIsSet = false;
-            this.HostSubnetMaskIsSet = false;
-            this.HostSubnetIsSet = false;
-            this.IpRangeStartIsSet = false;
-            this.IpRangeEndIsSet = true;
-        }
+        #endregion network
+        public NetCalcTool NetCalcTool { get; set; }
     }
 }
