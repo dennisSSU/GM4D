@@ -332,5 +332,7 @@ namespace GM4D
         }
         #endregion network
         public NetCalcTool NetCalcTool { get; set; }
+
+        public const string test = "this is a test";
     }
 }

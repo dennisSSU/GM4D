@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.Resources;
 using System.Text;
 using System.Windows.Forms;
 
@@ -33,14 +34,7 @@ namespace GM4D
 
         public void MainWindow_Shown(object sender, EventArgs e)
         {
-            if (settings.HostHasStaticIp)
-            {
-                this.overview_lbl_dhcp_onoff.Text = "enabled";
-            }
-            else
-            {
-                this.overview_lbl_dhcp_onoff.Text = "disabled";
-            }
+            
         }
         #endregion Main
 
@@ -238,7 +232,6 @@ namespace GM4D
             }
             
         }
-        private int testint = 123456;
         private void menuBottom_backUpConfig_Click(object sender, EventArgs e)
         {
             

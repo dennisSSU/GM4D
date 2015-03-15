@@ -41,10 +41,10 @@
             this.hostIP_lbl = new System.Windows.Forms.Label();
             this.hostSubnetMask_lbl = new System.Windows.Forms.Label();
             this.hostSubnetMask_tb = new System.Windows.Forms.TextBox();
+            this.settingsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.hostIP_lblInfo = new System.Windows.Forms.Label();
             this.hostSubnetMask_lblInfo = new System.Windows.Forms.Label();
             this.hostIP_tb = new System.Windows.Forms.TextBox();
-            this.settingsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.settings_panelInput = new System.Windows.Forms.TableLayoutPanel();
             this.ipRangeEnde_panelInput = new System.Windows.Forms.FlowLayoutPanel();
             this.ipRangeEnd_input = new IPAddressControlLib.IPAddressControl();
@@ -75,10 +75,48 @@
             this.secondaryDNS_panelInput = new System.Windows.Forms.FlowLayoutPanel();
             this.secondaryDNS_input = new IPAddressControlLib.IPAddressControl();
             this.staticLeases_panelMain = new System.Windows.Forms.FlowLayoutPanel();
+            this.staticLeases_listview = new System.Windows.Forms.ListView();
+            this.staticLeases_input_lbl = new System.Windows.Forms.Label();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.staticLeases_input_lbl_name = new System.Windows.Forms.Label();
+            this.staticLeases_input_lbl_mac = new System.Windows.Forms.Label();
+            this.staticLeases_input_lbl_ip = new System.Windows.Forms.Label();
+            this.staticLeases_input_btn_add = new System.Windows.Forms.Button();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.staticLeases_input_tb_name = new System.Windows.Forms.TextBox();
+            this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
+            this.staticLeases_input_tb_mac = new System.Windows.Forms.TextBox();
+            this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
+            this.staticLeases_input_tb_ip = new GM4D.IpInput();
             this.clients_panelMain = new System.Windows.Forms.FlowLayoutPanel();
             this.overview_panelMain = new System.Windows.Forms.FlowLayoutPanel();
-            this.overview_lbl_dhcp = new System.Windows.Forms.Label();
-            this.overview_lbl_dhcp_onoff = new System.Windows.Forms.Label();
+            this.overview_tablepanel = new System.Windows.Forms.TableLayoutPanel();
+            this.overview_hostip_lbl = new System.Windows.Forms.Label();
+            this.overview_hostip_status_lbl = new System.Windows.Forms.Label();
+            this.overview_dhcpServer_lbl = new System.Windows.Forms.Label();
+            this.overview_dhcpServer_status_lbl = new System.Windows.Forms.Label();
+            this.overview_dhcpServer_info_lbl = new System.Windows.Forms.Label();
+            this.overview_dhcpDeamon_lbl = new System.Windows.Forms.Label();
+            this.overview_dhcpDeamon_status_lbl = new System.Windows.Forms.Label();
+            this.overview_dhcpDeamon_info_lbl = new System.Windows.Forms.Label();
+            this.overview_hostip_btn = new System.Windows.Forms.Button();
+            this.overview_dhcpServer_btn = new System.Windows.Forms.Button();
+            this.overview_dhcpDeamon_btn = new System.Windows.Forms.Button();
+            this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
+            this.overview_hostip_info_ip_lbl = new System.Windows.Forms.Label();
+            this.overview_hostip_info_subnetMask_lbl = new System.Windows.Forms.Label();
+            this.overview_setHostIp_panel = new System.Windows.Forms.FlowLayoutPanel();
+            this.overview_setHostIp_lbl = new System.Windows.Forms.Label();
+            this.overview_setHostIp_tablepanel = new System.Windows.Forms.TableLayoutPanel();
+            this.overview_setHostIp_ip_lbl = new System.Windows.Forms.Label();
+            this.overview_setHostIp_ip_lbl_info = new System.Windows.Forms.Label();
+            this.overview_setHostIp_subnetmask_lbl = new System.Windows.Forms.Label();
+            this.overview_setHostIp_subnetmask_lbl_info = new System.Windows.Forms.Label();
+            this.overview_setHostIp_ip_panel = new System.Windows.Forms.FlowLayoutPanel();
+            this.overview_setHostIp_ip_ipinput = new GM4D.IpInput();
+            this.overview_setHostIp_subnetmask_panel = new System.Windows.Forms.FlowLayoutPanel();
+            this.overview_setHostIp_subnetmask_ipinput = new GM4D.IpInput();
+            this.overview_setHostIp_set_btn = new System.Windows.Forms.Button();
             this.validationStatus_error = new System.Windows.Forms.ErrorProvider(this.components);
             this.validationStatus_ok = new System.Windows.Forms.ErrorProvider(this.components);
             this.menuBottom_panelMain = new System.Windows.Forms.FlowLayoutPanel();
@@ -100,7 +138,18 @@
             this.gateway_inputPanel.SuspendLayout();
             this.primaryDNS_panelInput.SuspendLayout();
             this.secondaryDNS_panelInput.SuspendLayout();
+            this.staticLeases_panelMain.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
+            this.flowLayoutPanel1.SuspendLayout();
+            this.flowLayoutPanel2.SuspendLayout();
+            this.flowLayoutPanel3.SuspendLayout();
             this.overview_panelMain.SuspendLayout();
+            this.overview_tablepanel.SuspendLayout();
+            this.flowLayoutPanel4.SuspendLayout();
+            this.overview_setHostIp_panel.SuspendLayout();
+            this.overview_setHostIp_tablepanel.SuspendLayout();
+            this.overview_setHostIp_ip_panel.SuspendLayout();
+            this.overview_setHostIp_subnetmask_panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.validationStatus_error)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.validationStatus_ok)).BeginInit();
             this.menuBottom_panelMain.SuspendLayout();
@@ -279,6 +328,10 @@
             this.hostSubnetMask_tb.TabIndex = 0;
             this.hostSubnetMask_tb.TabStop = false;
             // 
+            // settingsBindingSource
+            // 
+            this.settingsBindingSource.DataSource = typeof(GM4D.Settings);
+            // 
             // hostIP_lblInfo
             // 
             this.hostIP_lblInfo.Anchor = System.Windows.Forms.AnchorStyles.Left;
@@ -308,10 +361,6 @@
             this.hostIP_tb.Size = new System.Drawing.Size(144, 26);
             this.hostIP_tb.TabIndex = 0;
             this.hostIP_tb.TabStop = false;
-            // 
-            // settingsBindingSource
-            // 
-            this.settingsBindingSource.DataSource = typeof(GM4D.Settings);
             // 
             // settings_panelInput
             // 
@@ -725,12 +774,149 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.staticLeases_panelMain.AutoScroll = true;
             this.staticLeases_panelMain.BackColor = System.Drawing.Color.Blue;
+            this.staticLeases_panelMain.Controls.Add(this.staticLeases_listview);
+            this.staticLeases_panelMain.Controls.Add(this.staticLeases_input_lbl);
+            this.staticLeases_panelMain.Controls.Add(this.tableLayoutPanel1);
+            this.staticLeases_panelMain.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.staticLeases_panelMain.Location = new System.Drawing.Point(140, 0);
             this.staticLeases_panelMain.Margin = new System.Windows.Forms.Padding(0);
             this.staticLeases_panelMain.Name = "staticLeases_panelMain";
             this.staticLeases_panelMain.Size = new System.Drawing.Size(732, 547);
             this.staticLeases_panelMain.TabIndex = 4;
             this.staticLeases_panelMain.Visible = false;
+            // 
+            // staticLeases_listview
+            // 
+            this.staticLeases_listview.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.staticLeases_listview.CausesValidation = false;
+            this.staticLeases_listview.Location = new System.Drawing.Point(3, 3);
+            this.staticLeases_listview.MultiSelect = false;
+            this.staticLeases_listview.Name = "staticLeases_listview";
+            this.staticLeases_listview.Size = new System.Drawing.Size(500, 320);
+            this.staticLeases_listview.TabIndex = 0;
+            this.staticLeases_listview.UseCompatibleStateImageBehavior = false;
+            // 
+            // staticLeases_input_lbl
+            // 
+            this.staticLeases_input_lbl.AutoSize = true;
+            this.staticLeases_input_lbl.Location = new System.Drawing.Point(3, 326);
+            this.staticLeases_input_lbl.Name = "staticLeases_input_lbl";
+            this.staticLeases_input_lbl.Size = new System.Drawing.Size(153, 20);
+            this.staticLeases_input_lbl.TabIndex = 0;
+            this.staticLeases_input_lbl.Text = "add new static lease";
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 4;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 180F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 180F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 180F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 177F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Controls.Add(this.staticLeases_input_lbl_name, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.staticLeases_input_lbl_mac, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.staticLeases_input_lbl_ip, 2, 0);
+            this.tableLayoutPanel1.Controls.Add(this.staticLeases_input_btn_add, 3, 1);
+            this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel1, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel2, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel3, 2, 1);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 349);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 41.17647F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 58.82353F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(717, 67);
+            this.tableLayoutPanel1.TabIndex = 1;
+            // 
+            // staticLeases_input_lbl_name
+            // 
+            this.staticLeases_input_lbl_name.AutoSize = true;
+            this.staticLeases_input_lbl_name.Location = new System.Drawing.Point(3, 0);
+            this.staticLeases_input_lbl_name.Name = "staticLeases_input_lbl_name";
+            this.staticLeases_input_lbl_name.Size = new System.Drawing.Size(51, 20);
+            this.staticLeases_input_lbl_name.TabIndex = 0;
+            this.staticLeases_input_lbl_name.Text = "Name";
+            // 
+            // staticLeases_input_lbl_mac
+            // 
+            this.staticLeases_input_lbl_mac.AutoSize = true;
+            this.staticLeases_input_lbl_mac.Location = new System.Drawing.Point(183, 0);
+            this.staticLeases_input_lbl_mac.Name = "staticLeases_input_lbl_mac";
+            this.staticLeases_input_lbl_mac.Size = new System.Drawing.Size(105, 20);
+            this.staticLeases_input_lbl_mac.TabIndex = 1;
+            this.staticLeases_input_lbl_mac.Text = "MAC address";
+            // 
+            // staticLeases_input_lbl_ip
+            // 
+            this.staticLeases_input_lbl_ip.AutoSize = true;
+            this.staticLeases_input_lbl_ip.Location = new System.Drawing.Point(363, 0);
+            this.staticLeases_input_lbl_ip.Name = "staticLeases_input_lbl_ip";
+            this.staticLeases_input_lbl_ip.Size = new System.Drawing.Size(85, 20);
+            this.staticLeases_input_lbl_ip.TabIndex = 2;
+            this.staticLeases_input_lbl_ip.Text = "IP address";
+            // 
+            // staticLeases_input_btn_add
+            // 
+            this.staticLeases_input_btn_add.Location = new System.Drawing.Point(543, 30);
+            this.staticLeases_input_btn_add.Name = "staticLeases_input_btn_add";
+            this.staticLeases_input_btn_add.Size = new System.Drawing.Size(75, 31);
+            this.staticLeases_input_btn_add.TabIndex = 6;
+            this.staticLeases_input_btn_add.Text = "save";
+            this.staticLeases_input_btn_add.UseVisualStyleBackColor = true;
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.Controls.Add(this.staticLeases_input_tb_name);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 30);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(174, 34);
+            this.flowLayoutPanel1.TabIndex = 7;
+            // 
+            // staticLeases_input_tb_name
+            // 
+            this.staticLeases_input_tb_name.Location = new System.Drawing.Point(3, 3);
+            this.staticLeases_input_tb_name.Name = "staticLeases_input_tb_name";
+            this.staticLeases_input_tb_name.Size = new System.Drawing.Size(112, 26);
+            this.staticLeases_input_tb_name.TabIndex = 3;
+            // 
+            // flowLayoutPanel2
+            // 
+            this.flowLayoutPanel2.Controls.Add(this.staticLeases_input_tb_mac);
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(183, 30);
+            this.flowLayoutPanel2.Name = "flowLayoutPanel2";
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(174, 34);
+            this.flowLayoutPanel2.TabIndex = 8;
+            // 
+            // staticLeases_input_tb_mac
+            // 
+            this.staticLeases_input_tb_mac.Location = new System.Drawing.Point(3, 3);
+            this.staticLeases_input_tb_mac.Name = "staticLeases_input_tb_mac";
+            this.staticLeases_input_tb_mac.Size = new System.Drawing.Size(111, 26);
+            this.staticLeases_input_tb_mac.TabIndex = 4;
+            // 
+            // flowLayoutPanel3
+            // 
+            this.flowLayoutPanel3.Controls.Add(this.staticLeases_input_tb_ip);
+            this.flowLayoutPanel3.Location = new System.Drawing.Point(363, 30);
+            this.flowLayoutPanel3.Name = "flowLayoutPanel3";
+            this.flowLayoutPanel3.Size = new System.Drawing.Size(174, 34);
+            this.flowLayoutPanel3.TabIndex = 9;
+            // 
+            // staticLeases_input_tb_ip
+            // 
+            this.staticLeases_input_tb_ip.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.staticLeases_input_tb_ip.ImgError = null;
+            this.staticLeases_input_tb_ip.ImgOk = null;
+            this.staticLeases_input_tb_ip.ImgRequired = null;
+            this.staticLeases_input_tb_ip.Location = new System.Drawing.Point(3, 4);
+            this.staticLeases_input_tb_ip.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.staticLeases_input_tb_ip.MinimumSize = new System.Drawing.Size(180, 30);
+            this.staticLeases_input_tb_ip.Name = "staticLeases_input_tb_ip";
+            this.staticLeases_input_tb_ip.Required = false;
+            this.staticLeases_input_tb_ip.Size = new System.Drawing.Size(198, 30);
+            this.staticLeases_input_tb_ip.TabIndex = 5;
             // 
             // clients_panelMain
             // 
@@ -753,8 +939,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.overview_panelMain.AutoScroll = true;
             this.overview_panelMain.BackColor = System.Drawing.Color.Yellow;
-            this.overview_panelMain.Controls.Add(this.overview_lbl_dhcp);
-            this.overview_panelMain.Controls.Add(this.overview_lbl_dhcp_onoff);
+            this.overview_panelMain.Controls.Add(this.overview_tablepanel);
+            this.overview_panelMain.Controls.Add(this.overview_setHostIp_panel);
+            this.overview_panelMain.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.overview_panelMain.Location = new System.Drawing.Point(140, 0);
             this.overview_panelMain.Margin = new System.Windows.Forms.Padding(0);
             this.overview_panelMain.Name = "overview_panelMain";
@@ -762,23 +949,304 @@
             this.overview_panelMain.TabIndex = 2;
             this.overview_panelMain.Visible = false;
             // 
-            // overview_lbl_dhcp
+            // overview_tablepanel
             // 
-            this.overview_lbl_dhcp.AutoSize = true;
-            this.overview_lbl_dhcp.Location = new System.Drawing.Point(3, 0);
-            this.overview_lbl_dhcp.Name = "overview_lbl_dhcp";
-            this.overview_lbl_dhcp.Size = new System.Drawing.Size(54, 20);
-            this.overview_lbl_dhcp.TabIndex = 0;
-            this.overview_lbl_dhcp.Text = "DHCP";
+            this.overview_tablepanel.ColumnCount = 4;
+            this.overview_tablepanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.overview_tablepanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.overview_tablepanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.overview_tablepanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.overview_tablepanel.Controls.Add(this.overview_hostip_lbl, 0, 0);
+            this.overview_tablepanel.Controls.Add(this.overview_hostip_status_lbl, 1, 0);
+            this.overview_tablepanel.Controls.Add(this.overview_dhcpServer_lbl, 0, 1);
+            this.overview_tablepanel.Controls.Add(this.overview_dhcpServer_status_lbl, 1, 1);
+            this.overview_tablepanel.Controls.Add(this.overview_dhcpServer_info_lbl, 2, 1);
+            this.overview_tablepanel.Controls.Add(this.overview_dhcpDeamon_lbl, 0, 2);
+            this.overview_tablepanel.Controls.Add(this.overview_dhcpDeamon_status_lbl, 1, 2);
+            this.overview_tablepanel.Controls.Add(this.overview_dhcpDeamon_info_lbl, 2, 2);
+            this.overview_tablepanel.Controls.Add(this.overview_hostip_btn, 3, 0);
+            this.overview_tablepanel.Controls.Add(this.overview_dhcpServer_btn, 3, 1);
+            this.overview_tablepanel.Controls.Add(this.overview_dhcpDeamon_btn, 3, 2);
+            this.overview_tablepanel.Controls.Add(this.flowLayoutPanel4, 2, 0);
+            this.overview_tablepanel.Location = new System.Drawing.Point(3, 3);
+            this.overview_tablepanel.Name = "overview_tablepanel";
+            this.overview_tablepanel.RowCount = 3;
+            this.overview_tablepanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.overview_tablepanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.overview_tablepanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 41F));
+            this.overview_tablepanel.Size = new System.Drawing.Size(656, 135);
+            this.overview_tablepanel.TabIndex = 0;
             // 
-            // overview_lbl_dhcp_onoff
+            // overview_hostip_lbl
             // 
-            this.overview_lbl_dhcp_onoff.AutoSize = true;
-            this.overview_lbl_dhcp_onoff.Location = new System.Drawing.Point(63, 0);
-            this.overview_lbl_dhcp_onoff.Name = "overview_lbl_dhcp_onoff";
-            this.overview_lbl_dhcp_onoff.Size = new System.Drawing.Size(73, 20);
-            this.overview_lbl_dhcp_onoff.TabIndex = 1;
-            this.overview_lbl_dhcp_onoff.Text = "unknown";
+            this.overview_hostip_lbl.AutoSize = true;
+            this.overview_hostip_lbl.Location = new System.Drawing.Point(3, 0);
+            this.overview_hostip_lbl.Name = "overview_hostip_lbl";
+            this.overview_hostip_lbl.Size = new System.Drawing.Size(62, 20);
+            this.overview_hostip_lbl.TabIndex = 0;
+            this.overview_hostip_lbl.Text = "Host IP";
+            // 
+            // overview_hostip_status_lbl
+            // 
+            this.overview_hostip_status_lbl.AutoSize = true;
+            this.overview_hostip_status_lbl.Location = new System.Drawing.Point(167, 0);
+            this.overview_hostip_status_lbl.Name = "overview_hostip_status_lbl";
+            this.overview_hostip_status_lbl.Size = new System.Drawing.Size(53, 20);
+            this.overview_hostip_status_lbl.TabIndex = 1;
+            this.overview_hostip_status_lbl.Text = "status";
+            // 
+            // overview_dhcpServer_lbl
+            // 
+            this.overview_dhcpServer_lbl.AutoSize = true;
+            this.overview_dhcpServer_lbl.Location = new System.Drawing.Point(3, 47);
+            this.overview_dhcpServer_lbl.Name = "overview_dhcpServer_lbl";
+            this.overview_dhcpServer_lbl.Size = new System.Drawing.Size(104, 20);
+            this.overview_dhcpServer_lbl.TabIndex = 3;
+            this.overview_dhcpServer_lbl.Text = "DHCP Server";
+            // 
+            // overview_dhcpServer_status_lbl
+            // 
+            this.overview_dhcpServer_status_lbl.AutoSize = true;
+            this.overview_dhcpServer_status_lbl.Location = new System.Drawing.Point(167, 47);
+            this.overview_dhcpServer_status_lbl.Name = "overview_dhcpServer_status_lbl";
+            this.overview_dhcpServer_status_lbl.Size = new System.Drawing.Size(53, 20);
+            this.overview_dhcpServer_status_lbl.TabIndex = 4;
+            this.overview_dhcpServer_status_lbl.Text = "status";
+            // 
+            // overview_dhcpServer_info_lbl
+            // 
+            this.overview_dhcpServer_info_lbl.AutoSize = true;
+            this.overview_dhcpServer_info_lbl.Location = new System.Drawing.Point(331, 47);
+            this.overview_dhcpServer_info_lbl.Name = "overview_dhcpServer_info_lbl";
+            this.overview_dhcpServer_info_lbl.Size = new System.Drawing.Size(35, 20);
+            this.overview_dhcpServer_info_lbl.TabIndex = 5;
+            this.overview_dhcpServer_info_lbl.Text = "info";
+            // 
+            // overview_dhcpDeamon_lbl
+            // 
+            this.overview_dhcpDeamon_lbl.AutoSize = true;
+            this.overview_dhcpDeamon_lbl.Location = new System.Drawing.Point(3, 94);
+            this.overview_dhcpDeamon_lbl.Name = "overview_dhcpDeamon_lbl";
+            this.overview_dhcpDeamon_lbl.Size = new System.Drawing.Size(119, 20);
+            this.overview_dhcpDeamon_lbl.TabIndex = 6;
+            this.overview_dhcpDeamon_lbl.Text = "DHCP Deamon";
+            // 
+            // overview_dhcpDeamon_status_lbl
+            // 
+            this.overview_dhcpDeamon_status_lbl.AutoSize = true;
+            this.overview_dhcpDeamon_status_lbl.Location = new System.Drawing.Point(167, 94);
+            this.overview_dhcpDeamon_status_lbl.Name = "overview_dhcpDeamon_status_lbl";
+            this.overview_dhcpDeamon_status_lbl.Size = new System.Drawing.Size(53, 20);
+            this.overview_dhcpDeamon_status_lbl.TabIndex = 7;
+            this.overview_dhcpDeamon_status_lbl.Text = "status";
+            // 
+            // overview_dhcpDeamon_info_lbl
+            // 
+            this.overview_dhcpDeamon_info_lbl.AutoSize = true;
+            this.overview_dhcpDeamon_info_lbl.Location = new System.Drawing.Point(331, 94);
+            this.overview_dhcpDeamon_info_lbl.Name = "overview_dhcpDeamon_info_lbl";
+            this.overview_dhcpDeamon_info_lbl.Size = new System.Drawing.Size(35, 20);
+            this.overview_dhcpDeamon_info_lbl.TabIndex = 8;
+            this.overview_dhcpDeamon_info_lbl.Text = "info";
+            // 
+            // overview_hostip_btn
+            // 
+            this.overview_hostip_btn.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.overview_hostip_btn.FlatAppearance.BorderSize = 0;
+            this.overview_hostip_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.overview_hostip_btn.Location = new System.Drawing.Point(495, 3);
+            this.overview_hostip_btn.Name = "overview_hostip_btn";
+            this.overview_hostip_btn.Size = new System.Drawing.Size(94, 41);
+            this.overview_hostip_btn.TabIndex = 9;
+            this.overview_hostip_btn.Text = "setIP";
+            this.overview_hostip_btn.UseVisualStyleBackColor = false;
+            // 
+            // overview_dhcpServer_btn
+            // 
+            this.overview_dhcpServer_btn.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.overview_dhcpServer_btn.FlatAppearance.BorderSize = 0;
+            this.overview_dhcpServer_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.overview_dhcpServer_btn.Location = new System.Drawing.Point(495, 50);
+            this.overview_dhcpServer_btn.Name = "overview_dhcpServer_btn";
+            this.overview_dhcpServer_btn.Size = new System.Drawing.Size(94, 41);
+            this.overview_dhcpServer_btn.TabIndex = 10;
+            this.overview_dhcpServer_btn.Text = "install";
+            this.overview_dhcpServer_btn.UseVisualStyleBackColor = false;
+            // 
+            // overview_dhcpDeamon_btn
+            // 
+            this.overview_dhcpDeamon_btn.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.overview_dhcpDeamon_btn.FlatAppearance.BorderSize = 0;
+            this.overview_dhcpDeamon_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.overview_dhcpDeamon_btn.Location = new System.Drawing.Point(495, 97);
+            this.overview_dhcpDeamon_btn.Name = "overview_dhcpDeamon_btn";
+            this.overview_dhcpDeamon_btn.Size = new System.Drawing.Size(94, 35);
+            this.overview_dhcpDeamon_btn.TabIndex = 11;
+            this.overview_dhcpDeamon_btn.Text = "start/stop";
+            this.overview_dhcpDeamon_btn.UseVisualStyleBackColor = false;
+            // 
+            // flowLayoutPanel4
+            // 
+            this.flowLayoutPanel4.Controls.Add(this.overview_hostip_info_ip_lbl);
+            this.flowLayoutPanel4.Controls.Add(this.overview_hostip_info_subnetMask_lbl);
+            this.flowLayoutPanel4.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowLayoutPanel4.Location = new System.Drawing.Point(331, 3);
+            this.flowLayoutPanel4.Name = "flowLayoutPanel4";
+            this.flowLayoutPanel4.Size = new System.Drawing.Size(158, 41);
+            this.flowLayoutPanel4.TabIndex = 12;
+            // 
+            // overview_hostip_info_ip_lbl
+            // 
+            this.overview_hostip_info_ip_lbl.AutoSize = true;
+            this.overview_hostip_info_ip_lbl.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.settingsBindingSource, "HostIP", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.overview_hostip_info_ip_lbl.Location = new System.Drawing.Point(3, 0);
+            this.overview_hostip_info_ip_lbl.Name = "overview_hostip_info_ip_lbl";
+            this.overview_hostip_info_ip_lbl.Size = new System.Drawing.Size(21, 20);
+            this.overview_hostip_info_ip_lbl.TabIndex = 2;
+            this.overview_hostip_info_ip_lbl.Text = "ip";
+            // 
+            // overview_hostip_info_subnetMask_lbl
+            // 
+            this.overview_hostip_info_subnetMask_lbl.AutoSize = true;
+            this.overview_hostip_info_subnetMask_lbl.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.settingsBindingSource, "HostSubnetMask", true));
+            this.overview_hostip_info_subnetMask_lbl.Location = new System.Drawing.Point(3, 20);
+            this.overview_hostip_info_subnetMask_lbl.Name = "overview_hostip_info_subnetMask_lbl";
+            this.overview_hostip_info_subnetMask_lbl.Size = new System.Drawing.Size(96, 20);
+            this.overview_hostip_info_subnetMask_lbl.TabIndex = 3;
+            this.overview_hostip_info_subnetMask_lbl.Text = "subnetMask";
+            // 
+            // overview_setHostIp_panel
+            // 
+            this.overview_setHostIp_panel.Controls.Add(this.overview_setHostIp_lbl);
+            this.overview_setHostIp_panel.Controls.Add(this.overview_setHostIp_tablepanel);
+            this.overview_setHostIp_panel.Controls.Add(this.overview_setHostIp_set_btn);
+            this.overview_setHostIp_panel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.overview_setHostIp_panel.Location = new System.Drawing.Point(3, 144);
+            this.overview_setHostIp_panel.Name = "overview_setHostIp_panel";
+            this.overview_setHostIp_panel.Size = new System.Drawing.Size(656, 191);
+            this.overview_setHostIp_panel.TabIndex = 2;
+            // 
+            // overview_setHostIp_lbl
+            // 
+            this.overview_setHostIp_lbl.AutoSize = true;
+            this.overview_setHostIp_lbl.Location = new System.Drawing.Point(3, 0);
+            this.overview_setHostIp_lbl.Name = "overview_setHostIp_lbl";
+            this.overview_setHostIp_lbl.Size = new System.Drawing.Size(91, 20);
+            this.overview_setHostIp_lbl.TabIndex = 2;
+            this.overview_setHostIp_lbl.Text = "Set Host IP";
+            // 
+            // overview_setHostIp_tablepanel
+            // 
+            this.overview_setHostIp_tablepanel.ColumnCount = 3;
+            this.overview_setHostIp_tablepanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.overview_setHostIp_tablepanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.overview_setHostIp_tablepanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.overview_setHostIp_tablepanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.overview_setHostIp_tablepanel.Controls.Add(this.overview_setHostIp_ip_lbl, 0, 0);
+            this.overview_setHostIp_tablepanel.Controls.Add(this.overview_setHostIp_ip_lbl_info, 2, 0);
+            this.overview_setHostIp_tablepanel.Controls.Add(this.overview_setHostIp_subnetmask_lbl, 0, 1);
+            this.overview_setHostIp_tablepanel.Controls.Add(this.overview_setHostIp_subnetmask_lbl_info, 2, 1);
+            this.overview_setHostIp_tablepanel.Controls.Add(this.overview_setHostIp_ip_panel, 1, 0);
+            this.overview_setHostIp_tablepanel.Controls.Add(this.overview_setHostIp_subnetmask_panel, 1, 1);
+            this.overview_setHostIp_tablepanel.Location = new System.Drawing.Point(3, 23);
+            this.overview_setHostIp_tablepanel.Name = "overview_setHostIp_tablepanel";
+            this.overview_setHostIp_tablepanel.RowCount = 2;
+            this.overview_setHostIp_tablepanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.overview_setHostIp_tablepanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.overview_setHostIp_tablepanel.Size = new System.Drawing.Size(653, 100);
+            this.overview_setHostIp_tablepanel.TabIndex = 1;
+            // 
+            // overview_setHostIp_ip_lbl
+            // 
+            this.overview_setHostIp_ip_lbl.AutoSize = true;
+            this.overview_setHostIp_ip_lbl.Location = new System.Drawing.Point(3, 0);
+            this.overview_setHostIp_ip_lbl.Name = "overview_setHostIp_ip_lbl";
+            this.overview_setHostIp_ip_lbl.Size = new System.Drawing.Size(85, 20);
+            this.overview_setHostIp_ip_lbl.TabIndex = 0;
+            this.overview_setHostIp_ip_lbl.Text = "IP address";
+            // 
+            // overview_setHostIp_ip_lbl_info
+            // 
+            this.overview_setHostIp_ip_lbl_info.AutoSize = true;
+            this.overview_setHostIp_ip_lbl_info.Location = new System.Drawing.Point(437, 0);
+            this.overview_setHostIp_ip_lbl_info.Name = "overview_setHostIp_ip_lbl_info";
+            this.overview_setHostIp_ip_lbl_info.Size = new System.Drawing.Size(35, 20);
+            this.overview_setHostIp_ip_lbl_info.TabIndex = 1;
+            this.overview_setHostIp_ip_lbl_info.Text = "info";
+            // 
+            // overview_setHostIp_subnetmask_lbl
+            // 
+            this.overview_setHostIp_subnetmask_lbl.AutoSize = true;
+            this.overview_setHostIp_subnetmask_lbl.Location = new System.Drawing.Point(3, 50);
+            this.overview_setHostIp_subnetmask_lbl.Name = "overview_setHostIp_subnetmask_lbl";
+            this.overview_setHostIp_subnetmask_lbl.Size = new System.Drawing.Size(100, 20);
+            this.overview_setHostIp_subnetmask_lbl.TabIndex = 2;
+            this.overview_setHostIp_subnetmask_lbl.Text = "subnet mask";
+            // 
+            // overview_setHostIp_subnetmask_lbl_info
+            // 
+            this.overview_setHostIp_subnetmask_lbl_info.AutoSize = true;
+            this.overview_setHostIp_subnetmask_lbl_info.Location = new System.Drawing.Point(437, 50);
+            this.overview_setHostIp_subnetmask_lbl_info.Name = "overview_setHostIp_subnetmask_lbl_info";
+            this.overview_setHostIp_subnetmask_lbl_info.Size = new System.Drawing.Size(35, 20);
+            this.overview_setHostIp_subnetmask_lbl_info.TabIndex = 3;
+            this.overview_setHostIp_subnetmask_lbl_info.Text = "info";
+            // 
+            // overview_setHostIp_ip_panel
+            // 
+            this.overview_setHostIp_ip_panel.Controls.Add(this.overview_setHostIp_ip_ipinput);
+            this.overview_setHostIp_ip_panel.Location = new System.Drawing.Point(220, 3);
+            this.overview_setHostIp_ip_panel.Name = "overview_setHostIp_ip_panel";
+            this.overview_setHostIp_ip_panel.Size = new System.Drawing.Size(211, 44);
+            this.overview_setHostIp_ip_panel.TabIndex = 4;
+            // 
+            // overview_setHostIp_ip_ipinput
+            // 
+            this.overview_setHostIp_ip_ipinput.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.overview_setHostIp_ip_ipinput.ImgError = null;
+            this.overview_setHostIp_ip_ipinput.ImgOk = null;
+            this.overview_setHostIp_ip_ipinput.ImgRequired = null;
+            this.overview_setHostIp_ip_ipinput.Location = new System.Drawing.Point(3, 4);
+            this.overview_setHostIp_ip_ipinput.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.overview_setHostIp_ip_ipinput.MinimumSize = new System.Drawing.Size(180, 30);
+            this.overview_setHostIp_ip_ipinput.Name = "overview_setHostIp_ip_ipinput";
+            this.overview_setHostIp_ip_ipinput.Required = false;
+            this.overview_setHostIp_ip_ipinput.Size = new System.Drawing.Size(198, 30);
+            this.overview_setHostIp_ip_ipinput.TabIndex = 0;
+            // 
+            // overview_setHostIp_subnetmask_panel
+            // 
+            this.overview_setHostIp_subnetmask_panel.Controls.Add(this.overview_setHostIp_subnetmask_ipinput);
+            this.overview_setHostIp_subnetmask_panel.Location = new System.Drawing.Point(220, 53);
+            this.overview_setHostIp_subnetmask_panel.Name = "overview_setHostIp_subnetmask_panel";
+            this.overview_setHostIp_subnetmask_panel.Size = new System.Drawing.Size(211, 44);
+            this.overview_setHostIp_subnetmask_panel.TabIndex = 5;
+            // 
+            // overview_setHostIp_subnetmask_ipinput
+            // 
+            this.overview_setHostIp_subnetmask_ipinput.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.overview_setHostIp_subnetmask_ipinput.ImgError = null;
+            this.overview_setHostIp_subnetmask_ipinput.ImgOk = null;
+            this.overview_setHostIp_subnetmask_ipinput.ImgRequired = null;
+            this.overview_setHostIp_subnetmask_ipinput.Location = new System.Drawing.Point(3, 4);
+            this.overview_setHostIp_subnetmask_ipinput.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.overview_setHostIp_subnetmask_ipinput.MinimumSize = new System.Drawing.Size(180, 30);
+            this.overview_setHostIp_subnetmask_ipinput.Name = "overview_setHostIp_subnetmask_ipinput";
+            this.overview_setHostIp_subnetmask_ipinput.Required = false;
+            this.overview_setHostIp_subnetmask_ipinput.Size = new System.Drawing.Size(198, 30);
+            this.overview_setHostIp_subnetmask_ipinput.TabIndex = 0;
+            // 
+            // overview_setHostIp_set_btn
+            // 
+            this.overview_setHostIp_set_btn.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.overview_setHostIp_set_btn.FlatAppearance.BorderSize = 0;
+            this.overview_setHostIp_set_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.overview_setHostIp_set_btn.Location = new System.Drawing.Point(3, 129);
+            this.overview_setHostIp_set_btn.Name = "overview_setHostIp_set_btn";
+            this.overview_setHostIp_set_btn.Size = new System.Drawing.Size(82, 33);
+            this.overview_setHostIp_set_btn.TabIndex = 3;
+            this.overview_setHostIp_set_btn.Text = "save";
+            this.overview_setHostIp_set_btn.UseVisualStyleBackColor = false;
             // 
             // validationStatus_error
             // 
@@ -885,10 +1353,10 @@
             this.ClientSize = new System.Drawing.Size(872, 617);
             this.Controls.Add(this.menuBottom_panelMain);
             this.Controls.Add(this.menu_panelMain);
+            this.Controls.Add(this.overview_panelMain);
             this.Controls.Add(this.settings_panelMain);
             this.Controls.Add(this.staticLeases_panelMain);
             this.Controls.Add(this.clients_panelMain);
-            this.Controls.Add(this.overview_panelMain);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
@@ -910,8 +1378,26 @@
             this.gateway_inputPanel.ResumeLayout(false);
             this.primaryDNS_panelInput.ResumeLayout(false);
             this.secondaryDNS_panelInput.ResumeLayout(false);
+            this.staticLeases_panelMain.ResumeLayout(false);
+            this.staticLeases_panelMain.PerformLayout();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
+            this.flowLayoutPanel1.ResumeLayout(false);
+            this.flowLayoutPanel1.PerformLayout();
+            this.flowLayoutPanel2.ResumeLayout(false);
+            this.flowLayoutPanel2.PerformLayout();
+            this.flowLayoutPanel3.ResumeLayout(false);
             this.overview_panelMain.ResumeLayout(false);
-            this.overview_panelMain.PerformLayout();
+            this.overview_tablepanel.ResumeLayout(false);
+            this.overview_tablepanel.PerformLayout();
+            this.flowLayoutPanel4.ResumeLayout(false);
+            this.flowLayoutPanel4.PerformLayout();
+            this.overview_setHostIp_panel.ResumeLayout(false);
+            this.overview_setHostIp_panel.PerformLayout();
+            this.overview_setHostIp_tablepanel.ResumeLayout(false);
+            this.overview_setHostIp_tablepanel.PerformLayout();
+            this.overview_setHostIp_ip_panel.ResumeLayout(false);
+            this.overview_setHostIp_subnetmask_panel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.validationStatus_error)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.validationStatus_ok)).EndInit();
             this.menuBottom_panelMain.ResumeLayout(false);
@@ -978,8 +1464,46 @@
         private System.Windows.Forms.FlowLayoutPanel secondaryDNS_panelInput;
         private System.Windows.Forms.Button menuBottom_backUpConfig;
         private System.Windows.Forms.BindingSource settingsBindingSource;
-        private System.Windows.Forms.Label overview_lbl_dhcp;
-        private System.Windows.Forms.Label overview_lbl_dhcp_onoff;
+        private System.Windows.Forms.ListView staticLeases_listview;
+        private System.Windows.Forms.Label staticLeases_input_lbl;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Label staticLeases_input_lbl_name;
+        private System.Windows.Forms.Label staticLeases_input_lbl_mac;
+        private System.Windows.Forms.Label staticLeases_input_lbl_ip;
+        private System.Windows.Forms.Button staticLeases_input_btn_add;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.TextBox staticLeases_input_tb_name;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
+        private System.Windows.Forms.TextBox staticLeases_input_tb_mac;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel3;
+        private IpInput staticLeases_input_tb_ip;
+        private System.Windows.Forms.TableLayoutPanel overview_tablepanel;
+        private System.Windows.Forms.Label overview_hostip_lbl;
+        private System.Windows.Forms.Label overview_hostip_status_lbl;
+        private System.Windows.Forms.Label overview_hostip_info_ip_lbl;
+        private System.Windows.Forms.Label overview_dhcpServer_lbl;
+        private System.Windows.Forms.Label overview_dhcpServer_status_lbl;
+        private System.Windows.Forms.Label overview_dhcpServer_info_lbl;
+        private System.Windows.Forms.Label overview_dhcpDeamon_lbl;
+        private System.Windows.Forms.Label overview_dhcpDeamon_status_lbl;
+        private System.Windows.Forms.Label overview_dhcpDeamon_info_lbl;
+        private System.Windows.Forms.Button overview_hostip_btn;
+        private System.Windows.Forms.Button overview_dhcpServer_btn;
+        private System.Windows.Forms.Button overview_dhcpDeamon_btn;
+        private System.Windows.Forms.FlowLayoutPanel overview_setHostIp_panel;
+        private System.Windows.Forms.Label overview_setHostIp_lbl;
+        private System.Windows.Forms.TableLayoutPanel overview_setHostIp_tablepanel;
+        private System.Windows.Forms.Label overview_setHostIp_ip_lbl;
+        private System.Windows.Forms.Label overview_setHostIp_ip_lbl_info;
+        private System.Windows.Forms.Label overview_setHostIp_subnetmask_lbl;
+        private System.Windows.Forms.Label overview_setHostIp_subnetmask_lbl_info;
+        private System.Windows.Forms.FlowLayoutPanel overview_setHostIp_ip_panel;
+        private IpInput overview_setHostIp_ip_ipinput;
+        private System.Windows.Forms.FlowLayoutPanel overview_setHostIp_subnetmask_panel;
+        private IpInput overview_setHostIp_subnetmask_ipinput;
+        private System.Windows.Forms.Button overview_setHostIp_set_btn;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel4;
+        private System.Windows.Forms.Label overview_hostip_info_subnetMask_lbl;
     }
 }
 
