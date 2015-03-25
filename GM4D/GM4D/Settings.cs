@@ -322,14 +322,7 @@ namespace GM4D
         {
             get
             {
-                if (StaticLeasesIsSet)
-                {
-                    return this.staticLeases;
-                }
-                else
-                {
-                    return new System.Collections.ArrayList {""};
-                }
+                return this.staticLeases;
             }
             set
             {

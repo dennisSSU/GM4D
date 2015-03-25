@@ -54,6 +54,16 @@ namespace GM4D
                 }
                 dhcpConfig += ";" + Environment.NewLine;
             }
+            if (settings.StaticLeases.Count >= 1)
+            {
+                foreach (StaticLease l in settings.StaticLeases)
+                {
+                    dhcpConfig += "host " + l.DeviceName + " {" + Environment.NewLine +
+                        "hardware ethernet " + l.MACAddress + ";" + Environment.NewLine +
+                        "fixed-address " + l.IPAddress + ";" + Environment.NewLine +
+                        "}" + Environment.NewLine;
+                }
+            }
             dhcpConfig += "}";
             return dhcpConfig;
         } 
@@ -382,6 +392,11 @@ namespace GM4D
             {
                 throw new System.Exception("Error in IOController - StartDHCPServer - System is not a Unix environment");
             }
+        }
+
+        public void ReadDHCPDLeases()
+        {
+
         }
     }
 }

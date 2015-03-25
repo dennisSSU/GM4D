@@ -30,6 +30,16 @@ namespace GM4D
             this.statusRequired.SetError(this.subnetMask_input, "this field is required");
             //set source of databindings source
             this.settingsBindingSource.DataSource = settings;
+            //listview staticleases
+            ListViewExtender lve = new ListViewExtender(staticLeases_listview);
+            ListViewButtonColumn lvbcEdit = new ListViewButtonColumn(4);
+            lvbcEdit.Click += ListViewEditClick;
+            lvbcEdit.FixedWidth = true;
+            lve.AddColumn(lvbcEdit);
+            ListViewButtonColumn lvbcDelete = new ListViewButtonColumn(5);
+            lvbcDelete.Click += ListViewDeleteClick;
+            lvbcDelete.FixedWidth = true;
+            lve.AddColumn(lvbcDelete);
         }
 
         public void MainWindow_Shown(object sender, EventArgs e)
@@ -166,6 +176,18 @@ namespace GM4D
             this.overview_hostip_btn.Enabled = true;
             this.overview_setHostIp_panel.Visible = false;
         }
+
+        private void overview_dhcpDeamon_btn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                this.ioController.StartDHCPServer();
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message, "StartDHCPServer failed");
+            }
+        }
         #endregion OverviewPanel
 
         #region SettingsPanel
@@ -177,13 +199,15 @@ namespace GM4D
             {
                 if (settings.NetCalcTool.CheckSameSubnet(ipAddress.ToString(), settings.HostIP, settings.HostSubnet))
                 {
-                    setValidationOk(sender,"valid IP address");
+                    this.validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "");
+                    this.validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "valid IP address");
                     this.settings.IpRangeStart = ipAddress.ToString();
                 }
             }
             else
             {
-                setValidationError(sender,"please enter valid IP address");
+                validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "");
+                validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "please enter valid IP address");
             }
         }
 
@@ -349,23 +373,63 @@ namespace GM4D
         }
         #endregion Validation
 
-       
-
+        #region External
         public void ShowMessageBox(String text, String title)
         {
             MessageBox.Show(text, title);
         }
+        #endregion External
 
-        private void overview_dhcpDeamon_btn_Click(object sender, EventArgs e)
+        #region StaticLeases
+        private void staticLeases_input_btn_add_Click(object sender, EventArgs e)
         {
-            try
-            {
-                this.ioController.StartDHCPServer();
-            }
-            catch (Exception exc)
-            {
-                MessageBox.Show(exc.Message, "StartDHCPServer failed");
-            }
+            int i = this.settings.StaticLeases.Count + 1;
+            ListViewItem lvi = this.staticLeases_listview.Items.Add(""+i);
+            lvi.SubItems.Add(staticLeases_input_tb_name.Text);
+            lvi.SubItems.Add(staticLeases_input_tb_mac.Text);
+            lvi.SubItems.Add(staticLeases_input_tb_ip.Text);
+            lvi.SubItems.Add("edit");
+            lvi.SubItems.Add("delete");
+            this.settings.StaticLeases.Add(new StaticLease(i, staticLeases_input_tb_name.Text, staticLeases_input_tb_mac.Text, staticLeases_input_tb_ip.Text));
+            staticLeases_input_tb_name.Clear();
+            staticLeases_input_tb_mac.Clear();
+            staticLeases_input_tb_ip.Clear();
         }
+        private int listviewitemindex;
+        private void ListViewEditClick(object sender, ListViewColumnMouseEventArgs e)
+        {
+            int i = Convert.ToInt32(e.Item.Text);
+            listviewitemindex = e.Item.Index;
+            staticLeases_input_tb_name.Text = e.Item.SubItems[1].Text;
+            staticLeases_input_tb_mac.Text = e.Item.SubItems[2].Text;
+            staticLeases_input_tb_ip.IPAddress = System.Net.IPAddress.Parse(e.Item.SubItems[3].Text);
+            this.staticLeases_input_btn_add.Click -= staticLeases_input_btn_add_Click;            
+            this.staticLeases_input_btn_add.Click += staticLeases_input_btn_saveEdit_Click;
+        }
+        private void staticLeases_input_btn_saveEdit_Click(object sender, EventArgs e)
+        {
+            int i = listviewitemindex + 1;
+            ListViewItem lvi = new ListViewItem("" + i);
+            lvi.SubItems.Add(staticLeases_input_tb_name.Text);
+            lvi.SubItems.Add(staticLeases_input_tb_mac.Text);
+            lvi.SubItems.Add(staticLeases_input_tb_ip.Text);
+            lvi.SubItems.Add("edit");
+            lvi.SubItems.Add("delete");
+            this.staticLeases_listview.Items.RemoveAt(listviewitemindex);
+            this.staticLeases_listview.Items.Insert(listviewitemindex, lvi);
+            this.settings.StaticLeases[listviewitemindex] = new StaticLease(i, staticLeases_input_tb_name.Text, staticLeases_input_tb_mac.Text, staticLeases_input_tb_ip.Text);
+            staticLeases_input_tb_name.Clear();
+            staticLeases_input_tb_mac.Clear();
+            staticLeases_input_tb_ip.Clear();
+            this.staticLeases_input_btn_add.Click += staticLeases_input_btn_add_Click;
+            this.staticLeases_input_btn_add.Click -= staticLeases_input_btn_saveEdit_Click;
+            listviewitemindex = 0;
+        }
+        private void ListViewDeleteClick(object sender, ListViewColumnMouseEventArgs e)
+        {
+            this.staticLeases_listview.Items.RemoveAt(e.Item.Index);
+            this.settings.StaticLeases.RemoveAt(e.Item.Index);
+        }
+        #endregion StaticLeases
     }
 }

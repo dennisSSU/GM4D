@@ -76,6 +76,12 @@
             this.secondaryDNS_input = new IPAddressControlLib.IPAddressControl();
             this.staticLeases_panelMain = new System.Windows.Forms.FlowLayoutPanel();
             this.staticLeases_listview = new System.Windows.Forms.ListView();
+            this.columnId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnDeviceName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnMACaddress = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnIPaddress = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnedit = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columndelete = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.staticLeases_input_lbl = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.staticLeases_input_lbl_name = new System.Windows.Forms.Label();
@@ -87,8 +93,14 @@
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.staticLeases_input_tb_mac = new System.Windows.Forms.TextBox();
             this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
-            this.staticLeases_input_tb_ip = new GM4D.IpInput();
+            this.staticLeases_input_tb_ip = new IPAddressControlLib.IPAddressControl();
             this.clients_panelMain = new System.Windows.Forms.FlowLayoutPanel();
+            this.clients_lbl = new System.Windows.Forms.Label();
+            this.listView1 = new System.Windows.Forms.ListView();
+            this.columnClientsID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnClientsName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnClientsIP = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnClientsMAC = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.overview_panelMain = new System.Windows.Forms.FlowLayoutPanel();
             this.overview_tablepanel = new System.Windows.Forms.TableLayoutPanel();
             this.overview_hostip_lbl = new System.Windows.Forms.Label();
@@ -136,6 +148,9 @@
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.statusRequired = new System.Windows.Forms.ErrorProvider(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.columnClientsLeaseStart = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnClientsLeaseEnd = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnClientsAddToStatic = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.menu_panelMain.SuspendLayout();
             this.settings_panelMain.SuspendLayout();
             this.settings_panelInfo.SuspendLayout();
@@ -153,6 +168,7 @@
             this.flowLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel3.SuspendLayout();
+            this.clients_panelMain.SuspendLayout();
             this.overview_panelMain.SuspendLayout();
             this.overview_tablepanel.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -800,12 +816,49 @@
             // 
             this.staticLeases_listview.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.staticLeases_listview.CausesValidation = false;
+            this.staticLeases_listview.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnId,
+            this.columnDeviceName,
+            this.columnMACaddress,
+            this.columnIPaddress,
+            this.columnedit,
+            this.columndelete});
+            this.staticLeases_listview.FullRowSelect = true;
             this.staticLeases_listview.Location = new System.Drawing.Point(3, 3);
             this.staticLeases_listview.MultiSelect = false;
             this.staticLeases_listview.Name = "staticLeases_listview";
-            this.staticLeases_listview.Size = new System.Drawing.Size(500, 320);
+            this.staticLeases_listview.Size = new System.Drawing.Size(516, 320);
             this.staticLeases_listview.TabIndex = 0;
             this.staticLeases_listview.UseCompatibleStateImageBehavior = false;
+            this.staticLeases_listview.View = System.Windows.Forms.View.Details;
+            // 
+            // columnId
+            // 
+            this.columnId.Text = "ID";
+            this.columnId.Width = 36;
+            // 
+            // columnDeviceName
+            // 
+            this.columnDeviceName.Text = "Name";
+            this.columnDeviceName.Width = 88;
+            // 
+            // columnMACaddress
+            // 
+            this.columnMACaddress.Text = "MAC address";
+            this.columnMACaddress.Width = 131;
+            // 
+            // columnIPaddress
+            // 
+            this.columnIPaddress.Text = "IP address";
+            this.columnIPaddress.Width = 134;
+            // 
+            // columnedit
+            // 
+            this.columnedit.Text = "";
+            // 
+            // columndelete
+            // 
+            this.columndelete.Text = "";
             // 
             // staticLeases_input_lbl
             // 
@@ -843,8 +896,9 @@
             // 
             // staticLeases_input_lbl_name
             // 
+            this.staticLeases_input_lbl_name.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.staticLeases_input_lbl_name.AutoSize = true;
-            this.staticLeases_input_lbl_name.Location = new System.Drawing.Point(3, 0);
+            this.staticLeases_input_lbl_name.Location = new System.Drawing.Point(3, 3);
             this.staticLeases_input_lbl_name.Name = "staticLeases_input_lbl_name";
             this.staticLeases_input_lbl_name.Size = new System.Drawing.Size(51, 20);
             this.staticLeases_input_lbl_name.TabIndex = 0;
@@ -852,8 +906,9 @@
             // 
             // staticLeases_input_lbl_mac
             // 
+            this.staticLeases_input_lbl_mac.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.staticLeases_input_lbl_mac.AutoSize = true;
-            this.staticLeases_input_lbl_mac.Location = new System.Drawing.Point(183, 0);
+            this.staticLeases_input_lbl_mac.Location = new System.Drawing.Point(183, 3);
             this.staticLeases_input_lbl_mac.Name = "staticLeases_input_lbl_mac";
             this.staticLeases_input_lbl_mac.Size = new System.Drawing.Size(105, 20);
             this.staticLeases_input_lbl_mac.TabIndex = 1;
@@ -861,8 +916,9 @@
             // 
             // staticLeases_input_lbl_ip
             // 
+            this.staticLeases_input_lbl_ip.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.staticLeases_input_lbl_ip.AutoSize = true;
-            this.staticLeases_input_lbl_ip.Location = new System.Drawing.Point(363, 0);
+            this.staticLeases_input_lbl_ip.Location = new System.Drawing.Point(363, 3);
             this.staticLeases_input_lbl_ip.Name = "staticLeases_input_lbl_ip";
             this.staticLeases_input_lbl_ip.Size = new System.Drawing.Size(85, 20);
             this.staticLeases_input_lbl_ip.TabIndex = 2;
@@ -870,12 +926,19 @@
             // 
             // staticLeases_input_btn_add
             // 
+            this.staticLeases_input_btn_add.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.staticLeases_input_btn_add.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.staticLeases_input_btn_add.FlatAppearance.BorderSize = 0;
+            this.staticLeases_input_btn_add.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.staticLeases_input_btn_add.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.Control;
+            this.staticLeases_input_btn_add.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.staticLeases_input_btn_add.Location = new System.Drawing.Point(543, 30);
             this.staticLeases_input_btn_add.Name = "staticLeases_input_btn_add";
-            this.staticLeases_input_btn_add.Size = new System.Drawing.Size(75, 31);
+            this.staticLeases_input_btn_add.Size = new System.Drawing.Size(100, 34);
             this.staticLeases_input_btn_add.TabIndex = 6;
             this.staticLeases_input_btn_add.Text = "save";
-            this.staticLeases_input_btn_add.UseVisualStyleBackColor = true;
+            this.staticLeases_input_btn_add.UseVisualStyleBackColor = false;
+            this.staticLeases_input_btn_add.Click += new System.EventHandler(this.staticLeases_input_btn_add_Click);
             // 
             // flowLayoutPanel1
             // 
@@ -887,6 +950,7 @@
             // 
             // staticLeases_input_tb_name
             // 
+            this.staticLeases_input_tb_name.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.staticLeases_input_tb_name.Location = new System.Drawing.Point(3, 3);
             this.staticLeases_input_tb_name.Name = "staticLeases_input_tb_name";
             this.staticLeases_input_tb_name.Size = new System.Drawing.Size(112, 26);
@@ -902,6 +966,7 @@
             // 
             // staticLeases_input_tb_mac
             // 
+            this.staticLeases_input_tb_mac.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.staticLeases_input_tb_mac.Location = new System.Drawing.Point(3, 3);
             this.staticLeases_input_tb_mac.Name = "staticLeases_input_tb_mac";
             this.staticLeases_input_tb_mac.Size = new System.Drawing.Size(111, 26);
@@ -917,17 +982,20 @@
             // 
             // staticLeases_input_tb_ip
             // 
-            this.staticLeases_input_tb_ip.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.staticLeases_input_tb_ip.ImgError = null;
-            this.staticLeases_input_tb_ip.ImgOk = null;
-            this.staticLeases_input_tb_ip.ImgRequired = null;
-            this.staticLeases_input_tb_ip.Location = new System.Drawing.Point(3, 4);
-            this.staticLeases_input_tb_ip.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.staticLeases_input_tb_ip.MinimumSize = new System.Drawing.Size(180, 30);
+            this.staticLeases_input_tb_ip.AllowInternalTab = false;
+            this.staticLeases_input_tb_ip.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.staticLeases_input_tb_ip.AutoHeight = true;
+            this.staticLeases_input_tb_ip.BackColor = System.Drawing.SystemColors.Window;
+            this.staticLeases_input_tb_ip.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.staticLeases_input_tb_ip.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.staticLeases_input_tb_ip.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.staticLeases_input_tb_ip.Location = new System.Drawing.Point(3, 3);
+            this.staticLeases_input_tb_ip.MinimumSize = new System.Drawing.Size(99, 22);
             this.staticLeases_input_tb_ip.Name = "staticLeases_input_tb_ip";
-            this.staticLeases_input_tb_ip.Required = false;
-            this.staticLeases_input_tb_ip.Size = new System.Drawing.Size(198, 30);
-            this.staticLeases_input_tb_ip.TabIndex = 5;
+            this.staticLeases_input_tb_ip.ReadOnly = false;
+            this.staticLeases_input_tb_ip.Size = new System.Drawing.Size(150, 22);
+            this.staticLeases_input_tb_ip.TabIndex = 1;
+            this.staticLeases_input_tb_ip.Text = "...";
             // 
             // clients_panelMain
             // 
@@ -936,12 +1004,61 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.clients_panelMain.AutoScroll = true;
             this.clients_panelMain.BackColor = System.Drawing.Color.Red;
+            this.clients_panelMain.Controls.Add(this.clients_lbl);
+            this.clients_panelMain.Controls.Add(this.listView1);
+            this.clients_panelMain.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.clients_panelMain.Location = new System.Drawing.Point(140, 0);
             this.clients_panelMain.Margin = new System.Windows.Forms.Padding(0);
             this.clients_panelMain.Name = "clients_panelMain";
             this.clients_panelMain.Size = new System.Drawing.Size(732, 547);
             this.clients_panelMain.TabIndex = 5;
             this.clients_panelMain.Visible = false;
+            // 
+            // clients_lbl
+            // 
+            this.clients_lbl.AutoSize = true;
+            this.clients_lbl.Location = new System.Drawing.Point(3, 0);
+            this.clients_lbl.Name = "clients_lbl";
+            this.clients_lbl.Size = new System.Drawing.Size(136, 20);
+            this.clients_lbl.TabIndex = 1;
+            this.clients_lbl.Text = "Connected clients";
+            // 
+            // listView1
+            // 
+            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnClientsID,
+            this.columnClientsName,
+            this.columnClientsIP,
+            this.columnClientsMAC,
+            this.columnClientsLeaseStart,
+            this.columnClientsLeaseEnd,
+            this.columnClientsAddToStatic});
+            this.listView1.Location = new System.Drawing.Point(3, 23);
+            this.listView1.Name = "listView1";
+            this.listView1.Size = new System.Drawing.Size(717, 385);
+            this.listView1.TabIndex = 0;
+            this.listView1.UseCompatibleStateImageBehavior = false;
+            this.listView1.View = System.Windows.Forms.View.Details;
+            // 
+            // columnClientsID
+            // 
+            this.columnClientsID.Text = "ID";
+            this.columnClientsID.Width = 44;
+            // 
+            // columnClientsName
+            // 
+            this.columnClientsName.Text = "Host Name";
+            this.columnClientsName.Width = 104;
+            // 
+            // columnClientsIP
+            // 
+            this.columnClientsIP.Text = "Assigned IP";
+            this.columnClientsIP.Width = 105;
+            // 
+            // columnClientsMAC
+            // 
+            this.columnClientsMAC.Text = "MAC Address";
+            this.columnClientsMAC.Width = 121;
             // 
             // overview_panelMain
             // 
@@ -1493,6 +1610,21 @@
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
+            // columnClientsLeaseStart
+            // 
+            this.columnClientsLeaseStart.Text = "Lease Start";
+            this.columnClientsLeaseStart.Width = 108;
+            // 
+            // columnClientsLeaseEnd
+            // 
+            this.columnClientsLeaseEnd.Text = "Lease End";
+            this.columnClientsLeaseEnd.Width = 112;
+            // 
+            // columnClientsAddToStatic
+            // 
+            this.columnClientsAddToStatic.Text = "Add Static";
+            this.columnClientsAddToStatic.Width = 96;
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -1501,10 +1633,10 @@
             this.ClientSize = new System.Drawing.Size(872, 617);
             this.Controls.Add(this.menuBottom_panelMain);
             this.Controls.Add(this.menu_panelMain);
+            this.Controls.Add(this.clients_panelMain);
             this.Controls.Add(this.overview_panelMain);
             this.Controls.Add(this.settings_panelMain);
             this.Controls.Add(this.staticLeases_panelMain);
-            this.Controls.Add(this.clients_panelMain);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
@@ -1535,6 +1667,8 @@
             this.flowLayoutPanel2.ResumeLayout(false);
             this.flowLayoutPanel2.PerformLayout();
             this.flowLayoutPanel3.ResumeLayout(false);
+            this.clients_panelMain.ResumeLayout(false);
+            this.clients_panelMain.PerformLayout();
             this.overview_panelMain.ResumeLayout(false);
             this.overview_tablepanel.ResumeLayout(false);
             this.overview_tablepanel.PerformLayout();
@@ -1625,7 +1759,6 @@
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
         private System.Windows.Forms.TextBox staticLeases_input_tb_mac;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel3;
-        private IpInput staticLeases_input_tb_ip;
         private System.Windows.Forms.TableLayoutPanel overview_tablepanel;
         private System.Windows.Forms.Label overview_hostip_lbl;
         private System.Windows.Forms.Label overview_hostip_status_lbl;
@@ -1663,6 +1796,22 @@
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel5;
         private System.Windows.Forms.Button overview_setHostIp_cancel_btn;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel4;
+        private System.Windows.Forms.ColumnHeader columnDeviceName;
+        private System.Windows.Forms.ColumnHeader columnMACaddress;
+        private System.Windows.Forms.ColumnHeader columnIPaddress;
+        private System.Windows.Forms.ColumnHeader columnedit;
+        private IPAddressControlLib.IPAddressControl staticLeases_input_tb_ip;
+        private System.Windows.Forms.ColumnHeader columndelete;
+        private System.Windows.Forms.ColumnHeader columnId;
+        private System.Windows.Forms.Label clients_lbl;
+        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.ColumnHeader columnClientsID;
+        private System.Windows.Forms.ColumnHeader columnClientsName;
+        private System.Windows.Forms.ColumnHeader columnClientsIP;
+        private System.Windows.Forms.ColumnHeader columnClientsMAC;
+        private System.Windows.Forms.ColumnHeader columnClientsLeaseStart;
+        private System.Windows.Forms.ColumnHeader columnClientsLeaseEnd;
+        private System.Windows.Forms.ColumnHeader columnClientsAddToStatic;
     }
 }
 

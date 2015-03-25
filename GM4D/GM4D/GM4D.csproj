@@ -93,6 +93,7 @@
     <Compile Include="HostNIC.cs" />
     <Compile Include="InputValidation.cs" />
     <Compile Include="IOController.cs" />
+    <Compile Include="ListViewExtender.cs" />
     <Compile Include="NetCalcTool.cs" />
     <Compile Include="IpInput.cs">
       <SubType>UserControl</SubType>
@@ -109,6 +110,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StaticLease.cs" />
     <Compile Include="SubnetMask.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
