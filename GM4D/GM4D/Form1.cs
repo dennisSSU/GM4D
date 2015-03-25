@@ -72,6 +72,102 @@ namespace GM4D
         }
         #endregion MenuPanel
 
+        #region OverviewPanel
+        private void overview_validateIpInput(object sender, EventArgs e)
+        {
+            System.Net.IPAddress ipAddress;
+            if (System.Net.IPAddress.TryParse(((IPAddressControlLib.IPAddressControl)sender).Text, out ipAddress))
+            {
+                if (settings.NetCalcTool.CheckSameSubnet(ipAddress.ToString(), settings.HostIP, settings.HostSubnet))
+                {
+                    this.validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "");
+                    this.validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "valid IP address");
+                    this.settings.NewHostIP = ipAddress.ToString();
+                }
+            }
+            else
+            {
+                validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "");
+                validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "please enter valid IP address");
+            }
+        }
+
+        private void overview_validateSubnetMaskInput(object sender, EventArgs e)
+        {
+            System.Net.IPAddress ipAddress;
+            if (System.Net.IPAddress.TryParse(((IPAddressControlLib.IPAddressControl)sender).Text, out ipAddress))
+            {
+                this.validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "");
+                this.validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "valid subnet mask");
+                this.settings.NewHostSubnetMask = ipAddress.ToString();
+            }
+            else
+            {
+                validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "");
+                validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "please enter valid subnet mask");
+            }
+        }
+
+        private void overview_hostip_btn_Click(object sender, EventArgs e)
+        {
+            this.overview_setHostIp_panel.Visible = true;
+            ((Button)sender).Enabled = false;
+            if (this.settings.HostIpIsSet && this.settings.HostSubnetMaskIsSet)
+            {
+                this.overview_setHostIp_ip_ipinput.Text = this.settings.HostIP;
+                this.overview_setHostIp_subnetmask_ipinput.Text = this.settings.HostSubnetMask;
+            }
+        }
+
+        private void overview_setHostIp_set_btn_Click(object sender, EventArgs e)
+        {
+            this.overview_setHostIp_ip_ipinput.Focus();
+            this.overview_setHostIp_subnetmask_ipinput.Focus();
+            this.overview_panelMain.Focus();
+            if (this.settings.NewHostIpIsSet && this.settings.NewHostSubnetMaskIsSet)
+            {
+                try
+                {
+                    this.ioController.SetNewHostIp();
+                }
+                catch (Exception exc)
+                {
+                    MessageBox.Show("This is only supported on a Unix machine.", exc.Message);
+                }
+                this.overview_hostip_btn.Enabled = true;
+                this.overview_setHostIp_panel.Visible = false;
+            }
+            else
+            {
+                MessageBox.Show("Please enter valid IP address and subnetmask before saving");
+            }
+        }
+
+        private void overview_hostip_info_subnetMask_lbl_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void overview_dhcpServer_btn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                this.ioController.InstallDHCPServer();
+                this.ioController.GetDHCPServerInstallStatus();
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message, "Failed to install DHCP server");
+            }
+        }
+
+        private void overview_setHostIp_cancel_btn_Click(object sender, EventArgs e)
+        {
+            this.overview_hostip_btn.Enabled = true;
+            this.overview_setHostIp_panel.Visible = false;
+        }
+        #endregion OverviewPanel
+
         #region SettingsPanel
         private void settings_validateIpInput(object sender, EventArgs e)
         {
@@ -253,5 +349,23 @@ namespace GM4D
         }
         #endregion Validation
 
+       
+
+        public void ShowMessageBox(String text, String title)
+        {
+            MessageBox.Show(text, title);
+        }
+
+        private void overview_dhcpDeamon_btn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                this.ioController.StartDHCPServer();
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message, "StartDHCPServer failed");
+            }
+        }
     }
 }

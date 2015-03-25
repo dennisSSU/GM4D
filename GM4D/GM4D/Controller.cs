@@ -30,8 +30,17 @@ namespace GM4D
 
         private void mainWindow_Shown(object sender, EventArgs e)
         {
-            this.ioController.getHostInfo();
+            this.ioController.GetHostInfo();
             settings.selectInterface(0);
+            try
+            {
+                this.ioController.GetDHCPServerInstallStatus();
+                this.ioController.GetDHCPServerStatus();
+            }
+            catch (Exception exc)
+            {
+                mainWindow.ShowMessageBox(exc.Message,"Failed to get DHCP server status");
+            }
         }
 
 

@@ -25,6 +25,8 @@ namespace GM4D
             this.IpRangeEndIsSet = false;
             this.HostNameIsSet = false;
             this.HostGatewayIsSet = false;
+            this.NewHostIpIsSet = false;
+            this.NewHostSubnetMaskIsSet = false;
             this.Interfaces = new ArrayList();
             this.NetCalcTool = new NetCalcTool();
         }
@@ -90,7 +92,41 @@ namespace GM4D
                 NotifyPropertyChanged(this.HostIP);
             }
         }
-        public bool HostHasStaticIp { get; set; }
+        public bool NewHostIpIsSet { get; private set; }
+        private String newHostIP;
+        public String NewHostIP
+        {
+            get
+            {
+                return this.newHostIP;
+            }
+            set
+            {
+                this.newHostIP = value;
+                this.NewHostIpIsSet = true;
+                NotifyPropertyChanged(this.NewHostIP);
+            }
+        }
+        private bool hostHasStaticIp;
+        public bool HostHasStaticIp 
+        {
+            get 
+            {
+                return this.hostHasStaticIp;
+            } 
+            set
+            {
+                this.hostHasStaticIp = value;
+                if (hostHasStaticIp)
+                {
+                    this.OverviewDhcpStatus = "static";
+                }
+                else
+                {
+                    this.OverviewDhcpStatus = "dynamic";
+                }
+            }
+        }
         public bool HostNameIsSet { get; private set; }
         private String hostName;
         public String HostName
@@ -119,6 +155,21 @@ namespace GM4D
                 this.hostSubnetMask = value;
                 this.HostSubnetMaskIsSet = true;
                 NotifyPropertyChanged(HostSubnetMask);
+            }
+        }
+        public bool NewHostSubnetMaskIsSet { get; private set; }
+        private String newHostSubnetMask;
+        public String NewHostSubnetMask
+        {
+            get
+            {
+                return this.newHostSubnetMask;
+            }
+            set
+            {
+                this.newHostSubnetMask = value;
+                this.NewHostSubnetMaskIsSet = true;
+                NotifyPropertyChanged(NewHostSubnetMask);
             }
         }
         public bool HostSubnetIsSet { get; private set; }
@@ -330,7 +381,49 @@ namespace GM4D
                 NotifyPropertyChanged(MaxLeaseTime);
             }
         }
+        public bool IsDHCPServerRunning { get; set; }
         #endregion network
+        #region GUIStatus
+        private string overviewDhcpStatus;
+        public String OverviewDhcpStatus
+        {
+            get
+            {
+                return this.overviewDhcpStatus;
+            }
+            set
+            {
+                this.overviewDhcpStatus = value;
+                NotifyPropertyChanged(this.OverviewDhcpStatus);
+            }
+        }
+        private String overviewDhcpServerInstallStatus;
+        public String OverviewDhcpServerInstallStatus
+        {
+            get
+            {
+                return this.overviewDhcpServerInstallStatus;
+            }
+            set
+            {
+                this.overviewDhcpServerInstallStatus = value;
+                NotifyPropertyChanged(this.OverviewDhcpServerInstallStatus);
+            }
+        }
+        private String overviewDhcpServerStatus;
+        public String OverviewDhcpServerStatus
+        {
+            get
+            {
+                return this.overviewDhcpServerStatus;
+            }
+            set
+            {
+                this.overviewDhcpServerStatus = value;
+                NotifyPropertyChanged(this.OverviewDhcpServerStatus);
+            }
+        }
+        #endregion GUIStatus
         public NetCalcTool NetCalcTool { get; set; }
 
         public const string test = "this is a test";

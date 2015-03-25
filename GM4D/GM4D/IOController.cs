@@ -20,7 +20,7 @@ namespace GM4D
         {
             SaveSettingsToFileDelegate saveSettingsToFileDelegate = null;
             saveSettingsToFileDelegate = new SaveSettingsToFileDelegate(writeSettingsToFile);
-            IAsyncResult saveSettingsToFileResult = saveSettingsToFileDelegate.BeginInvoke(filename, saveSettingsToFileComplete, null);
+            IAsyncResult saveSettingsToFileResult = saveSettingsToFileDelegate.BeginInvoke(filename, SaveSettingsToFileComplete, null);
         }
         private void writeSettingsToFile(String filename)
         {
@@ -57,13 +57,71 @@ namespace GM4D
             dhcpConfig += "}";
             return dhcpConfig;
         } 
-        public static void saveSettingsToFileComplete(IAsyncResult result)
+        public static void SaveSettingsToFileComplete(IAsyncResult result)
         {
         }
 
         public void LoadSettingsFile(String filename)
         {
 
+        }
+
+        public void SetNewHostIp()
+        {
+            if (Environment.OSVersion.ToString().Contains("Unix"))
+            {
+                SaveSettingsFile(Environment.CurrentDirectory.ToString() + "/dhcpd.gm4d");
+                var psi = new System.Diagnostics.ProcessStartInfo
+                {
+                    FileName = "/bin/bash",
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    Arguments = string.Format("-c \"gksudo ifconfig " + ((HostNIC)this.settings.Interfaces[this.settings.SelectedInterface]).Id + " " + this.settings.NewHostIP + " netmask " + this.settings.NewHostSubnetMask + "\"")
+                };
+
+                using (var p = System.Diagnostics.Process.Start(psi))
+                {
+                    if (p != null)
+                    {
+                        var strOutput = p.StandardOutput.ReadToEnd();
+                        p.WaitForExit();
+                    }
+                }
+                GetHostInfo();
+            }
+            else
+            {
+                throw new System.Exception("Error in IOController - ApplySettingsToDHCPServer - System is not a Unix environment");
+            }
+        }
+
+        public void InstallDHCPServer()
+        {
+            if (Environment.OSVersion.ToString().Contains("Unix"))
+            {
+
+                SaveSettingsFile(Environment.CurrentDirectory.ToString() + "/dhcpd.gm4d");
+                var psi = new System.Diagnostics.ProcessStartInfo
+                {
+                    FileName = "/bin/bash",
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    Arguments = string.Format("-c \"gksudo apt-get install isc-dhcp-server\"")
+                };
+
+                using (var p = System.Diagnostics.Process.Start(psi))
+                {
+                    if (p != null)
+                    {
+                        var strOutput = p.StandardOutput.ReadToEnd();
+                        p.WaitForExit();
+                    }
+                }
+            }
+            else
+            {
+                throw new System.Exception("Error in IOController - ApplySettingsToDHCPServer - System is not a Unix environment");
+            }
         }
 
         public void ApplySettingsToDHCPServer()
@@ -95,7 +153,7 @@ namespace GM4D
             }
         }
 
-        public void getHostInfo()
+        public void GetHostInfo()
         {
             NetworkInterface[] nics = NetworkInterface.GetAllNetworkInterfaces();
             IPGlobalProperties properties = IPGlobalProperties.GetIPGlobalProperties();
@@ -145,16 +203,9 @@ namespace GM4D
                         }
                         catch (NotImplementedException e)
                         {
-                            try
-                            {
-                                // workaround to get subnetmask in unix using mono if IPv4Mask fails
-                                snetMask = SubnetMask.GetIPv4Mask(adapter.Name);
-                            }
-                            catch (Exception ex)
-                            {
-                                System.Console.WriteLine("Errror in IOController getHostInfo - not able to get subnet mask" + ex);
-                                snetMask = "";
-                            }
+                            // workaround to get subnetmask in unix using mono if IPv4Mask fails
+                            snetMask = "";    
+                            snetMask = SubnetMask.GetIPv4Mask(adapter.Name);
                         }
                         nic.SubnetMask = snetMask;
                     }
@@ -181,6 +232,155 @@ namespace GM4D
                 }
                 settings.Interfaces.Add(nic);
                 System.Console.WriteLine(nic);
+            }
+        }
+
+        public void GetDHCPServerInstallStatus()
+        {
+            this.settings.OverviewDhcpServerInstallStatus = "not installed";
+            if (Environment.OSVersion.ToString().Contains("Unix"))
+            {
+                SaveSettingsFile(Environment.CurrentDirectory.ToString() + "/dhcpd.gm4d");
+                var psi = new System.Diagnostics.ProcessStartInfo
+                {
+                    FileName = "/bin/bash",
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    Arguments = string.Format("-c \" dpkg-query -s isc-dhcp-server | head -n2 | tail -n1 | cut -f3 -d' '\"")
+                };
+                using (var p = System.Diagnostics.Process.Start(psi))
+                {
+                    if (p != null)
+                    {
+                        var strOutput = p.StandardOutput.ReadToEnd();
+                        p.WaitForExit();
+                        if (strOutput.Length == 3)
+                        {
+                            this.settings.OverviewDhcpServerInstallStatus = "installed";
+                        }
+                    }
+                }
+            }
+            else
+            {
+                throw new System.Exception("Error in IOController - getDHCPServerInstallStatus - System is not a Unix environment");
+            }
+        }
+
+        public void GetDHCPServerStatus()
+        {
+            this.settings.OverviewDhcpServerStatus = "no status";
+            if (Environment.OSVersion.ToString().Contains("Unix"))
+            {
+                SaveSettingsFile(Environment.CurrentDirectory.ToString() + "/dhcpd.gm4d");
+                var psi = new System.Diagnostics.ProcessStartInfo
+                {
+                    FileName = "/bin/bash",
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    Arguments = string.Format("-c \"service isc-dhcp-server status\"")
+                };
+                using (var p = System.Diagnostics.Process.Start(psi))
+                {
+                    if (p != null)
+                    {
+                        var strOutput = p.StandardOutput.ReadToEnd();
+                        p.WaitForExit();
+                        Console.WriteLine("\n\nGetDHCPServerStatus\n"+strOutput);
+                        this.settings.OverviewDhcpServerStatus = strOutput.Split(' ')[1];
+                        if (strOutput.Split(' ')[1].Contains("stop"))
+                        {
+                            this.settings.IsDHCPServerRunning = false;
+                        }
+                        else
+                        {
+                            this.settings.IsDHCPServerRunning = true;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                throw new System.Exception("Error in IOController - GetDHCPServerStatus - System is not a Unix environment");
+            }
+        }
+
+        public void StartDHCPServer()
+        {
+            if (Environment.OSVersion.ToString().Contains("Unix"))
+            {
+                SaveSettingsFile(Environment.CurrentDirectory.ToString() + "/dhcpd.gm4d");
+                var psi = new System.Diagnostics.ProcessStartInfo
+                {
+                    FileName = "/bin/bash",
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    Arguments = string.Format("-c \"service isc-dhcp-server start\"")
+                };
+                using (var p = System.Diagnostics.Process.Start(psi))
+                {
+                    if (p != null)
+                    {
+                        var strOutput = p.StandardOutput.ReadToEnd();
+                        p.WaitForExit();
+                    }
+                }
+            }
+            else
+            {
+                throw new System.Exception("Error in IOController - StartDHCPServer - System is not a Unix environment");
+            }
+        }
+        public void StopDHCPServer()
+        {
+            if (Environment.OSVersion.ToString().Contains("Unix"))
+            {
+                SaveSettingsFile(Environment.CurrentDirectory.ToString() + "/dhcpd.gm4d");
+                var psi = new System.Diagnostics.ProcessStartInfo
+                {
+                    FileName = "/bin/bash",
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    Arguments = string.Format("-c \"service isc-dhcp-server stop\"")
+                };
+                using (var p = System.Diagnostics.Process.Start(psi))
+                {
+                    if (p != null)
+                    {
+                        var strOutput = p.StandardOutput.ReadToEnd();
+                        p.WaitForExit();
+                    }
+                }
+            }
+            else
+            {
+                throw new System.Exception("Error in IOController - StartDHCPServer - System is not a Unix environment");
+            }
+        }
+        public void RestartDHCPServer()
+        {
+            if (Environment.OSVersion.ToString().Contains("Unix"))
+            {
+                SaveSettingsFile(Environment.CurrentDirectory.ToString() + "/dhcpd.gm4d");
+                var psi = new System.Diagnostics.ProcessStartInfo
+                {
+                    FileName = "/bin/bash",
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    Arguments = string.Format("-c \"service isc-dhcp-server restart\"")
+                };
+                using (var p = System.Diagnostics.Process.Start(psi))
+                {
+                    if (p != null)
+                    {
+                        var strOutput = p.StandardOutput.ReadToEnd();
+                        p.WaitForExit();
+                    }
+                }
+            }
+            else
+            {
+                throw new System.Exception("Error in IOController - StartDHCPServer - System is not a Unix environment");
             }
         }
     }
