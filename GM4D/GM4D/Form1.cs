@@ -88,12 +88,9 @@ namespace GM4D
             System.Net.IPAddress ipAddress;
             if (System.Net.IPAddress.TryParse(((IPAddressControlLib.IPAddressControl)sender).Text, out ipAddress))
             {
-                if (settings.NetCalcTool.CheckSameSubnet(ipAddress.ToString(), settings.HostIP, settings.HostSubnet))
-                {
-                    this.validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "");
-                    this.validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "valid IP address");
-                    this.settings.NewHostIP = ipAddress.ToString();
-                }
+                this.validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "");
+                this.validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "valid IP address");
+                this.settings.NewHostIP = ipAddress.ToString();
             }
             else
             {
@@ -146,16 +143,28 @@ namespace GM4D
                 }
                 this.overview_hostip_btn.Enabled = true;
                 this.overview_setHostIp_panel.Visible = false;
+                this.validationStatus_error.SetError(this.overview_setHostIp_ip_ipinput, "");
+                this.validationStatus_ok.SetError(this.overview_setHostIp_ip_ipinput, "");
+                this.validationStatus_error.SetError(this.overview_setHostIp_subnetmask_ipinput, "");
+                this.validationStatus_ok.SetError(this.overview_setHostIp_subnetmask_ipinput, "");
             }
             else
             {
                 MessageBox.Show("Please enter valid IP address and subnetmask before saving");
             }
         }
-
-        private void overview_hostip_info_subnetMask_lbl_Click(object sender, EventArgs e)
+        private void overview_setHostIp_cancel_btn_Click(object sender, EventArgs e)
         {
-
+            this.overview_hostip_btn.Enabled = true;
+            this.overview_setHostIp_panel.Visible = false;
+            this.settings.NewHostIpIsSet = false;
+            this.settings.NewHostSubnetMaskIsSet = false;
+            this.overview_setHostIp_ip_ipinput.Clear();
+            this.overview_setHostIp_subnetmask_ipinput.Clear();
+            this.validationStatus_error.SetError(this.overview_setHostIp_ip_ipinput, "");
+            this.validationStatus_ok.SetError(this.overview_setHostIp_ip_ipinput, "");
+            this.validationStatus_error.SetError(this.overview_setHostIp_subnetmask_ipinput, "");
+            this.validationStatus_ok.SetError(this.overview_setHostIp_subnetmask_ipinput, "");
         }
 
         private void overview_dhcpServer_btn_Click(object sender, EventArgs e)
@@ -171,21 +180,33 @@ namespace GM4D
             }
         }
 
-        private void overview_setHostIp_cancel_btn_Click(object sender, EventArgs e)
-        {
-            this.overview_hostip_btn.Enabled = true;
-            this.overview_setHostIp_panel.Visible = false;
-        }
+       
 
         private void overview_dhcpDeamon_btn_Click(object sender, EventArgs e)
         {
-            try
+            if (this.settings.IsDHCPServerRunning)
             {
-                this.ioController.StartDHCPServer();
+                try
+                {
+                    this.ioController.StopDHCPServer();
+                    ((Button)sender).Text = "start";
+                }
+                catch (Exception exc)
+                {
+                    MessageBox.Show(exc.Message, "StopDHCPServer failed");
+                }
             }
-            catch (Exception exc)
+            else
             {
-                MessageBox.Show(exc.Message, "StartDHCPServer failed");
+                try
+                {
+                    this.ioController.StartDHCPServer();
+                    ((Button)sender).Text = "stop";
+                }
+                catch (Exception exc)
+                {
+                    MessageBox.Show(exc.Message, "StartDHCPServer failed");
+                }
             }
         }
         #endregion OverviewPanel

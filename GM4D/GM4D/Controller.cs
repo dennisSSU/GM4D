@@ -41,6 +41,7 @@ namespace GM4D
             {
                 mainWindow.ShowMessageBox(exc.Message,"Failed to get DHCP server status");
             }
+
         }
 
 

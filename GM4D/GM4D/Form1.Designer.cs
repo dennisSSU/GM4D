@@ -41,7 +41,6 @@
             this.hostIP_lbl = new System.Windows.Forms.Label();
             this.hostSubnetMask_lbl = new System.Windows.Forms.Label();
             this.hostSubnetMask_tb = new System.Windows.Forms.TextBox();
-            this.settingsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.hostIP_lblInfo = new System.Windows.Forms.Label();
             this.hostSubnetMask_lblInfo = new System.Windows.Forms.Label();
             this.hostIP_tb = new System.Windows.Forms.TextBox();
@@ -101,6 +100,9 @@
             this.columnClientsName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnClientsIP = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnClientsMAC = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnClientsLeaseStart = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnClientsLeaseEnd = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnClientsAddToStatic = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.overview_panelMain = new System.Windows.Forms.FlowLayoutPanel();
             this.overview_tablepanel = new System.Windows.Forms.TableLayoutPanel();
             this.overview_hostip_lbl = new System.Windows.Forms.Label();
@@ -148,13 +150,10 @@
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.statusRequired = new System.Windows.Forms.ErrorProvider(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.columnClientsLeaseStart = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnClientsLeaseEnd = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnClientsAddToStatic = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.settingsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.menu_panelMain.SuspendLayout();
             this.settings_panelMain.SuspendLayout();
             this.settings_panelInfo.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.settingsBindingSource)).BeginInit();
             this.settings_panelInput.SuspendLayout();
             this.ipRangeEnde_panelInput.SuspendLayout();
             this.ipRangeStart_panelInput.SuspendLayout();
@@ -181,6 +180,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.validationStatus_ok)).BeginInit();
             this.menuBottom_panelMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.statusRequired)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.settingsBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // menu_btnOverview
@@ -355,10 +355,6 @@
             this.hostSubnetMask_tb.TabIndex = 0;
             this.hostSubnetMask_tb.TabStop = false;
             // 
-            // settingsBindingSource
-            // 
-            this.settingsBindingSource.DataSource = typeof(GM4D.Settings);
-            // 
             // hostIP_lblInfo
             // 
             this.hostIP_lblInfo.Anchor = System.Windows.Forms.AnchorStyles.Left;
@@ -435,9 +431,9 @@
             // 
             this.ipRangeEnde_panelInput.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.ipRangeEnde_panelInput.Controls.Add(this.ipRangeEnd_input);
-            this.statusRequired.SetIconPadding(this.ipRangeEnde_panelInput, 1);
             this.validationStatus_error.SetIconPadding(this.ipRangeEnde_panelInput, 1);
             this.validationStatus_ok.SetIconPadding(this.ipRangeEnde_panelInput, 1);
+            this.statusRequired.SetIconPadding(this.ipRangeEnde_panelInput, 1);
             this.ipRangeEnde_panelInput.Location = new System.Drawing.Point(150, 30);
             this.ipRangeEnde_panelInput.Margin = new System.Windows.Forms.Padding(0);
             this.ipRangeEnde_panelInput.Name = "ipRangeEnde_panelInput";
@@ -459,7 +455,7 @@
             this.ipRangeEnd_input.Name = "ipRangeEnd_input";
             this.ipRangeEnd_input.ReadOnly = false;
             this.ipRangeEnd_input.Size = new System.Drawing.Size(144, 22);
-            this.ipRangeEnd_input.TabIndex = 2;
+            this.ipRangeEnd_input.TabIndex = 1;
             this.ipRangeEnd_input.Text = "...";
             this.ipRangeEnd_input.Validated += new System.EventHandler(this.settings_validateIpRangeEndInput);
             // 
@@ -607,9 +603,9 @@
             // 
             this.ipRangeStart_panelInput.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.ipRangeStart_panelInput.Controls.Add(this.ipRangeStart_input);
-            this.statusRequired.SetIconPadding(this.ipRangeStart_panelInput, 1);
             this.validationStatus_error.SetIconPadding(this.ipRangeStart_panelInput, 1);
             this.validationStatus_ok.SetIconPadding(this.ipRangeStart_panelInput, 1);
+            this.statusRequired.SetIconPadding(this.ipRangeStart_panelInput, 1);
             this.ipRangeStart_panelInput.Location = new System.Drawing.Point(150, 0);
             this.ipRangeStart_panelInput.Margin = new System.Windows.Forms.Padding(0);
             this.ipRangeStart_panelInput.Name = "ipRangeStart_panelInput";
@@ -639,9 +635,9 @@
             // 
             this.subnet_panelInput.Controls.Add(this.subnet_input);
             this.subnet_panelInput.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.statusRequired.SetIconPadding(this.subnet_panelInput, 1);
             this.validationStatus_error.SetIconPadding(this.subnet_panelInput, 1);
             this.validationStatus_ok.SetIconPadding(this.subnet_panelInput, 1);
+            this.statusRequired.SetIconPadding(this.subnet_panelInput, 1);
             this.subnet_panelInput.Location = new System.Drawing.Point(150, 60);
             this.subnet_panelInput.Margin = new System.Windows.Forms.Padding(0);
             this.subnet_panelInput.Name = "subnet_panelInput";
@@ -663,7 +659,7 @@
             this.subnet_input.Name = "subnet_input";
             this.subnet_input.ReadOnly = false;
             this.subnet_input.Size = new System.Drawing.Size(144, 22);
-            this.subnet_input.TabIndex = 3;
+            this.subnet_input.TabIndex = 2;
             this.subnet_input.Text = "...";
             this.subnet_input.Validated += new System.EventHandler(this.settings_validateSubnetInput);
             // 
@@ -671,9 +667,9 @@
             // 
             this.subnetMask_panelInput.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.subnetMask_panelInput.Controls.Add(this.subnetMask_input);
-            this.statusRequired.SetIconPadding(this.subnetMask_panelInput, 1);
             this.validationStatus_error.SetIconPadding(this.subnetMask_panelInput, 1);
             this.validationStatus_ok.SetIconPadding(this.subnetMask_panelInput, 1);
+            this.statusRequired.SetIconPadding(this.subnetMask_panelInput, 1);
             this.subnetMask_panelInput.Location = new System.Drawing.Point(150, 90);
             this.subnetMask_panelInput.Margin = new System.Windows.Forms.Padding(0);
             this.subnetMask_panelInput.Name = "subnetMask_panelInput";
@@ -695,7 +691,7 @@
             this.subnetMask_input.Name = "subnetMask_input";
             this.subnetMask_input.ReadOnly = false;
             this.subnetMask_input.Size = new System.Drawing.Size(144, 22);
-            this.subnetMask_input.TabIndex = 4;
+            this.subnetMask_input.TabIndex = 3;
             this.subnetMask_input.Text = "...";
             this.subnetMask_input.Validated += new System.EventHandler(this.settings_validateSubnetMaskInput);
             // 
@@ -703,9 +699,9 @@
             // 
             this.gateway_inputPanel.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.gateway_inputPanel.Controls.Add(this.gateway_input);
-            this.statusRequired.SetIconPadding(this.gateway_inputPanel, 1);
             this.validationStatus_error.SetIconPadding(this.gateway_inputPanel, 1);
             this.validationStatus_ok.SetIconPadding(this.gateway_inputPanel, 1);
+            this.statusRequired.SetIconPadding(this.gateway_inputPanel, 1);
             this.gateway_inputPanel.Location = new System.Drawing.Point(150, 120);
             this.gateway_inputPanel.Margin = new System.Windows.Forms.Padding(0);
             this.gateway_inputPanel.Name = "gateway_inputPanel";
@@ -726,7 +722,7 @@
             this.gateway_input.Name = "gateway_input";
             this.gateway_input.ReadOnly = false;
             this.gateway_input.Size = new System.Drawing.Size(144, 22);
-            this.gateway_input.TabIndex = 5;
+            this.gateway_input.TabIndex = 4;
             this.gateway_input.Text = "...";
             this.gateway_input.Validated += new System.EventHandler(this.settings_validateGatewayInput);
             // 
@@ -734,9 +730,9 @@
             // 
             this.primaryDNS_panelInput.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.primaryDNS_panelInput.Controls.Add(this.primaryDNS_input);
-            this.statusRequired.SetIconPadding(this.primaryDNS_panelInput, 1);
             this.validationStatus_error.SetIconPadding(this.primaryDNS_panelInput, 1);
             this.validationStatus_ok.SetIconPadding(this.primaryDNS_panelInput, 1);
+            this.statusRequired.SetIconPadding(this.primaryDNS_panelInput, 1);
             this.primaryDNS_panelInput.Location = new System.Drawing.Point(150, 150);
             this.primaryDNS_panelInput.Margin = new System.Windows.Forms.Padding(0);
             this.primaryDNS_panelInput.Name = "primaryDNS_panelInput";
@@ -758,7 +754,7 @@
             this.primaryDNS_input.Name = "primaryDNS_input";
             this.primaryDNS_input.ReadOnly = false;
             this.primaryDNS_input.Size = new System.Drawing.Size(144, 22);
-            this.primaryDNS_input.TabIndex = 6;
+            this.primaryDNS_input.TabIndex = 5;
             this.primaryDNS_input.Text = "...";
             this.primaryDNS_input.Validated += new System.EventHandler(this.settings_validatePrimaryDNSInput);
             // 
@@ -766,9 +762,9 @@
             // 
             this.secondaryDNS_panelInput.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.secondaryDNS_panelInput.Controls.Add(this.secondaryDNS_input);
-            this.statusRequired.SetIconPadding(this.secondaryDNS_panelInput, 1);
             this.validationStatus_error.SetIconPadding(this.secondaryDNS_panelInput, 1);
             this.validationStatus_ok.SetIconPadding(this.secondaryDNS_panelInput, 1);
+            this.statusRequired.SetIconPadding(this.secondaryDNS_panelInput, 1);
             this.secondaryDNS_panelInput.Location = new System.Drawing.Point(150, 180);
             this.secondaryDNS_panelInput.Margin = new System.Windows.Forms.Padding(0);
             this.secondaryDNS_panelInput.Name = "secondaryDNS_panelInput";
@@ -790,7 +786,7 @@
             this.secondaryDNS_input.Name = "secondaryDNS_input";
             this.secondaryDNS_input.ReadOnly = false;
             this.secondaryDNS_input.Size = new System.Drawing.Size(144, 22);
-            this.secondaryDNS_input.TabIndex = 7;
+            this.secondaryDNS_input.TabIndex = 6;
             this.secondaryDNS_input.Text = "...";
             this.secondaryDNS_input.Validated += new System.EventHandler(this.settings_validateSecondaryDNSInput);
             // 
@@ -1060,6 +1056,21 @@
             this.columnClientsMAC.Text = "MAC Address";
             this.columnClientsMAC.Width = 121;
             // 
+            // columnClientsLeaseStart
+            // 
+            this.columnClientsLeaseStart.Text = "Lease Start";
+            this.columnClientsLeaseStart.Width = 108;
+            // 
+            // columnClientsLeaseEnd
+            // 
+            this.columnClientsLeaseEnd.Text = "Lease End";
+            this.columnClientsLeaseEnd.Width = 112;
+            // 
+            // columnClientsAddToStatic
+            // 
+            this.columnClientsAddToStatic.Text = "Add Static";
+            this.columnClientsAddToStatic.Width = 96;
+            // 
             // overview_panelMain
             // 
             this.overview_panelMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -1273,7 +1284,6 @@
             this.overview_hostip_info_subnetMask_lbl.Size = new System.Drawing.Size(96, 20);
             this.overview_hostip_info_subnetMask_lbl.TabIndex = 3;
             this.overview_hostip_info_subnetMask_lbl.Text = "subnetMask";
-            this.overview_hostip_info_subnetMask_lbl.Click += new System.EventHandler(this.overview_hostip_info_subnetMask_lbl_Click);
             // 
             // overview_hostip_info_ip_lbl
             // 
@@ -1426,12 +1436,12 @@
             this.overview_setHostIp_ip_ipinput.BackColor = System.Drawing.SystemColors.Window;
             this.overview_setHostIp_ip_ipinput.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.overview_setHostIp_ip_ipinput.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.overview_setHostIp_ip_ipinput.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.overview_setHostIp_ip_ipinput.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.overview_setHostIp_ip_ipinput.Location = new System.Drawing.Point(9, 9);
-            this.overview_setHostIp_ip_ipinput.MinimumSize = new System.Drawing.Size(99, 22);
+            this.overview_setHostIp_ip_ipinput.MinimumSize = new System.Drawing.Size(111, 23);
             this.overview_setHostIp_ip_ipinput.Name = "overview_setHostIp_ip_ipinput";
             this.overview_setHostIp_ip_ipinput.ReadOnly = false;
-            this.overview_setHostIp_ip_ipinput.Size = new System.Drawing.Size(150, 22);
+            this.overview_setHostIp_ip_ipinput.Size = new System.Drawing.Size(160, 23);
             this.overview_setHostIp_ip_ipinput.TabIndex = 1;
             this.overview_setHostIp_ip_ipinput.Text = "...";
             this.overview_setHostIp_ip_ipinput.Validated += new System.EventHandler(this.overview_validateIpInput);
@@ -1454,12 +1464,12 @@
             this.overview_setHostIp_subnetmask_ipinput.BackColor = System.Drawing.SystemColors.Window;
             this.overview_setHostIp_subnetmask_ipinput.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.overview_setHostIp_subnetmask_ipinput.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.overview_setHostIp_subnetmask_ipinput.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.overview_setHostIp_subnetmask_ipinput.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.overview_setHostIp_subnetmask_ipinput.Location = new System.Drawing.Point(9, 9);
-            this.overview_setHostIp_subnetmask_ipinput.MinimumSize = new System.Drawing.Size(99, 22);
+            this.overview_setHostIp_subnetmask_ipinput.MinimumSize = new System.Drawing.Size(111, 23);
             this.overview_setHostIp_subnetmask_ipinput.Name = "overview_setHostIp_subnetmask_ipinput";
             this.overview_setHostIp_subnetmask_ipinput.ReadOnly = false;
-            this.overview_setHostIp_subnetmask_ipinput.Size = new System.Drawing.Size(150, 22);
+            this.overview_setHostIp_subnetmask_ipinput.Size = new System.Drawing.Size(160, 23);
             this.overview_setHostIp_subnetmask_ipinput.TabIndex = 2;
             this.overview_setHostIp_subnetmask_ipinput.Text = "...";
             this.overview_setHostIp_subnetmask_ipinput.Validated += new System.EventHandler(this.overview_validateSubnetMaskInput);
@@ -1610,20 +1620,9 @@
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
-            // columnClientsLeaseStart
+            // settingsBindingSource
             // 
-            this.columnClientsLeaseStart.Text = "Lease Start";
-            this.columnClientsLeaseStart.Width = 108;
-            // 
-            // columnClientsLeaseEnd
-            // 
-            this.columnClientsLeaseEnd.Text = "Lease End";
-            this.columnClientsLeaseEnd.Width = 112;
-            // 
-            // columnClientsAddToStatic
-            // 
-            this.columnClientsAddToStatic.Text = "Add Static";
-            this.columnClientsAddToStatic.Width = 96;
+            this.settingsBindingSource.DataSource = typeof(GM4D.Settings);
             // 
             // MainWindow
             // 
@@ -1648,7 +1647,6 @@
             this.settings_panelMain.ResumeLayout(false);
             this.settings_panelInfo.ResumeLayout(false);
             this.settings_panelInfo.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.settingsBindingSource)).EndInit();
             this.settings_panelInput.ResumeLayout(false);
             this.settings_panelInput.PerformLayout();
             this.ipRangeEnde_panelInput.ResumeLayout(false);
@@ -1685,6 +1683,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.validationStatus_ok)).EndInit();
             this.menuBottom_panelMain.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.statusRequired)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.settingsBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }

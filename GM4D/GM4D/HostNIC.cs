@@ -5,7 +5,7 @@ using System.Text;
 
 namespace GM4D
 {
-    class HostNIC
+    public class HostNIC
     {
         public HostNIC()
         {
@@ -13,6 +13,8 @@ namespace GM4D
         }
         public string Name { get; set; }
         public string Id { get; set; }
+        public string Type { get; set; }
+        public bool Ipv4Enabled { get; set; }
         public string IPAddress { get; set; }
         public bool StaticIPAddress { get; set; } 
         public string SubnetIdentifier { get; set; }

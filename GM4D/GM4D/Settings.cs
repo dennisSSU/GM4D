@@ -30,6 +30,7 @@ namespace GM4D
             this.Interfaces = new ArrayList();
             this.NetCalcTool = new NetCalcTool();
         }
+        //################################################################### eventhandling
         #region eventhandling
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged(String value)
@@ -47,10 +48,11 @@ namespace GM4D
             }
         }
         #endregion eventhandling
+        //################################################################### interface selection
         #region interface selection
         public void selectInterface(int i)
         {
-            if (i >= Interfaces.Count)
+            if (i > Interfaces.Count)
             {
                 throw new IndexOutOfRangeException("Index for interface out of range. Index: " + i + " number of interfaces: " + Interfaces.Count);
             }
@@ -60,8 +62,25 @@ namespace GM4D
             this.HostSubnet = nic.SubnetIdentifier;
             this.HostHasStaticIp = nic.StaticIPAddress;
             this.SelectedInterface = i;
+            Console.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name + nic.ToString());
         }
-        public ArrayList Interfaces { get; set; }
+        private ArrayList interfaces;
+        public ArrayList Interfaces 
+        {
+            get
+            {
+                return this.interfaces;
+            }
+            private set
+            {
+                this.interfaces = value;
+            }
+        }
+        public void AddInterface(HostNIC nic)
+        {
+            this.interfaces.Add(nic);
+            Console.WriteLine("Added Interface:\n" + nic.ToString() + "\n");
+        }
         private int selectedInterface;
         public int SelectedInterface
         {
@@ -73,9 +92,11 @@ namespace GM4D
             {
                 this.selectedInterface = value;
                 NotifyPropertyChanged(this.SelectedInterface);
+                Console.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name + this.selectedInterface);
             }
         }
         #endregion interface selection
+        //################################################################### host
         #region host
         public bool HostIpIsSet { get; private set; }
         private String hostIP;
@@ -90,9 +111,10 @@ namespace GM4D
                 this.hostIP = value;
                 this.HostIpIsSet = true;
                 NotifyPropertyChanged(this.HostIP);
+                Console.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name + this.hostIP);
             }
         }
-        public bool NewHostIpIsSet { get; private set; }
+        public bool NewHostIpIsSet { get; set; }
         private String newHostIP;
         public String NewHostIP
         {
@@ -105,6 +127,7 @@ namespace GM4D
                 this.newHostIP = value;
                 this.NewHostIpIsSet = true;
                 NotifyPropertyChanged(this.NewHostIP);
+                Console.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name + this.newHostIP);
             }
         }
         private bool hostHasStaticIp;
@@ -125,6 +148,7 @@ namespace GM4D
                 {
                     this.OverviewDhcpStatus = "dynamic";
                 }
+                Console.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name + this.hostHasStaticIp);
             }
         }
         public bool HostNameIsSet { get; private set; }
@@ -140,6 +164,7 @@ namespace GM4D
                 this.hostName = value;
                 this.HostNameIsSet = true;
                 NotifyPropertyChanged(this.HostName);
+                Console.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name + this.hostName);
             }
         }
         public bool HostSubnetMaskIsSet { get; private set; }
@@ -155,9 +180,10 @@ namespace GM4D
                 this.hostSubnetMask = value;
                 this.HostSubnetMaskIsSet = true;
                 NotifyPropertyChanged(HostSubnetMask);
+                Console.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name + this.hostSubnetMask);
             }
         }
-        public bool NewHostSubnetMaskIsSet { get; private set; }
+        public bool NewHostSubnetMaskIsSet { get; set; }
         private String newHostSubnetMask;
         public String NewHostSubnetMask
         {
@@ -170,6 +196,7 @@ namespace GM4D
                 this.newHostSubnetMask = value;
                 this.NewHostSubnetMaskIsSet = true;
                 NotifyPropertyChanged(NewHostSubnetMask);
+                Console.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name + this.newHostSubnetMask);
             }
         }
         public bool HostSubnetIsSet { get; private set; }
@@ -185,6 +212,7 @@ namespace GM4D
                 this.hostSubnet = value;
                 this.HostSubnetIsSet = true;
                 NotifyPropertyChanged(HostSubnet);
+                Console.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name + this.hostSubnet);
             }
         }
         public bool HostGatewayIsSet { get; private set; }
@@ -200,9 +228,12 @@ namespace GM4D
                 this.hostGateway = value;
                 this.HostGatewayIsSet = true;
                 NotifyPropertyChanged(this.HostGateway);
+                Console.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name + this.hostGateway);
             }
         }
         #endregion host
+
+        //################################################################### network
         #region network
         public bool IpRangeStartIsSet { get; private set; }
         private String ipRangeStart;
@@ -217,6 +248,7 @@ namespace GM4D
                 this.ipRangeStart = value;
                 this.IpRangeStartIsSet = true;
                 NotifyPropertyChanged(IpRangeStart);
+                Console.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name + this.ipRangeStart);
             }
         }
         public bool IpRangeEndIsSet { get; private set; }
@@ -270,7 +302,7 @@ namespace GM4D
         {
             get
             {
-                if (GatewayIsSet)
+                if (this.GatewayIsSet)
                 {
                     return this.gateway;
                 }
@@ -281,9 +313,16 @@ namespace GM4D
             }
             set
             {
-                this.gateway = value;
-                GatewayIsSet = true;
-                NotifyPropertyChanged(Gateway);
+                if (value.Length > 3)
+                {
+                    this.gateway = value;
+                    this.GatewayIsSet = true;
+                    NotifyPropertyChanged(this.Gateway);
+                }
+                else
+                {
+                    this.GatewayIsSet = false;
+                }
             }
         }
         public bool PrimaryDNSIsSet { get; private set; }
@@ -296,9 +335,16 @@ namespace GM4D
             }
             set
             {
-                this.primaryDNS = value;
-                this.PrimaryDNSIsSet = true;
-                NotifyPropertyChanged(PrimaryDNS);
+                if (value.Length > 3)
+                {
+                    this.primaryDNS = value;
+                    this.PrimaryDNSIsSet = true;
+                    NotifyPropertyChanged(PrimaryDNS);
+                }
+                else
+                {
+                    this.PrimaryDNSIsSet = false;
+                }
             }
         }
         public bool SecondaryDNSIsSet { get; private set; }
@@ -311,9 +357,16 @@ namespace GM4D
             }
             set
             {
-                this.secondaryDNS = value;
-                this.SecondaryDNSIsSet = true;
-                NotifyPropertyChanged(SecondaryDNS);
+                if (value.Length > 3)
+                {
+                    this.secondaryDNS = value;
+                    this.SecondaryDNSIsSet = true;
+                    NotifyPropertyChanged(SecondaryDNS);
+                }
+                else
+                {
+                    this.SecondaryDNSIsSet = false;
+                }
             }
         }
         public bool StaticLeasesIsSet { get; private set; }
@@ -327,7 +380,14 @@ namespace GM4D
             set
             {
                 this.staticLeases = value;
-                this.StaticLeasesIsSet = true;
+                if (this.staticLeases.Count > 0)
+                {
+                    this.StaticLeasesIsSet = true;
+                }
+                else
+                {
+                    this.StaticLeasesIsSet = false;
+                }
             }
         }
         public bool DefaultLeaseTimeIsSet { get; private set; }
@@ -376,6 +436,7 @@ namespace GM4D
         }
         public bool IsDHCPServerRunning { get; set; }
         #endregion network
+        //################################################################### GUIStatus
         #region GUIStatus
         private string overviewDhcpStatus;
         public String OverviewDhcpStatus
