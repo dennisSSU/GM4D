@@ -89,6 +89,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controller.cs" />
+    <Compile Include="DhcpdLease.cs" />
     <Compile Include="HostInfo.cs" />
     <Compile Include="HostNIC.cs" />
     <Compile Include="InputValidation.cs" />

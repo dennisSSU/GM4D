@@ -63,11 +63,11 @@ namespace GM4D
             }
             if (settings.StaticLeases.Count >= 1)
             {
-                foreach (StaticLease l in settings.StaticLeases)
+                foreach (KeyValuePair<String, StaticLease> entry in settings.StaticLeases)
                 {
-                    dhcpConfig += "   host " + l.DeviceName + " {" + Environment.NewLine +
-                        "      hardware ethernet " + l.MACAddress + ";" + Environment.NewLine +
-                        "      fixed-address " + l.IPAddress + ";" + Environment.NewLine +
+                    dhcpConfig += "   host " + entry.Value.DeviceName + " {" + Environment.NewLine +
+                        "      hardware ethernet " + entry.Value.MACAddress + ";" + Environment.NewLine +
+                        "      fixed-address " + entry.Value.IPAddress + ";" + Environment.NewLine +
                         "   }" + Environment.NewLine;
                 }
             }
@@ -428,7 +428,7 @@ namespace GM4D
         {
             if (File.Exists("/var/lib/dhcp/dhcpd.leases"))
             {
-                System.Console.WriteLine("initiateDhcpdLeasesFileWatcher File.Exists: /var/lib/dhcp/dhcpd.leases");
+                System.Console.WriteLine("initiateDhcpdLeasesFileWatcher File.Exists = true for /var/lib/dhcp/dhcpd.leases");
                 // create a new FileSystemWatcher
                 this.DhcpdLeasesFileWatcher = new FileSystemWatcher();
                 string path = Path.Combine("/","var", "lib", "dhcp");
@@ -436,7 +436,7 @@ namespace GM4D
                 // set path
                 this.DhcpdLeasesFileWatcher.Path = path;
                 // watch for changes in LastAccess and LastWrite times
-                this.DhcpdLeasesFileWatcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite;
+                this.DhcpdLeasesFileWatcher.NotifyFilter = NotifyFilters.LastWrite;
                 // only watch a specific file
                 this.DhcpdLeasesFileWatcher.Filter = "dhcpd.leases";
                 // add event handler
@@ -449,7 +449,7 @@ namespace GM4D
         // eventhandler for filewatcher
         private void OnDhcpdLeasesChanged(object source, FileSystemEventArgs e)
         {
-            System.Console.WriteLine("OnDhcpdLeasesChanged: " + e.FullPath);
+            System.Console.WriteLine("OnDhcpdLeasesChanged: " + e.FullPath.ToString());
             this.ReadDhcpdLeasesFile(e.FullPath);
         }
         
@@ -486,32 +486,54 @@ namespace GM4D
             ReadDhcpdLeasesFileDelegate readDhcpdLeasesFileDelegate = (ReadDhcpdLeasesFileDelegate)aResult.AsyncDelegate;
             ArrayList filecontent = readDhcpdLeasesFileDelegate.EndInvoke(result);
             System.Console.WriteLine("parseDhcpdLeasesFile filecontent: " + filecontent.ToString());
-            StaticLease staticLease = new StaticLease();
-            foreach (string line in filecontent)
+            ArrayList dhcpdLeasesList = new ArrayList();
+            DhcpdLease dhcpdLease = new DhcpdLease();
+            try
             {
-                if (line.StartsWith("lease"))
+                foreach (string line in filecontent)
                 {
-                    staticLease = new StaticLease();
-                    int endindex = line.IndexOf("}") - 2;
-                    int startindex = 6;
-                    staticLease.IPAddress = line.Substring(startindex, endindex - startindex);
+                    if (line.StartsWith("lease"))
+                    {
+                        dhcpdLease = new DhcpdLease();
+                        int endindex = line.IndexOf("{") - 1;
+                        int startindex = 6;
+                        dhcpdLease.IPAddress = line.Substring(startindex, endindex - startindex);
+                    }
+                    else if (line.Contains("hardware ethernet"))
+                    {
+                        int endindex = line.IndexOf(";");
+                        int startindex = line.IndexOf("hardware ethernet") + 18;
+                        dhcpdLease.MACAddress = line.Substring(startindex, endindex - startindex);
+                    }
+                    else if (line.Contains("client-hostname"))
+                    {
+                        int endindex = line.IndexOf(";");
+                        int startindex = line.IndexOf("client-hostname") + 16;
+                        dhcpdLease.DeviceName = line.Substring(startindex, endindex - startindex);
+                    }
+                    else if (line.Contains("starts"))
+                    {
+                        int endindex = line.IndexOf(";");
+                        int startindex = line.IndexOf("starts") + 9;
+                        dhcpdLease.LeaseStart = line.Substring(startindex, endindex - startindex);
+                    }
+                    else if (line.Contains("ends"))
+                    {
+                        int endindex = line.IndexOf(";");
+                        int startindex = line.IndexOf("ends") + 7;
+                        dhcpdLease.LeaseEnd = line.Substring(startindex, endindex - startindex);
+                    }
+                    else if (line.Contains("}"))
+                    {
+                        dhcpdLeasesList.Add(dhcpdLease);
+                        System.Console.WriteLine("new dhcpdLease: " + dhcpdLease.ToString());
+                    }
                 }
-                else if (line.Contains("hardware ethernet"))
-                {
-                    int endindex = line.IndexOf(";") - 1;
-                    int startindex = line.IndexOf("hardware ethernet") + 18;
-                    staticLease.MACAddress = line.Substring(startindex, endindex - startindex);
-                }
-                else if (line.Contains("client-hostname"))
-                {
-                     int endindex = line.IndexOf(";") - 1;
-                    int startindex = line.IndexOf("client-hostname") + 16;
-                    staticLease.DeviceName = line.Substring(startindex, endindex - startindex);
-                }
-                else if (line.Contains("}"))
-                {
-                    this.settings.AddStaticLease(staticLease);
-                }
+                this.settings.DhcpdLeases = dhcpdLeasesList;
+            }
+            catch (Exception e)
+            {
+                System.Console.WriteLine("parseDhcpdLeasesFile ERROR " + e.ToString());
             }
         }
     }

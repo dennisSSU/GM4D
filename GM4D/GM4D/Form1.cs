@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -19,6 +20,7 @@ namespace GM4D
         {
             InitializeComponent();
             this.settings = _settings;
+            this.settings.DhcpdLeasesChangedEvt += this.OnSettingsDhcpdLeasesChange;
             this.ioController = _ioCOntroller;
         }
 
@@ -40,6 +42,12 @@ namespace GM4D
             lvbcDelete.Click += ListViewDeleteClick;
             lvbcDelete.FixedWidth = true;
             lve.AddColumn(lvbcDelete);
+            //listview clients
+            ListViewExtender clients_lve = new ListViewExtender(clients_dhcpdLeases_listView);
+            ListViewButtonColumn clients_lvbc_addStatic = new ListViewButtonColumn(6);
+            clients_lvbc_addStatic.Click += ClientsListviewAddStaticClick;
+            clients_lvbc_addStatic.FixedWidth = true;
+            clients_lve.AddColumn(clients_lvbc_addStatic);
         }
 
         public void MainWindow_Shown(object sender, EventArgs e)
@@ -408,58 +416,85 @@ namespace GM4D
             staticLease.IPAddress = staticLeases_input_tb_ip.Text;
             staticLease.MACAddress = staticLeases_input_tb_mac.Text;
             staticLease.DeviceName = staticLeases_input_tb_name.Text;
-            this.settings.AddStaticLease(staticLease);
+            staticLease.ID = (this.settings.StaticLeases.Count + 1).ToString();
+            this.settings.StaticLeases[staticLease.ID] = staticLease;
             ListViewItem lvi = this.staticLeases_listview.Items.Add("" + staticLease.ID);
             lvi.SubItems.Add(staticLeases_input_tb_name.Text);
             lvi.SubItems.Add(staticLeases_input_tb_mac.Text);
             lvi.SubItems.Add(staticLeases_input_tb_ip.Text);
             lvi.SubItems.Add("edit");
             lvi.SubItems.Add("delete");
-            
             staticLeases_input_tb_name.Clear();
             staticLeases_input_tb_mac.Clear();
             staticLeases_input_tb_ip.Clear();
         }
-        private int listviewitemindex;
+        private string listviewitemid;
+        private int listviewindex;
         private void ListViewEditClick(object sender, ListViewColumnMouseEventArgs e)
         {
-            int i = Convert.ToInt32(e.Item.Text);
-            listviewitemindex = e.Item.Index;
+            listviewitemid = e.Item.Text;
+            listviewindex = e.Item.Index;
             staticLeases_input_tb_name.Text = e.Item.SubItems[1].Text;
             staticLeases_input_tb_mac.Text = e.Item.SubItems[2].Text;
-            staticLeases_input_tb_ip.IPAddress = System.Net.IPAddress.Parse(e.Item.SubItems[3].Text);
+            System.Net.IPAddress ip;
+            if (System.Net.IPAddress.TryParse(e.Item.SubItems[3].Text, out ip))
+            {
+                staticLeases_input_tb_ip.IPAddress = ip;
+            }
             this.staticLeases_input_btn_add.Click -= staticLeases_input_btn_add_Click;            
             this.staticLeases_input_btn_add.Click += staticLeases_input_btn_saveEdit_Click;
         }
         private void staticLeases_input_btn_saveEdit_Click(object sender, EventArgs e)
         {
-            int i = listviewitemindex + 1;
-            ListViewItem lvi = new ListViewItem("" + i);
+            ListViewItem lvi = new ListViewItem(listviewitemid);
             lvi.SubItems.Add(staticLeases_input_tb_name.Text);
             lvi.SubItems.Add(staticLeases_input_tb_mac.Text);
             lvi.SubItems.Add(staticLeases_input_tb_ip.Text);
             lvi.SubItems.Add("edit");
             lvi.SubItems.Add("delete");
-            this.staticLeases_listview.Items.RemoveAt(listviewitemindex);
-            this.staticLeases_listview.Items.Insert(listviewitemindex, lvi);
+            this.staticLeases_listview.Items.RemoveAt(listviewindex);
+            this.staticLeases_listview.Items.Insert(listviewindex, lvi);
             StaticLease staticLease = new StaticLease();
             staticLease.IPAddress = staticLeases_input_tb_ip.Text;
             staticLease.MACAddress = staticLeases_input_tb_mac.Text;
             staticLease.DeviceName = staticLeases_input_tb_name.Text;
-            staticLease.ID = listviewitemindex;
-            this.settings.StaticLeases[listviewitemindex] = staticLease;
+            staticLease.ID = listviewitemid;
+            this.settings.StaticLeases[listviewitemid] = staticLease;
             staticLeases_input_tb_name.Clear();
             staticLeases_input_tb_mac.Clear();
             staticLeases_input_tb_ip.Clear();
             this.staticLeases_input_btn_add.Click += staticLeases_input_btn_add_Click;
             this.staticLeases_input_btn_add.Click -= staticLeases_input_btn_saveEdit_Click;
-            listviewitemindex = 0;
+            listviewitemid = null;
         }
         private void ListViewDeleteClick(object sender, ListViewColumnMouseEventArgs e)
         {
+            System.Console.WriteLine("ListViewDeleteClick Item.Index: " + e.Item.Index);
             this.staticLeases_listview.Items.RemoveAt(e.Item.Index);
-            this.settings.StaticLeases.RemoveAt(e.Item.Index);
+            this.settings.StaticLeases.Remove(e.Item.Text);
         }
         #endregion StaticLeases
+        #region DhcpdLeases
+        public void OnSettingsDhcpdLeasesChange(object sender, PropertyChangedEventArgs e)
+        {
+            clients_dhcpdLeases_listView.Items.Clear();
+            foreach (DhcpdLease dhcpdLease in (ArrayList)sender)
+            {
+                ListViewItem item = new ListViewItem(""+dhcpdLease.ID);
+                item.SubItems.Add(dhcpdLease.DeviceName);
+                item.SubItems.Add(dhcpdLease.IPAddress);
+                item.SubItems.Add(dhcpdLease.MACAddress);
+                item.SubItems.Add(dhcpdLease.LeaseStart);
+                item.SubItems.Add(dhcpdLease.LeaseEnd);
+                item.SubItems.Add("add static lease");
+                clients_dhcpdLeases_listView.Items.Add(item);
+            }
+        }
+        public void ClientsListviewAddStaticClick(object sender, ListViewColumnMouseEventArgs e)
+        {
+            System.Console.WriteLine("Clients_listview_addStatic_click " + e.Item.Text);
+            MessageBox.Show("addstatic: " + e.Item.Text);
+        }
+        #endregion DhcpdLeases
     }
 }

@@ -5,15 +5,19 @@ using System.Text;
 
 namespace GM4D
 {
-    public class StaticLease
+    public class DhcpdLease
     {
         public String DeviceName { get; set; }
         public String MACAddress { get; set; }
         public String IPAddress { get; set; }
-        public String ID { get; set; }
-        public StaticLease()
+        public String LeaseStart { get; set; }
+        public String LeaseEnd { get; set; }
+        public int ID { get; set; }
+        private static int i = 0;
+        public DhcpdLease()
         {
-
+            i++;
+            this.ID = i;
         }
         public override string ToString()
         {

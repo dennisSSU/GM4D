@@ -9,7 +9,7 @@ namespace GM4D
     {
         public Settings()
         {
-            this.staticLeases = new System.Collections.ArrayList();
+            this.staticLeases = new System.Collections.Generic.Dictionary<String, StaticLease>();
             this.PrimaryDNSIsSet = false;
             this.SecondaryDNSIsSet = false;
             this.StaticLeasesIsSet = false;
@@ -33,6 +33,7 @@ namespace GM4D
         //################################################################### eventhandling
         #region eventhandling
         public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler DhcpdLeasesChangedEvt;
         private void NotifyPropertyChanged(String value)
         {
             if (PropertyChanged != null)
@@ -41,13 +42,6 @@ namespace GM4D
             }
         }
         private void NotifyPropertyChanged(int value)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(value.ToString()));
-            }
-        }
-        private void NotifyPropertyChanged(System.Collections.ArrayList value)
         {
             if (PropertyChanged != null)
             {
@@ -377,8 +371,8 @@ namespace GM4D
             }
         }
         public bool StaticLeasesIsSet { get; private set; }
-        private System.Collections.ArrayList staticLeases;
-        public System.Collections.ArrayList StaticLeases
+        private System.Collections.Generic.Dictionary<String, StaticLease> staticLeases;
+        public System.Collections.Generic.Dictionary<String, StaticLease> StaticLeases
         {
             get
             {
@@ -396,12 +390,6 @@ namespace GM4D
                     this.StaticLeasesIsSet = false;
                 }
             }
-        }
-        public void AddStaticLease(StaticLease staticLease)
-        {
-            System.Console.WriteLine("AddStaticLease: " + staticLease.ToString());
-            this.StaticLeases.Add(staticLease);
-            NotifyPropertyChanged(this.StaticLeases);
         }
         public bool DefaultLeaseTimeIsSet { get; private set; }
         private int defaultLeaseTime;
@@ -445,6 +433,32 @@ namespace GM4D
                 this.maxLeaseTime = value;
                 MaxLeaseTimeIsSet = true;
                 NotifyPropertyChanged(MaxLeaseTime);
+            }
+        }
+        public bool DhcpdLeasesIsSet { get; private set; }
+        private System.Collections.ArrayList dhcpdLeases;
+        public System.Collections.ArrayList DhcpdLeases
+        {
+            get
+            {
+                return this.dhcpdLeases;
+            }
+            set
+            {
+                this.dhcpdLeases = value;
+                if (this.dhcpdLeases.Count > 0)
+                {
+                    this.DhcpdLeasesIsSet = true;
+                    System.Console.WriteLine("Settings DhcpdLeases: " + value.ToString());
+                    if (DhcpdLeasesChangedEvt != null)
+                    {
+                        DhcpdLeasesChangedEvt(this.DhcpdLeases, new PropertyChangedEventArgs("DhcpdLeases"));
+                    }
+                }
+                else
+                {
+                    this.DhcpdLeasesIsSet = false;
+                }
             }
         }
         public bool IsDHCPServerRunning { get; set; }

@@ -41,6 +41,7 @@
             this.hostIP_lbl = new System.Windows.Forms.Label();
             this.hostSubnetMask_lbl = new System.Windows.Forms.Label();
             this.hostSubnetMask_tb = new System.Windows.Forms.TextBox();
+            this.settingsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.hostIP_lblInfo = new System.Windows.Forms.Label();
             this.hostSubnetMask_lblInfo = new System.Windows.Forms.Label();
             this.hostIP_tb = new System.Windows.Forms.TextBox();
@@ -95,7 +96,7 @@
             this.staticLeases_input_tb_ip = new IPAddressControlLib.IPAddressControl();
             this.clients_panelMain = new System.Windows.Forms.FlowLayoutPanel();
             this.clients_lbl = new System.Windows.Forms.Label();
-            this.listView1 = new System.Windows.Forms.ListView();
+            this.clients_dhcpdLeases_listView = new System.Windows.Forms.ListView();
             this.columnClientsID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnClientsName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnClientsIP = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -150,10 +151,10 @@
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.statusRequired = new System.Windows.Forms.ErrorProvider(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.settingsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.menu_panelMain.SuspendLayout();
             this.settings_panelMain.SuspendLayout();
             this.settings_panelInfo.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.settingsBindingSource)).BeginInit();
             this.settings_panelInput.SuspendLayout();
             this.ipRangeEnde_panelInput.SuspendLayout();
             this.ipRangeStart_panelInput.SuspendLayout();
@@ -180,7 +181,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.validationStatus_ok)).BeginInit();
             this.menuBottom_panelMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.statusRequired)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.settingsBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // menu_btnOverview
@@ -355,6 +355,10 @@
             this.hostSubnetMask_tb.TabIndex = 0;
             this.hostSubnetMask_tb.TabStop = false;
             // 
+            // settingsBindingSource
+            // 
+            this.settingsBindingSource.DataSource = typeof(GM4D.Settings);
+            // 
             // hostIP_lblInfo
             // 
             this.hostIP_lblInfo.Anchor = System.Windows.Forms.AnchorStyles.Left;
@@ -431,9 +435,9 @@
             // 
             this.ipRangeEnde_panelInput.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.ipRangeEnde_panelInput.Controls.Add(this.ipRangeEnd_input);
+            this.statusRequired.SetIconPadding(this.ipRangeEnde_panelInput, 1);
             this.validationStatus_error.SetIconPadding(this.ipRangeEnde_panelInput, 1);
             this.validationStatus_ok.SetIconPadding(this.ipRangeEnde_panelInput, 1);
-            this.statusRequired.SetIconPadding(this.ipRangeEnde_panelInput, 1);
             this.ipRangeEnde_panelInput.Location = new System.Drawing.Point(150, 30);
             this.ipRangeEnde_panelInput.Margin = new System.Windows.Forms.Padding(0);
             this.ipRangeEnde_panelInput.Name = "ipRangeEnde_panelInput";
@@ -603,9 +607,9 @@
             // 
             this.ipRangeStart_panelInput.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.ipRangeStart_panelInput.Controls.Add(this.ipRangeStart_input);
+            this.statusRequired.SetIconPadding(this.ipRangeStart_panelInput, 1);
             this.validationStatus_error.SetIconPadding(this.ipRangeStart_panelInput, 1);
             this.validationStatus_ok.SetIconPadding(this.ipRangeStart_panelInput, 1);
-            this.statusRequired.SetIconPadding(this.ipRangeStart_panelInput, 1);
             this.ipRangeStart_panelInput.Location = new System.Drawing.Point(150, 0);
             this.ipRangeStart_panelInput.Margin = new System.Windows.Forms.Padding(0);
             this.ipRangeStart_panelInput.Name = "ipRangeStart_panelInput";
@@ -635,9 +639,9 @@
             // 
             this.subnet_panelInput.Controls.Add(this.subnet_input);
             this.subnet_panelInput.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.statusRequired.SetIconPadding(this.subnet_panelInput, 1);
             this.validationStatus_error.SetIconPadding(this.subnet_panelInput, 1);
             this.validationStatus_ok.SetIconPadding(this.subnet_panelInput, 1);
-            this.statusRequired.SetIconPadding(this.subnet_panelInput, 1);
             this.subnet_panelInput.Location = new System.Drawing.Point(150, 60);
             this.subnet_panelInput.Margin = new System.Windows.Forms.Padding(0);
             this.subnet_panelInput.Name = "subnet_panelInput";
@@ -667,9 +671,9 @@
             // 
             this.subnetMask_panelInput.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.subnetMask_panelInput.Controls.Add(this.subnetMask_input);
+            this.statusRequired.SetIconPadding(this.subnetMask_panelInput, 1);
             this.validationStatus_error.SetIconPadding(this.subnetMask_panelInput, 1);
             this.validationStatus_ok.SetIconPadding(this.subnetMask_panelInput, 1);
-            this.statusRequired.SetIconPadding(this.subnetMask_panelInput, 1);
             this.subnetMask_panelInput.Location = new System.Drawing.Point(150, 90);
             this.subnetMask_panelInput.Margin = new System.Windows.Forms.Padding(0);
             this.subnetMask_panelInput.Name = "subnetMask_panelInput";
@@ -699,9 +703,9 @@
             // 
             this.gateway_inputPanel.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.gateway_inputPanel.Controls.Add(this.gateway_input);
+            this.statusRequired.SetIconPadding(this.gateway_inputPanel, 1);
             this.validationStatus_error.SetIconPadding(this.gateway_inputPanel, 1);
             this.validationStatus_ok.SetIconPadding(this.gateway_inputPanel, 1);
-            this.statusRequired.SetIconPadding(this.gateway_inputPanel, 1);
             this.gateway_inputPanel.Location = new System.Drawing.Point(150, 120);
             this.gateway_inputPanel.Margin = new System.Windows.Forms.Padding(0);
             this.gateway_inputPanel.Name = "gateway_inputPanel";
@@ -730,9 +734,9 @@
             // 
             this.primaryDNS_panelInput.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.primaryDNS_panelInput.Controls.Add(this.primaryDNS_input);
+            this.statusRequired.SetIconPadding(this.primaryDNS_panelInput, 1);
             this.validationStatus_error.SetIconPadding(this.primaryDNS_panelInput, 1);
             this.validationStatus_ok.SetIconPadding(this.primaryDNS_panelInput, 1);
-            this.statusRequired.SetIconPadding(this.primaryDNS_panelInput, 1);
             this.primaryDNS_panelInput.Location = new System.Drawing.Point(150, 150);
             this.primaryDNS_panelInput.Margin = new System.Windows.Forms.Padding(0);
             this.primaryDNS_panelInput.Name = "primaryDNS_panelInput";
@@ -762,9 +766,9 @@
             // 
             this.secondaryDNS_panelInput.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.secondaryDNS_panelInput.Controls.Add(this.secondaryDNS_input);
+            this.statusRequired.SetIconPadding(this.secondaryDNS_panelInput, 1);
             this.validationStatus_error.SetIconPadding(this.secondaryDNS_panelInput, 1);
             this.validationStatus_ok.SetIconPadding(this.secondaryDNS_panelInput, 1);
-            this.statusRequired.SetIconPadding(this.secondaryDNS_panelInput, 1);
             this.secondaryDNS_panelInput.Location = new System.Drawing.Point(150, 180);
             this.secondaryDNS_panelInput.Margin = new System.Windows.Forms.Padding(0);
             this.secondaryDNS_panelInput.Name = "secondaryDNS_panelInput";
@@ -1001,7 +1005,7 @@
             this.clients_panelMain.AutoScroll = true;
             this.clients_panelMain.BackColor = System.Drawing.Color.Red;
             this.clients_panelMain.Controls.Add(this.clients_lbl);
-            this.clients_panelMain.Controls.Add(this.listView1);
+            this.clients_panelMain.Controls.Add(this.clients_dhcpdLeases_listView);
             this.clients_panelMain.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.clients_panelMain.Location = new System.Drawing.Point(140, 0);
             this.clients_panelMain.Margin = new System.Windows.Forms.Padding(0);
@@ -1019,9 +1023,9 @@
             this.clients_lbl.TabIndex = 1;
             this.clients_lbl.Text = "Connected clients";
             // 
-            // listView1
+            // clients_dhcpdLeases_listView
             // 
-            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.clients_dhcpdLeases_listView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnClientsID,
             this.columnClientsName,
             this.columnClientsIP,
@@ -1029,12 +1033,12 @@
             this.columnClientsLeaseStart,
             this.columnClientsLeaseEnd,
             this.columnClientsAddToStatic});
-            this.listView1.Location = new System.Drawing.Point(3, 23);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(717, 385);
-            this.listView1.TabIndex = 0;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.Details;
+            this.clients_dhcpdLeases_listView.Location = new System.Drawing.Point(3, 23);
+            this.clients_dhcpdLeases_listView.Name = "clients_dhcpdLeases_listView";
+            this.clients_dhcpdLeases_listView.Size = new System.Drawing.Size(717, 385);
+            this.clients_dhcpdLeases_listView.TabIndex = 0;
+            this.clients_dhcpdLeases_listView.UseCompatibleStateImageBehavior = false;
+            this.clients_dhcpdLeases_listView.View = System.Windows.Forms.View.Details;
             // 
             // columnClientsID
             // 
@@ -1620,10 +1624,6 @@
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
-            // settingsBindingSource
-            // 
-            this.settingsBindingSource.DataSource = typeof(GM4D.Settings);
-            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -1647,6 +1647,7 @@
             this.settings_panelMain.ResumeLayout(false);
             this.settings_panelInfo.ResumeLayout(false);
             this.settings_panelInfo.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.settingsBindingSource)).EndInit();
             this.settings_panelInput.ResumeLayout(false);
             this.settings_panelInput.PerformLayout();
             this.ipRangeEnde_panelInput.ResumeLayout(false);
@@ -1683,7 +1684,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.validationStatus_ok)).EndInit();
             this.menuBottom_panelMain.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.statusRequired)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.settingsBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1803,7 +1803,7 @@
         private System.Windows.Forms.ColumnHeader columndelete;
         private System.Windows.Forms.ColumnHeader columnId;
         private System.Windows.Forms.Label clients_lbl;
-        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.ListView clients_dhcpdLeases_listView;
         private System.Windows.Forms.ColumnHeader columnClientsID;
         private System.Windows.Forms.ColumnHeader columnClientsName;
         private System.Windows.Forms.ColumnHeader columnClientsIP;
