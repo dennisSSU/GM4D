@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading;
 
@@ -12,7 +15,8 @@ namespace GM4D
     class IOController
     {
         private Settings settings;
-        private delegate void SaveSettingsToFileDelegate(String filename);
+        private delegate void SaveSettingsToFileDelegate(string filename);
+        private delegate ArrayList ReadDhcpdLeasesFileDelegate(string filename);
         public IOController(Settings _settings)
         {
             this.settings = _settings;
@@ -422,43 +426,93 @@ namespace GM4D
         public FileSystemWatcher DhcpdLeasesFileWatcher { get; set; }
         private void initiateDhcpdLeasesFileWatcher()
         {
-            // create a new FileSystemWatcher
-            this.DhcpdLeasesFileWatcher = new FileSystemWatcher();
-            // set path
-            this.DhcpdLeasesFileWatcher.Path = "/var/lib/dhcp/";
-            // watch for changes in LastAccess and LastWrite times
-            this.DhcpdLeasesFileWatcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite;
-            // only watch a specific file
-            this.DhcpdLeasesFileWatcher.Filter = "dhcpd.leases";
-            // add event handler
-            this.DhcpdLeasesFileWatcher.Changed += new FileSystemEventHandler(OnDhcpdLeasesChanged);
-            // start watching.
-            this.DhcpdLeasesFileWatcher.EnableRaisingEvents = true;
+            if (File.Exists("/var/lib/dhcp/dhcpd.leases"))
+            {
+                System.Console.WriteLine("initiateDhcpdLeasesFileWatcher File.Exists: /var/lib/dhcp/dhcpd.leases");
+                // create a new FileSystemWatcher
+                this.DhcpdLeasesFileWatcher = new FileSystemWatcher();
+                string path = Path.Combine("/","var", "lib", "dhcp");
+                System.Console.WriteLine("path to watch: " + path);
+                // set path
+                this.DhcpdLeasesFileWatcher.Path = path;
+                // watch for changes in LastAccess and LastWrite times
+                this.DhcpdLeasesFileWatcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite;
+                // only watch a specific file
+                this.DhcpdLeasesFileWatcher.Filter = "dhcpd.leases";
+                // add event handler
+                this.DhcpdLeasesFileWatcher.Changed += new FileSystemEventHandler(OnDhcpdLeasesChanged);
+                // start watching.
+                this.DhcpdLeasesFileWatcher.EnableRaisingEvents = true;
+            }
         }
 
         // eventhandler for filewatcher
         private void OnDhcpdLeasesChanged(object source, FileSystemEventArgs e)
         {
-            //this.ReadDhcpdLeasesFile(e.FullPath);
+            System.Console.WriteLine("OnDhcpdLeasesChanged: " + e.FullPath);
+            this.ReadDhcpdLeasesFile(e.FullPath);
         }
-        public void ReadDhcpdLeasesFile()
+        
+        private void ReadDhcpdLeasesFile(string filename)
         {
-            Thread thread = new Thread(new ThreadStart(ReadFile));
-            thread.Start();
-        }
-        public void ReadFile()
-        {
-            System.IO.StreamReader streamReader = new System.IO.StreamReader();
-            string content = streamReader.ReadToEnd();
-            streamReader.Close();
-        }
-        public void ReadDhcpdLeasesFileComplete(IAsyncResult res)
-        {
+            System.Console.WriteLine("ReadDhcpdLeasesFile filename: " + filename);
+            ReadDhcpdLeasesFileDelegate readDhcpdLeasesFileDelegate = new ReadDhcpdLeasesFileDelegate(ProcessDhcpdLeasesFile);
+            IAsyncResult readDhcpdLeasesFileResult = readDhcpdLeasesFileDelegate.BeginInvoke(filename, parseDhcpdLeasesFile, null);
         }
 
-        private string parseDhcpdLeasesFile(string filecontent)
+        private ArrayList ProcessDhcpdLeasesFile(string filename)
         {
-            return "";
+            System.Console.WriteLine("ProcessDhcpdLeasesFile filename: " + filename);
+            if (!File.Exists(filename))
+            {
+                Console.WriteLine(filename + " does not exist");
+                return null;
+            }
+            using (StreamReader sr = File.OpenText(filename))
+            {
+                string input;
+                ArrayList filecontent = new ArrayList();
+                while ((input = sr.ReadLine()) != null)
+                {
+                    filecontent.Add(input);
+                }
+                return filecontent;
+            }
+        }
+
+        private void parseDhcpdLeasesFile(IAsyncResult result)
+        {
+            AsyncResult aResult = (AsyncResult)result;
+            ReadDhcpdLeasesFileDelegate readDhcpdLeasesFileDelegate = (ReadDhcpdLeasesFileDelegate)aResult.AsyncDelegate;
+            ArrayList filecontent = readDhcpdLeasesFileDelegate.EndInvoke(result);
+            System.Console.WriteLine("parseDhcpdLeasesFile filecontent: " + filecontent.ToString());
+            StaticLease staticLease = new StaticLease();
+            foreach (string line in filecontent)
+            {
+                if (line.StartsWith("lease"))
+                {
+                    staticLease = new StaticLease();
+                    int endindex = line.IndexOf("}") - 2;
+                    int startindex = 6;
+                    staticLease.IPAddress = line.Substring(startindex, endindex - startindex);
+                }
+                else if (line.Contains("hardware ethernet"))
+                {
+                    int endindex = line.IndexOf(";") - 1;
+                    int startindex = line.IndexOf("hardware ethernet") + 18;
+                    staticLease.MACAddress = line.Substring(startindex, endindex - startindex);
+                }
+                else if (line.Contains("client-hostname"))
+                {
+                     int endindex = line.IndexOf(";") - 1;
+                    int startindex = line.IndexOf("client-hostname") + 16;
+                    staticLease.DeviceName = line.Substring(startindex, endindex - startindex);
+                }
+                else if (line.Contains("}"))
+                {
+                    this.settings.AddStaticLease(staticLease);
+                }
+            }
         }
     }
 }

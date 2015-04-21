@@ -47,6 +47,13 @@ namespace GM4D
                 PropertyChanged(this, new PropertyChangedEventArgs(value.ToString()));
             }
         }
+        private void NotifyPropertyChanged(System.Collections.ArrayList value)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(value.ToString()));
+            }
+        }
         #endregion eventhandling
         //################################################################### interface selection
         #region interface selection
@@ -389,6 +396,12 @@ namespace GM4D
                     this.StaticLeasesIsSet = false;
                 }
             }
+        }
+        public void AddStaticLease(StaticLease staticLease)
+        {
+            System.Console.WriteLine("AddStaticLease: " + staticLease.ToString());
+            this.StaticLeases.Add(staticLease);
+            NotifyPropertyChanged(this.StaticLeases);
         }
         public bool DefaultLeaseTimeIsSet { get; private set; }
         private int defaultLeaseTime;

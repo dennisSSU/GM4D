@@ -404,14 +404,18 @@ namespace GM4D
         #region StaticLeases
         private void staticLeases_input_btn_add_Click(object sender, EventArgs e)
         {
-            int i = this.settings.StaticLeases.Count + 1;
-            ListViewItem lvi = this.staticLeases_listview.Items.Add(""+i);
+            StaticLease staticLease = new StaticLease();
+            staticLease.IPAddress = staticLeases_input_tb_ip.Text;
+            staticLease.MACAddress = staticLeases_input_tb_mac.Text;
+            staticLease.DeviceName = staticLeases_input_tb_name.Text;
+            this.settings.AddStaticLease(staticLease);
+            ListViewItem lvi = this.staticLeases_listview.Items.Add("" + staticLease.ID);
             lvi.SubItems.Add(staticLeases_input_tb_name.Text);
             lvi.SubItems.Add(staticLeases_input_tb_mac.Text);
             lvi.SubItems.Add(staticLeases_input_tb_ip.Text);
             lvi.SubItems.Add("edit");
             lvi.SubItems.Add("delete");
-            this.settings.StaticLeases.Add(new StaticLease(i, staticLeases_input_tb_name.Text, staticLeases_input_tb_mac.Text, staticLeases_input_tb_ip.Text));
+            
             staticLeases_input_tb_name.Clear();
             staticLeases_input_tb_mac.Clear();
             staticLeases_input_tb_ip.Clear();
@@ -438,7 +442,12 @@ namespace GM4D
             lvi.SubItems.Add("delete");
             this.staticLeases_listview.Items.RemoveAt(listviewitemindex);
             this.staticLeases_listview.Items.Insert(listviewitemindex, lvi);
-            this.settings.StaticLeases[listviewitemindex] = new StaticLease(i, staticLeases_input_tb_name.Text, staticLeases_input_tb_mac.Text, staticLeases_input_tb_ip.Text);
+            StaticLease staticLease = new StaticLease();
+            staticLease.IPAddress = staticLeases_input_tb_ip.Text;
+            staticLease.MACAddress = staticLeases_input_tb_mac.Text;
+            staticLease.DeviceName = staticLeases_input_tb_name.Text;
+            staticLease.ID = listviewitemindex;
+            this.settings.StaticLeases[listviewitemindex] = staticLease;
             staticLeases_input_tb_name.Clear();
             staticLeases_input_tb_mac.Clear();
             staticLeases_input_tb_ip.Clear();

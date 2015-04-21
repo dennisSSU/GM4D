@@ -5,18 +5,21 @@ using System.Text;
 
 namespace GM4D
 {
-    class StaticLease
+    public class StaticLease
     {
         public String DeviceName { get; set; }
         public String MACAddress { get; set; }
         public String IPAddress { get; set; }
         public int ID { get; set; }
-        public StaticLease(int _id, String _DeviceName, String _MACAddress, String _IPAddress)
+        private static int i = 0;
+        public StaticLease()
         {
-            this.ID = _id;
-            this.DeviceName = _DeviceName;
-            this.MACAddress = _MACAddress;
-            this.IPAddress = _IPAddress;
+            i++;
+            this.ID = i;
+        }
+        public override string ToString()
+        {
+            return "Devicename: " + this.DeviceName + " ID: " + this.ID + " IPAddress: " + this.IPAddress + " MACAddress: " + this.MACAddress;
         }
     }
 }
