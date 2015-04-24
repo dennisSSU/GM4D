@@ -8,6 +8,7 @@ using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Runtime.Remoting.Messaging;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 
 namespace GM4D
@@ -17,6 +18,7 @@ namespace GM4D
         private Settings settings;
         private delegate void SaveSettingsToFileDelegate(string filename);
         private delegate ArrayList ReadDhcpdLeasesFileDelegate(string filename);
+        private delegate ArrayList ReadConfigFileDelegate(string filename);
         public IOController(Settings _settings)
         {
             this.settings = _settings;
@@ -36,7 +38,10 @@ namespace GM4D
             streamWriter.Flush();
             streamWriter.Close();
         }
-
+        /// <summary>
+        /// creates the dhcpd.conf code from the data in the settings object
+        /// </summary>
+        /// <returns></returns>
         public String CreateConfig()
         {
             String dhcpConfig = "#dhcpd.conf created by GM4D tool" + Environment.NewLine +
@@ -61,9 +66,9 @@ namespace GM4D
                 }
                 dhcpConfig += ";" + Environment.NewLine;
             }
-            if (settings.StaticLeases.Count >= 1)
+            if (settings.GetStaticLeases().Count >= 1)
             {
-                foreach (KeyValuePair<String, StaticLease> entry in settings.StaticLeases)
+                foreach (KeyValuePair<String, StaticLease> entry in settings.GetStaticLeases())
                 {
                     dhcpConfig += "   host " + entry.Value.DeviceName + " {" + Environment.NewLine +
                         "      hardware ethernet " + entry.Value.MACAddress + ";" + Environment.NewLine +
@@ -73,15 +78,221 @@ namespace GM4D
             }
             dhcpConfig += "}";
             return dhcpConfig;
-        } 
+        }
+        /// <summary>
+        /// is called when settings file save is complete
+        /// </summary>
+        /// <param name="result"></param>
         public static void SaveSettingsToFileComplete(IAsyncResult result)
         {
-        }
 
+        }
+        /// <summary>
+        /// loads DHCP setting from file with filename
+        /// </summary>
+        /// <param name="filename"></param>
         public void LoadSettingsFile(String filename)
         {
-
+            System.Console.WriteLine("LoadSettingsFile filename: " + filename);
+            ReadConfigFileDelegate readConfigFileDelegate = new ReadConfigFileDelegate(ProcessConfigFile);
+            IAsyncResult readConfigFileDelegateResult = readConfigFileDelegate.BeginInvoke(filename, parseConfig, null);
         }
+        /// <summary>
+        /// takes a filename, reads in the text content of file and calls parseConfig with the content
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <returns></returns>
+        private ArrayList ProcessConfigFile(string filename)
+        {
+            System.Console.WriteLine("ProcessConfigFile filename: " + filename);
+            if (!File.Exists(filename))
+            {
+                Console.WriteLine(filename + " does not exist");
+                return null;
+            }
+            using (StreamReader sr = File.OpenText(filename))
+            {
+                string input;
+                ArrayList filecontent = new ArrayList();
+                while ((input = sr.ReadLine()) != null)
+                {
+                    filecontent.Add(input);
+                }
+                return filecontent;
+            }
+        }
+        /// <summary>
+        /// takes the filecontent from IAsyncResult und parses DHCP settings to the settings object
+        /// </summary>
+        /// <param name="result"></param>
+        public void parseConfig(IAsyncResult result)
+        {
+            AsyncResult aResult = (AsyncResult)result;
+            ReadConfigFileDelegate readConfigFileDelegate = (ReadConfigFileDelegate)aResult.AsyncDelegate;
+            ArrayList filecontent = readConfigFileDelegate.EndInvoke(result);
+            System.Console.WriteLine("parseConfig filecontent: " + String.Join(",", filecontent));
+            StaticLease staticLease = null;
+            foreach (string line in filecontent)
+            {
+                string cleanline = Regex.Replace(line, @"\s+", " ");
+                cleanline = cleanline.Trim();
+                if (cleanline.StartsWith("default-lease-time"))
+                {
+                    int endindex = cleanline.IndexOf(";");
+                    int startindex = 19;
+                    int tmp;
+                    if (int.TryParse(cleanline.Substring(startindex, endindex - startindex), out tmp))
+                    {
+                        this.settings.DefaultLeaseTime = tmp;
+                    }
+                }
+                else if (cleanline.StartsWith("max-lease-time"))
+                {
+                    int endindex = cleanline.IndexOf(";");
+                    int startindex = 15;
+                    int tmp;
+                    if (int.TryParse(cleanline.Substring(startindex, endindex - startindex), out tmp))
+                    {
+                        this.settings.MaxLeaseTime = tmp;
+                    }
+                }
+                else if (cleanline.StartsWith("subnet"))
+                {
+                    string[] strArr = cleanline.Split(' ');
+                    System.Net.IPAddress tmp;
+                    if (strArr.Length > 1)
+                    {
+                        if (System.Net.IPAddress.TryParse(strArr[1], out tmp))
+                        {
+                            this.settings.Subnet = tmp.ToString();
+                        }
+                        if (strArr.Length > 3)
+                        {
+                            if (strArr[2].Contains("netmask"))
+                            {
+                                if (System.Net.IPAddress.TryParse(strArr[3], out tmp))
+                                {
+                                    this.settings.SubnetMask = tmp.ToString();
+                                }
+                            }
+                        }
+                    }
+                }
+                else if (cleanline.StartsWith("range"))
+                {
+                    string[] strArr = cleanline.Split(' ');
+                    System.Net.IPAddress tmp;
+                    if (strArr.Length > 1)
+                    {
+                        if (System.Net.IPAddress.TryParse(strArr[1], out tmp))
+                        {
+                            this.settings.IpRangeStart = tmp.ToString();
+                        }
+                    }
+                    if (strArr.Length > 2)
+                    {
+                        strArr[2] = strArr[2].TrimEnd(';');
+                        if (System.Net.IPAddress.TryParse(strArr[2], out tmp))
+                        {
+                            this.settings.IpRangeEnd = tmp.ToString();
+                        }
+                    }
+                }
+                else if (cleanline.StartsWith("option"))
+                {
+                    string[] strArr = cleanline.Split(' ');
+                    System.Net.IPAddress tmpIp;
+                    if (strArr.Length > 2)
+                    {
+                        switch (strArr[1])
+                        {
+                            case "routers":
+                                strArr[2] = strArr[2].TrimEnd(';');
+                                if (System.Net.IPAddress.TryParse(strArr[2], out tmpIp))
+                                {
+                                    this.settings.Gateway = tmpIp.ToString();
+                                }
+                                break;
+                            case "domain-name-servers":
+                                strArr[2] = strArr[2].TrimEnd(';');
+                                strArr[2] = strArr[2].TrimEnd(',');
+                                if (System.Net.IPAddress.TryParse(strArr[2], out tmpIp))
+                                {
+                                    this.settings.PrimaryDNS = tmpIp.ToString();
+                                }
+                                if (strArr.Length > 3)
+                                {
+                                    strArr[3] = strArr[3].TrimEnd(';');
+                                    if (System.Net.IPAddress.TryParse(strArr[3], out tmpIp))
+                                    {
+                                        this.settings.SecondaryDNS = tmpIp.ToString();
+                                    }
+                                }
+                                break;
+                            default: break;
+                        }
+                    }
+                }
+                else if (cleanline.StartsWith("host"))
+                {
+                    staticLease = new StaticLease();
+                    string[] strArr = cleanline.Split(' ');
+                    if (strArr.Length > 1)
+                    {
+                        staticLease.DeviceName = strArr[1];
+                    }
+                }
+                else if (cleanline.StartsWith("hardware ethernet"))
+                {
+                    int endindex = cleanline.IndexOf(";");
+                    int startindex = 18;
+                    staticLease.MACAddress = cleanline.Substring(startindex, endindex - startindex);
+                }
+                else if (cleanline.StartsWith("fixed-address"))
+                {
+                    int endindex = cleanline.IndexOf(";");
+                    int startindex = 14;
+                    staticLease.IPAddress = cleanline.Substring(startindex, endindex - startindex);
+                }
+                if (staticLease != null && cleanline.Contains("}"))
+                {
+                    staticLease.ID = (this.settings.GetStaticLeases().Count + 1).ToString();
+                    this.settings.AddStaticLease(staticLease);
+                    staticLease = null;
+                }
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         public void SetNewHostIp()
         {
@@ -485,7 +696,7 @@ namespace GM4D
             AsyncResult aResult = (AsyncResult)result;
             ReadDhcpdLeasesFileDelegate readDhcpdLeasesFileDelegate = (ReadDhcpdLeasesFileDelegate)aResult.AsyncDelegate;
             ArrayList filecontent = readDhcpdLeasesFileDelegate.EndInvoke(result);
-            System.Console.WriteLine("parseDhcpdLeasesFile filecontent: " + filecontent.ToString());
+            System.Console.WriteLine("parseDhcpdLeasesFile filecontent: " + String.Join(",",filecontent));
             ArrayList dhcpdLeasesList = new ArrayList();
             DhcpdLease dhcpdLease = new DhcpdLease();
             try
@@ -529,12 +740,12 @@ namespace GM4D
                         System.Console.WriteLine("new dhcpdLease: " + dhcpdLease.ToString());
                     }
                 }
-                this.settings.DhcpdLeases = dhcpdLeasesList;
             }
             catch (Exception e)
             {
                 System.Console.WriteLine("parseDhcpdLeasesFile ERROR " + e.ToString());
             }
+            this.settings.DhcpdLeases = dhcpdLeasesList;
         }
     }
 }

@@ -10,6 +10,7 @@ namespace GM4D
         public Settings()
         {
             this.staticLeases = new System.Collections.Generic.Dictionary<String, StaticLease>();
+            this.StaticLeasesIsSet = false;
             this.PrimaryDNSIsSet = false;
             this.SecondaryDNSIsSet = false;
             this.StaticLeasesIsSet = false;
@@ -35,6 +36,7 @@ namespace GM4D
         #region eventhandling
         public event PropertyChangedEventHandler PropertyChanged;
         public event PropertyChangedEventHandler DhcpdLeasesChangedEvt;
+        public event PropertyChangedEventHandler StaticLeasesChangedEvt;
         private void NotifyPropertyChanged(String value)
         {
             if (PropertyChanged != null)
@@ -377,23 +379,24 @@ namespace GM4D
         }
         public bool StaticLeasesIsSet { get; private set; }
         private System.Collections.Generic.Dictionary<String, StaticLease> staticLeases;
-        public System.Collections.Generic.Dictionary<String, StaticLease> StaticLeases
+        public System.Collections.Generic.Dictionary<String, StaticLease> GetStaticLeases()
         {
-            get
-            {
                 return this.staticLeases;
-            }
-            set
+        }
+        public void AddStaticLease(StaticLease staticLease)
+        {
+            System.Console.WriteLine("AddStaticLease " + staticLease.ToString());
+            this.staticLeases[staticLease.ID] = staticLease;
+            this.StaticLeasesIsSet = true;
+            StaticLeasesChangedEvt(this, new PropertyChangedEventArgs("StaticLeases"));
+        }
+        public void RemoveStaticLease(string ID)
+        {
+            this.staticLeases.Remove(ID);
+            StaticLeasesChangedEvt(this, new PropertyChangedEventArgs("StaticLeases"));
+            if (this.staticLeases.Count <= 0)
             {
-                this.staticLeases = value;
-                if (this.staticLeases.Count > 0)
-                {
-                    this.StaticLeasesIsSet = true;
-                }
-                else
-                {
-                    this.StaticLeasesIsSet = false;
-                }
+                this.StaticLeasesIsSet = false;
             }
         }
         public bool DefaultLeaseTimeIsSet { get; private set; }
@@ -455,14 +458,14 @@ namespace GM4D
                 {
                     this.DhcpdLeasesIsSet = true;
                     System.Console.WriteLine("Settings DhcpdLeases: " + value.ToString());
-                    if (DhcpdLeasesChangedEvt != null)
-                    {
-                        DhcpdLeasesChangedEvt(this.DhcpdLeases, new PropertyChangedEventArgs("DhcpdLeases"));
-                    }
                 }
                 else
                 {
                     this.DhcpdLeasesIsSet = false;
+                } 
+                if (DhcpdLeasesChangedEvt != null)
+                {
+                    DhcpdLeasesChangedEvt(this.DhcpdLeases, new PropertyChangedEventArgs("DhcpdLeases"));
                 }
             }
         }
