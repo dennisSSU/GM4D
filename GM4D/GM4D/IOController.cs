@@ -178,7 +178,7 @@ namespace GM4D
         {
             NetworkInterface[] nics = NetworkInterface.GetAllNetworkInterfaces();
             IPGlobalProperties properties = IPGlobalProperties.GetIPGlobalProperties();
-            NetCalcTool nct = settings.NetCalcTool;
+            NetCalcTool nct = settings.HostNetCalcTool;
             // loop through all network interfaces
             foreach (NetworkInterface adapter in nics)
             {

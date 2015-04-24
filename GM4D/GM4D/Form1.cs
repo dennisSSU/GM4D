@@ -16,6 +16,11 @@ namespace GM4D
         #region Main
         private Settings settings;
         private IOController ioController;
+        /// <summary>
+        /// constructor for MainWindow
+        /// </summary>
+        /// <param name="_settings"></param>
+        /// <param name="_ioCOntroller"></param>
         public MainWindow(Settings _settings, IOController _ioCOntroller)
         {
             InitializeComponent();
@@ -23,12 +28,16 @@ namespace GM4D
             this.settings.DhcpdLeasesChangedEvt += this.OnSettingsDhcpdLeasesChange;
             this.ioController = _ioCOntroller;
         }
-
+        /// <summary>
+        /// funtion called automatically after the MainWindow has loaded
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void MainWindow_Load(object sender, EventArgs e)
         {
             this.statusRequired.SetError(this.ipRangeStart_input, "this field is required");
-            this.statusRequired.SetError(this.ipRangeEnd_input, "this field is required");
             this.statusRequired.SetError(this.subnet_input, "this field is required");
+            this.statusRequired.SetError(this.ipRangeEnd_input, "this field is required");
             this.statusRequired.SetError(this.subnetMask_input, "this field is required");
             //set source of databindings source
             this.settingsBindingSource.DataSource = settings;
@@ -57,6 +66,13 @@ namespace GM4D
         #endregion Main
 
         #region MenuPanel
+        // region for the menue button handler
+
+        /// <summary>
+        /// first menue button click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnOverview_Click(object sender, EventArgs e)
         {
             this.overview_panelMain.Visible = true;
@@ -64,7 +80,11 @@ namespace GM4D
             this.staticLeases_panelMain.Visible = false;
             this.clients_panelMain.Visible = false;
         }
-
+        /// <summary>
+        /// second menue button click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnBasicSettings_Click(object sender, EventArgs e)
         {
             this.overview_panelMain.Visible = false;
@@ -72,7 +92,11 @@ namespace GM4D
             this.staticLeases_panelMain.Visible = false;
             this.clients_panelMain.Visible = false;
         }
-
+        /// <summary>
+        /// third menue button click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnStaticLeases_Click(object sender, EventArgs e)
         {
             this.overview_panelMain.Visible = false;
@@ -80,7 +104,11 @@ namespace GM4D
             this.staticLeases_panelMain.Visible = true;
             this.clients_panelMain.Visible = false;
         }
-
+        /// <summary>
+        /// fourth menue button click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnClients_Click(object sender, EventArgs e)
         {
             this.overview_panelMain.Visible = false;
@@ -91,6 +119,11 @@ namespace GM4D
         #endregion MenuPanel
 
         #region OverviewPanel
+        /// <summary>
+        /// input validation for host ip address input
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void overview_validateIpInput(object sender, EventArgs e)
         {
             System.Net.IPAddress ipAddress;
@@ -106,7 +139,11 @@ namespace GM4D
                 validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "please enter valid IP address");
             }
         }
-
+        /// <summary>
+        /// input validation for host subnet mask input
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void overview_validateSubnetMaskInput(object sender, EventArgs e)
         {
             System.Net.IPAddress ipAddress;
@@ -226,17 +263,25 @@ namespace GM4D
             System.Net.IPAddress ipAddress;
             if (System.Net.IPAddress.TryParse(((IPAddressControlLib.IPAddressControl)sender).Text, out ipAddress))
             {
-                if (settings.NetCalcTool.CheckSameSubnet(ipAddress.ToString(), settings.HostIP, settings.HostSubnet))
+                if (settings.HostNetCalcTool.CheckSameSubnet(ipAddress.ToString(), settings.HostIP, settings.HostSubnet))
                 {
                     this.validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "");
                     this.validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "valid IP address");
+                    this.ipRangeStart_lblInfo.Text = "";
                     this.settings.IpRangeStart = ipAddress.ToString();
+                }
+                else
+                {
+                    validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "");
+                    validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "please enter valid IP address");
+                    this.ipRangeStart_lblInfo.Text = "address is not in the same subnet as host ip";
                 }
             }
             else
             {
                 validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "");
                 validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "please enter valid IP address");
+                this.ipRangeStart_lblInfo.Text = "address is not a valid ip address";
             }
         }
 
@@ -248,12 +293,14 @@ namespace GM4D
             {
                 this.validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "");
                 this.validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "valid IP address");
+                this.ipRangeEnd_lblInfo.Text = "";
                 this.settings.IpRangeEnd = ipAddress.ToString();
             }
             else
             {
                 validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "");
                 validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "please enter valid IP address");
+                this.ipRangeEnd_lblInfo.Text = "address is not a valid ip address";
             }
         }
         private void settings_validateSubnetInput(object sender, EventArgs e)
@@ -264,28 +311,40 @@ namespace GM4D
             {
                 this.validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "");
                 this.validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "valid IP address");
+                this.subnet_lblInfo.Text = "";
                 this.settings.Subnet = ipAddress.ToString();
             }
             else
             {
                 validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "");
                 validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "please enter valid IP address");
+                this.subnet_lblInfo.Text = "address is not a valid ip address";
             }
         }
         private void settings_validateSubnetMaskInput(object sender, EventArgs e)
         {
             this.statusRequired.SetError((IPAddressControlLib.IPAddressControl)sender, "");
             System.Net.IPAddress ipAddress;
+            // check if ip address is valid
             if (System.Net.IPAddress.TryParse(((IPAddressControlLib.IPAddressControl)sender).Text, out ipAddress))
             {
                 this.validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "");
                 this.validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "valid IP address");
+                this.subnetMask_lblInfo.Text = "";
                 this.settings.SubnetMask = ipAddress.ToString();
+                // automatically calculate and set subnet id
+                if (this.settings.IpRangeStartIsSet)
+                {
+                    this.settings.DHCPNetCalcTool.calculate(this.settings.IpRangeStart, this.settings.SubnetMask);
+                    this.settings.Subnet = this.settings.DHCPNetCalcTool.NetworkId;
+                    this.settings_validateSubnetInput(this.subnet_input, new EventArgs());
+                }
             }
             else
             {
                 validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "");
                 validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "please enter valid IP address");
+                this.subnetMask_lblInfo.Text = "address is not a valid ip address";
             }
         }
         private void settings_validateGatewayInput(object sender, EventArgs e)
@@ -294,6 +353,7 @@ namespace GM4D
             {
                 this.validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "");
                 this.validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "");
+                this.gateway_lblInfo.Text = "";
                 return;
             }
             System.Net.IPAddress ipAddress;
@@ -301,12 +361,14 @@ namespace GM4D
             {
                 this.validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "");
                 this.validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "valid IP address");
+                this.gateway_lblInfo.Text = "";
                 this.settings.Gateway = ipAddress.ToString();
             }
             else
             {
                 this.validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "");
                 this.validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "please enter valid IP address");
+                this.gateway_lblInfo.Text = "address is not a valid ip address";
             }
         }
         private void settings_validatePrimaryDNSInput(object sender, EventArgs e)
@@ -315,6 +377,7 @@ namespace GM4D
             {
                 this.validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "");
                 this.validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "");
+                this.primaryDNS_lblInfo.Text = "";
                 return;
             }
             System.Net.IPAddress ipAddress;
@@ -322,12 +385,14 @@ namespace GM4D
             {
                 this.validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "");
                 this.validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "valid IP address");
+                this.primaryDNS_lblInfo.Text = "";
                 this.settings.PrimaryDNS = ipAddress.ToString();
             }
             else
             {
                 validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "");
                 validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "please enter valid IP address");
+                this.primaryDNS_lblInfo.Text = "address is not a valid ip address";
             }
         }
 
@@ -337,6 +402,7 @@ namespace GM4D
             {
                 this.validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "");
                 this.validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "");
+                this.secondaryDNS_lblInfo.Text = "";
                 return;
             }
             System.Net.IPAddress ipAddress;
@@ -344,11 +410,14 @@ namespace GM4D
             {
                 this.validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "");
                 this.validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "valid IP address");
+                this.secondaryDNS_lblInfo.Text = "";
                 this.settings.SecondaryDNS = ipAddress.ToString();
             }
             else
             {
-                setValidationError(sender,"please enter valid IP address");
+                validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "");
+                validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "please enter valid IP address");
+                this.secondaryDNS_lblInfo.Text = "address is not a valid ip address";
             }
         }
 

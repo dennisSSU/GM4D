@@ -28,7 +28,8 @@ namespace GM4D
             this.NewHostIpIsSet = false;
             this.NewHostSubnetMaskIsSet = false;
             this.Interfaces = new ArrayList();
-            this.NetCalcTool = new NetCalcTool();
+            this.HostNetCalcTool = new NetCalcTool();
+            this.DHCPNetCalcTool = new NetCalcTool();
         }
         //################################################################### eventhandling
         #region eventhandling
@@ -99,6 +100,8 @@ namespace GM4D
         #endregion interface selection
         //################################################################### host
         #region host
+        public NetCalcTool HostNetCalcTool { get; set; }
+
         public bool HostIpIsSet { get; private set; }
         private String hostIP;
         public String HostIP
@@ -236,6 +239,8 @@ namespace GM4D
 
         //################################################################### network
         #region network
+        public NetCalcTool DHCPNetCalcTool { get; set; }
+
         public bool IpRangeStartIsSet { get; private set; }
         private String ipRangeStart;
         public String IpRangeStart
@@ -505,7 +510,6 @@ namespace GM4D
             }
         }
         #endregion GUIStatus
-        public NetCalcTool NetCalcTool { get; set; }
 
         public const string test = "this is a test";
     }
