@@ -25,10 +25,30 @@ namespace GM4D
         {
             InitializeComponent();
             this.settings = _settings;
-            this.settings.DhcpdLeasesChangedEvt += OnSettingsDhcpdLeasesChange;
-            this.settings.StaticLeasesChangedEvt += StaticLeases_ListView_update;
             this.ioController = _ioCOntroller;
+            this.settings.DhcpdLeasesChangedEvt += this.OnSettingsDhcpdLeasesChange;
+            this.settings.StaticLeasesChangedEvt += this.StaticLeases_ListView_update;
+            this.ioController.SettingsFileLoadedEvt += this.OnSettingsFileLoaded;
+            this.ioController.UserIsSUChanged += this.OnUserIsSUChanged;
+            this.ioController.OsIsUnixChanged += this.OnOsIsUnixChanged;
         }
+
+        private void OnOsIsUnixChanged(object sender, EventArgs e)
+        {
+            if (!this.ioController.OsIsUnix)
+            {
+                MessageBox.Show("The current environment is not a Unix environment. Not all functions will be working.", "No Unix environment");
+            }
+        }
+
+        private void OnUserIsSUChanged(object sender, EventArgs e)
+        {
+            if (!this.ioController.UserIsSU)
+            {
+                MessageBox.Show("Some features require root privilleges. Please run the application with sudo privilleges e.g. 'gksudo mono GM4D.exe'.", "No root privilleges");
+            }
+        }
+
         /// <summary>
         /// funtion called automatically after the MainWindow has loaded
         /// </summary>
@@ -59,11 +79,6 @@ namespace GM4D
             clients_lvbc_addStatic.FixedWidth = true;
             clients_lve.AddColumn(clients_lvbc_addStatic);
         }
-
-        public void MainWindow_Shown(object sender, EventArgs e)
-        {
-            
-        }
         #endregion Main
 
         #region MenuPanel
@@ -77,6 +92,7 @@ namespace GM4D
         private void btnOverview_Click(object sender, EventArgs e)
         {
             this.overview_panelMain.Visible = true;
+            this.overview_panelMain.Refresh();
             this.settings_panelMain.Visible = false;
             this.staticLeases_panelMain.Visible = false;
             this.clients_panelMain.Visible = false;
@@ -90,6 +106,7 @@ namespace GM4D
         {
             this.overview_panelMain.Visible = false;
             this.settings_panelMain.Visible = true;
+            this.settings_panelMain.Refresh();
             this.staticLeases_panelMain.Visible = false;
             this.clients_panelMain.Visible = false;
         }
@@ -103,6 +120,7 @@ namespace GM4D
             this.overview_panelMain.Visible = false;
             this.settings_panelMain.Visible = false;
             this.staticLeases_panelMain.Visible = true;
+            this.staticLeases_panelMain.Refresh();
             this.clients_panelMain.Visible = false;
         }
         /// <summary>
@@ -116,6 +134,8 @@ namespace GM4D
             this.settings_panelMain.Visible = false;
             this.staticLeases_panelMain.Visible = false;
             this.clients_panelMain.Visible = true;
+            this.clients_panelMain.Refresh();
+            updateDhcpdLeasesListView();
         }
         #endregion MenuPanel
 
@@ -421,7 +441,44 @@ namespace GM4D
                 this.secondaryDNS_lblInfo.Text = "address is not a valid ip address";
             }
         }
-
+        public void OnSettingsFileLoaded(object sender, EventArgs ea)
+        {
+            if (this.settings_panelMain.InvokeRequired)
+            {
+                refreshSettingsCallback rc = new refreshSettingsCallback(refreshSettings);
+                this.Invoke(rc);
+            }
+            else
+            {
+                refreshSettings();    
+            }
+        }
+        private delegate void refreshSettingsCallback();
+        private void refreshSettings()
+        {
+            this.ipRangeStart_input.Text = this.settings.IpRangeStart;
+            this.ipRangeStart_input.Refresh();
+            this.ipRangeStart_input.Focus();
+            this.ipRangeEnd_input.Text = this.settings.IpRangeEnd;
+            this.ipRangeEnd_input.Refresh();
+            this.ipRangeEnd_input.Focus();
+            this.subnetMask_input.Text = this.settings.SubnetMask;
+            this.subnetMask_input.Refresh();
+            this.subnetMask_input.Focus();
+            this.gateway_input.Text = this.settings.Gateway;
+            this.gateway_input.Refresh();
+            this.gateway_input.Focus();
+            this.primaryDNS_input.Text = this.settings.PrimaryDNS;
+            this.primaryDNS_input.Refresh();
+            this.primaryDNS_input.Focus();
+            this.secondaryDNS_input.Text = this.settings.SecondaryDNS;            
+            this.secondaryDNS_input.Refresh();
+            this.secondaryDNS_input.Focus();
+            this.subnet_input.Text = this.settings.Subnet;
+            this.subnet_input.Refresh();
+            this.subnet_input.Focus();
+            this.ipRangeStart_input.Focus();
+        }
         #endregion SettingsPanel
 
         #region MenuBottomPanel
@@ -454,9 +511,10 @@ namespace GM4D
             }
             
         }
+        private int tmpCnt = 0;
         private void menuBottom_backUpConfig_Click(object sender, EventArgs e)
         {
-            
+
         }
         #endregion MenuBottomPanel
 
@@ -565,10 +623,15 @@ namespace GM4D
         public void OnSettingsDhcpdLeasesChange(object sender, PropertyChangedEventArgs e)
         {
             System.Console.WriteLine(System.DateTime.Now + " OnSettingsDhcpdLeasesChange called");
+            updateDhcpdLeasesListView();
+        }
+        private void updateDhcpdLeasesListView()
+        {
             clients_dhcpdLeases_listView.Items.Clear();
-            foreach (DhcpdLease dhcpdLease in (ArrayList)sender)
+            foreach (KeyValuePair<string, DhcpdLease> entry in this.settings.DhcpdLeases)
             {
-                ListViewItem item = new ListViewItem(""+dhcpdLease.ID);
+                DhcpdLease dhcpdLease = entry.Value;
+                ListViewItem item = new ListViewItem("" + dhcpdLease.ID);
                 item.SubItems.Add(dhcpdLease.DeviceName);
                 item.SubItems.Add(dhcpdLease.IPAddress);
                 item.SubItems.Add(dhcpdLease.MACAddress);

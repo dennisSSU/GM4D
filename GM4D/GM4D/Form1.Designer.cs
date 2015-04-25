@@ -41,6 +41,7 @@
             this.hostIP_lbl = new System.Windows.Forms.Label();
             this.hostSubnetMask_lbl = new System.Windows.Forms.Label();
             this.hostSubnetMask_tb = new System.Windows.Forms.TextBox();
+            this.settingsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.hostIP_lblInfo = new System.Windows.Forms.Label();
             this.hostSubnetMask_lblInfo = new System.Windows.Forms.Label();
             this.hostIP_tb = new System.Windows.Forms.TextBox();
@@ -150,10 +151,10 @@
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.statusRequired = new System.Windows.Forms.ErrorProvider(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.settingsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.menu_panelMain.SuspendLayout();
             this.settings_panelMain.SuspendLayout();
             this.settings_panelInfo.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.settingsBindingSource)).BeginInit();
             this.settings_panelInput.SuspendLayout();
             this.ipRangeStart_panelInput.SuspendLayout();
             this.subnet_panelInput.SuspendLayout();
@@ -180,7 +181,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.validationStatus_ok)).BeginInit();
             this.menuBottom_panelMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.statusRequired)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.settingsBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // menu_btnOverview
@@ -354,6 +354,10 @@
             this.hostSubnetMask_tb.Size = new System.Drawing.Size(144, 26);
             this.hostSubnetMask_tb.TabIndex = 0;
             this.hostSubnetMask_tb.TabStop = false;
+            // 
+            // settingsBindingSource
+            // 
+            this.settingsBindingSource.DataSource = typeof(GM4D.Settings);
             // 
             // hostIP_lblInfo
             // 
@@ -895,7 +899,7 @@
             this.gateway_input.BackColor = System.Drawing.SystemColors.Window;
             this.gateway_input.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.gateway_input.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.gateway_input.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.settingsBindingSource, "Gateway", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.gateway_input.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.settingsBindingSource, "Gateway", true));
             this.gateway_input.Font = new System.Drawing.Font("Ubuntu", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gateway_input.Location = new System.Drawing.Point(3, 3);
             this.gateway_input.MinimumSize = new System.Drawing.Size(97, 22);
@@ -991,7 +995,7 @@
             this.subnet_input.BackColor = System.Drawing.SystemColors.Window;
             this.subnet_input.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.subnet_input.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.subnet_input.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.settingsBindingSource, "Subnet", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.subnet_input.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.settingsBindingSource, "Subnet", true));
             this.subnet_input.Font = new System.Drawing.Font("Ubuntu", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.subnet_input.Location = new System.Drawing.Point(3, 3);
             this.subnet_input.MinimumSize = new System.Drawing.Size(97, 22);
@@ -1875,10 +1879,6 @@
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
-            // settingsBindingSource
-            // 
-            this.settingsBindingSource.DataSource = typeof(GM4D.Settings);
-            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -1902,6 +1902,7 @@
             this.settings_panelMain.ResumeLayout(false);
             this.settings_panelInfo.ResumeLayout(false);
             this.settings_panelInfo.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.settingsBindingSource)).EndInit();
             this.settings_panelInput.ResumeLayout(false);
             this.settings_panelInput.PerformLayout();
             this.ipRangeStart_panelInput.ResumeLayout(false);
@@ -1938,7 +1939,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.validationStatus_ok)).EndInit();
             this.menuBottom_panelMain.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.statusRequired)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.settingsBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }

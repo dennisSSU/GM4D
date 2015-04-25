@@ -10,6 +10,7 @@ namespace GM4D
         public Settings()
         {
             this.staticLeases = new System.Collections.Generic.Dictionary<String, StaticLease>();
+            this.dhcpdLeases = new System.Collections.Generic.Dictionary<String, DhcpdLease>();
             this.StaticLeasesIsSet = false;
             this.PrimaryDNSIsSet = false;
             this.SecondaryDNSIsSet = false;
@@ -56,7 +57,7 @@ namespace GM4D
         #region interface selection
         public void selectInterface(int i)
         {
-            if (i > Interfaces.Count)
+            if (i > (Interfaces.Count-1))
             {
                 throw new IndexOutOfRangeException("Index for interface out of range. Index: " + i + " number of interfaces: " + Interfaces.Count);
             }
@@ -242,7 +243,6 @@ namespace GM4D
         //################################################################### network
         #region network
         public NetCalcTool DHCPNetCalcTool { get; set; }
-
         public bool IpRangeStartIsSet { get; private set; }
         private String ipRangeStart;
         public String IpRangeStart
@@ -379,6 +379,18 @@ namespace GM4D
         }
         public bool StaticLeasesIsSet { get; private set; }
         private System.Collections.Generic.Dictionary<String, StaticLease> staticLeases;
+        public System.Collections.Generic.Dictionary<String, StaticLease> StaticLeases
+        {
+            get
+            {
+                return this.staticLeases;
+            }
+            private set
+            {
+                this.staticLeases = value;
+                StaticLeasesChangedEvt(this, new PropertyChangedEventArgs("StaticLeases"));
+            }
+        }
         public System.Collections.Generic.Dictionary<String, StaticLease> GetStaticLeases()
         {
                 return this.staticLeases;
@@ -444,8 +456,8 @@ namespace GM4D
             }
         }
         public bool DhcpdLeasesIsSet { get; private set; }
-        private System.Collections.ArrayList dhcpdLeases;
-        public System.Collections.ArrayList DhcpdLeases
+        private System.Collections.Generic.Dictionary<String, DhcpdLease> dhcpdLeases;
+        public System.Collections.Generic.Dictionary<String, DhcpdLease> DhcpdLeases
         {
             get
             {
@@ -454,20 +466,21 @@ namespace GM4D
             set
             {
                 this.dhcpdLeases = value;
-                if (this.dhcpdLeases.Count > 0)
-                {
-                    this.DhcpdLeasesIsSet = true;
-                    System.Console.WriteLine("Settings DhcpdLeases: " + value.ToString());
-                }
-                else
-                {
-                    this.DhcpdLeasesIsSet = false;
-                } 
                 if (DhcpdLeasesChangedEvt != null)
                 {
-                    DhcpdLeasesChangedEvt(this.DhcpdLeases, new PropertyChangedEventArgs("DhcpdLeases"));
+                    DhcpdLeasesChangedEvt(this.dhcpdLeases, new PropertyChangedEventArgs("DhcpdLeases"));
                 }
             }
+        }
+        public void AddDhcpdLease(DhcpdLease dhcpdLease)
+        {
+            this.dhcpdLeases.Add(dhcpdLease.MACAddress, dhcpdLease);
+            DhcpdLeasesChangedEvt(this.dhcpdLeases, new PropertyChangedEventArgs("DhcpdLeases"));
+        }
+        public void RemoveDhcpdLease(string macaddress)
+        {
+            this.dhcpdLeases.Remove(macaddress);
+            DhcpdLeasesChangedEvt(this.dhcpdLeases, new PropertyChangedEventArgs("DhcpdLeases"));
         }
         public bool IsDHCPServerRunning { get; set; }
         #endregion network
@@ -513,7 +526,5 @@ namespace GM4D
             }
         }
         #endregion GUIStatus
-
-        public const string test = "this is a test";
     }
 }
