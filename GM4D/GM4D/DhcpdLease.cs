@@ -12,16 +12,13 @@ namespace GM4D
         public String IPAddress { get; set; }
         public String LeaseStart { get; set; }
         public String LeaseEnd { get; set; }
-        public int ID { get; set; }
-        private static int i = 0;
         public DhcpdLease()
         {
-            i++;
-            this.ID = i;
+
         }
         public override string ToString()
         {
-            return "Devicename: " + this.DeviceName + " ID: " + this.ID + " IPAddress: " + this.IPAddress + " MACAddress: " + this.MACAddress;
+            return "Devicename: " + this.DeviceName + " IPAddress: " + this.IPAddress + " MACAddress: " + this.MACAddress;
         }
     }
 }

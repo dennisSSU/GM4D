@@ -97,10 +97,9 @@
             this.clients_panelMain = new System.Windows.Forms.FlowLayoutPanel();
             this.clients_lbl = new System.Windows.Forms.Label();
             this.clients_dhcpdLeases_listView = new System.Windows.Forms.ListView();
-            this.columnClientsID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnClientsMAC = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnClientsName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnClientsIP = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnClientsMAC = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnClientsLeaseStart = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnClientsLeaseEnd = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnClientsAddToStatic = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -146,7 +145,7 @@
             this.menuBottom_panelMain = new System.Windows.Forms.FlowLayoutPanel();
             this.menuBottom_btnLoad = new System.Windows.Forms.Button();
             this.menuBottom_btnApply = new System.Windows.Forms.Button();
-            this.menuBottom_backUpConfig = new System.Windows.Forms.Button();
+            this.menuBottom_LoadFromDhcp = new System.Windows.Forms.Button();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.statusRequired = new System.Windows.Forms.ErrorProvider(this.components);
@@ -1277,25 +1276,27 @@
             // 
             // clients_dhcpdLeases_listView
             // 
+            this.clients_dhcpdLeases_listView.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.clients_dhcpdLeases_listView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnClientsID,
+            this.columnClientsMAC,
             this.columnClientsName,
             this.columnClientsIP,
-            this.columnClientsMAC,
             this.columnClientsLeaseStart,
             this.columnClientsLeaseEnd,
             this.columnClientsAddToStatic});
+            this.clients_dhcpdLeases_listView.FullRowSelect = true;
             this.clients_dhcpdLeases_listView.Location = new System.Drawing.Point(3, 23);
+            this.clients_dhcpdLeases_listView.MultiSelect = false;
             this.clients_dhcpdLeases_listView.Name = "clients_dhcpdLeases_listView";
             this.clients_dhcpdLeases_listView.Size = new System.Drawing.Size(717, 385);
             this.clients_dhcpdLeases_listView.TabIndex = 0;
             this.clients_dhcpdLeases_listView.UseCompatibleStateImageBehavior = false;
             this.clients_dhcpdLeases_listView.View = System.Windows.Forms.View.Details;
             // 
-            // columnClientsID
+            // columnClientsMAC
             // 
-            this.columnClientsID.Text = "ID";
-            this.columnClientsID.Width = 44;
+            this.columnClientsMAC.Text = "MAC Address";
+            this.columnClientsMAC.Width = 121;
             // 
             // columnClientsName
             // 
@@ -1306,11 +1307,6 @@
             // 
             this.columnClientsIP.Text = "Assigned IP";
             this.columnClientsIP.Width = 105;
-            // 
-            // columnClientsMAC
-            // 
-            this.columnClientsMAC.Text = "MAC Address";
-            this.columnClientsMAC.Width = 121;
             // 
             // columnClientsLeaseStart
             // 
@@ -1794,7 +1790,7 @@
             this.menuBottom_panelMain.Controls.Add(this.menuBottom_btnSave);
             this.menuBottom_panelMain.Controls.Add(this.menuBottom_btnLoad);
             this.menuBottom_panelMain.Controls.Add(this.menuBottom_btnApply);
-            this.menuBottom_panelMain.Controls.Add(this.menuBottom_backUpConfig);
+            this.menuBottom_panelMain.Controls.Add(this.menuBottom_LoadFromDhcp);
             this.menuBottom_panelMain.Location = new System.Drawing.Point(140, 547);
             this.menuBottom_panelMain.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
             this.menuBottom_panelMain.Name = "menuBottom_panelMain";
@@ -1837,23 +1833,23 @@
             this.menuBottom_btnApply.UseVisualStyleBackColor = false;
             this.menuBottom_btnApply.Click += new System.EventHandler(this.menuBottom_btnApply_Click);
             // 
-            // menuBottom_backUpConfig
+            // menuBottom_LoadFromDhcp
             // 
-            this.menuBottom_backUpConfig.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.menuBottom_backUpConfig.BackColor = System.Drawing.Color.Transparent;
-            this.menuBottom_backUpConfig.FlatAppearance.BorderSize = 0;
-            this.menuBottom_backUpConfig.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.menuBottom_backUpConfig.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.Control;
-            this.menuBottom_backUpConfig.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.menuBottom_backUpConfig.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.menuBottom_backUpConfig.Location = new System.Drawing.Point(321, 3);
-            this.menuBottom_backUpConfig.Name = "menuBottom_backUpConfig";
-            this.menuBottom_backUpConfig.Size = new System.Drawing.Size(100, 50);
-            this.menuBottom_backUpConfig.TabIndex = 8;
-            this.menuBottom_backUpConfig.TabStop = false;
-            this.menuBottom_backUpConfig.Text = "Backup Current Setting";
-            this.menuBottom_backUpConfig.UseVisualStyleBackColor = false;
-            this.menuBottom_backUpConfig.Click += new System.EventHandler(this.menuBottom_backUpConfig_Click);
+            this.menuBottom_LoadFromDhcp.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.menuBottom_LoadFromDhcp.BackColor = System.Drawing.Color.Transparent;
+            this.menuBottom_LoadFromDhcp.FlatAppearance.BorderSize = 0;
+            this.menuBottom_LoadFromDhcp.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.menuBottom_LoadFromDhcp.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.Control;
+            this.menuBottom_LoadFromDhcp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.menuBottom_LoadFromDhcp.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.menuBottom_LoadFromDhcp.Location = new System.Drawing.Point(321, 3);
+            this.menuBottom_LoadFromDhcp.Name = "menuBottom_LoadFromDhcp";
+            this.menuBottom_LoadFromDhcp.Size = new System.Drawing.Size(100, 50);
+            this.menuBottom_LoadFromDhcp.TabIndex = 8;
+            this.menuBottom_LoadFromDhcp.TabStop = false;
+            this.menuBottom_LoadFromDhcp.Text = "Load from DHCP";
+            this.menuBottom_LoadFromDhcp.UseVisualStyleBackColor = false;
+            this.menuBottom_LoadFromDhcp.Click += new System.EventHandler(this.menuBottom_loadFromDhcp_Click);
             // 
             // saveFileDialog
             // 
@@ -1887,10 +1883,10 @@
             this.ClientSize = new System.Drawing.Size(872, 617);
             this.Controls.Add(this.menuBottom_panelMain);
             this.Controls.Add(this.menu_panelMain);
-            this.Controls.Add(this.settings_panelMain);
-            this.Controls.Add(this.staticLeases_panelMain);
             this.Controls.Add(this.clients_panelMain);
             this.Controls.Add(this.overview_panelMain);
+            this.Controls.Add(this.settings_panelMain);
+            this.Controls.Add(this.staticLeases_panelMain);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
@@ -1999,7 +1995,7 @@
         private System.Windows.Forms.FlowLayoutPanel gateway_inputPanel;
         private System.Windows.Forms.FlowLayoutPanel primaryDNS_panelInput;
         private System.Windows.Forms.FlowLayoutPanel secondaryDNS_panelInput;
-        private System.Windows.Forms.Button menuBottom_backUpConfig;
+        private System.Windows.Forms.Button menuBottom_LoadFromDhcp;
         private System.Windows.Forms.BindingSource settingsBindingSource;
         private System.Windows.Forms.ListView staticLeases_listview;
         private System.Windows.Forms.Label staticLeases_input_lbl;
@@ -2059,7 +2055,6 @@
         private System.Windows.Forms.ColumnHeader columnId;
         private System.Windows.Forms.Label clients_lbl;
         private System.Windows.Forms.ListView clients_dhcpdLeases_listView;
-        private System.Windows.Forms.ColumnHeader columnClientsID;
         private System.Windows.Forms.ColumnHeader columnClientsName;
         private System.Windows.Forms.ColumnHeader columnClientsIP;
         private System.Windows.Forms.ColumnHeader columnClientsMAC;

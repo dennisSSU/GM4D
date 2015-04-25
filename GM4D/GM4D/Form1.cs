@@ -74,7 +74,7 @@ namespace GM4D
             lve.AddColumn(lvbcDelete);
             //listview clients
             ListViewExtender clients_lve = new ListViewExtender(clients_dhcpdLeases_listView);
-            ListViewButtonColumn clients_lvbc_addStatic = new ListViewButtonColumn(6);
+            ListViewButtonColumn clients_lvbc_addStatic = new ListViewButtonColumn(5);
             clients_lvbc_addStatic.Click += ClientsListviewAddStaticClick;
             clients_lvbc_addStatic.FixedWidth = true;
             clients_lve.AddColumn(clients_lvbc_addStatic);
@@ -82,6 +82,30 @@ namespace GM4D
         #endregion Main
 
         #region MenuPanel
+        private enum views {none,overview, settings, staticLeases, clients};
+        private void switchView(views view)
+        {
+            this.overview_panelMain.Visible = false;
+            this.settings_panelMain.Visible = false;
+            this.staticLeases_panelMain.Visible = false;
+            this.clients_panelMain.Visible = false;
+            switch (view)
+            {
+                case views.overview: 
+                    this.overview_panelMain.Visible = true;
+                    break;
+                case views.settings: 
+                    this.settings_panelMain.Visible = true;
+                    break;
+                case views.staticLeases: 
+                    this.staticLeases_panelMain.Visible = true;
+                    break;
+                case views.clients: 
+                    this.clients_panelMain.Visible = true;
+                    break;
+                default: break;
+            }
+        }
         // region for the menue button handler
 
         /// <summary>
@@ -91,11 +115,7 @@ namespace GM4D
         /// <param name="e"></param>
         private void btnOverview_Click(object sender, EventArgs e)
         {
-            this.overview_panelMain.Visible = true;
-            this.overview_panelMain.Refresh();
-            this.settings_panelMain.Visible = false;
-            this.staticLeases_panelMain.Visible = false;
-            this.clients_panelMain.Visible = false;
+            switchView(views.overview);
         }
         /// <summary>
         /// second menue button click
@@ -104,11 +124,7 @@ namespace GM4D
         /// <param name="e"></param>
         private void btnBasicSettings_Click(object sender, EventArgs e)
         {
-            this.overview_panelMain.Visible = false;
-            this.settings_panelMain.Visible = true;
-            this.settings_panelMain.Refresh();
-            this.staticLeases_panelMain.Visible = false;
-            this.clients_panelMain.Visible = false;
+            switchView(views.settings);
         }
         /// <summary>
         /// third menue button click
@@ -117,11 +133,7 @@ namespace GM4D
         /// <param name="e"></param>
         private void btnStaticLeases_Click(object sender, EventArgs e)
         {
-            this.overview_panelMain.Visible = false;
-            this.settings_panelMain.Visible = false;
-            this.staticLeases_panelMain.Visible = true;
-            this.staticLeases_panelMain.Refresh();
-            this.clients_panelMain.Visible = false;
+            switchView(views.staticLeases);
         }
         /// <summary>
         /// fourth menue button click
@@ -130,12 +142,7 @@ namespace GM4D
         /// <param name="e"></param>
         private void btnClients_Click(object sender, EventArgs e)
         {
-            this.overview_panelMain.Visible = false;
-            this.settings_panelMain.Visible = false;
-            this.staticLeases_panelMain.Visible = false;
-            this.clients_panelMain.Visible = true;
-            this.clients_panelMain.Refresh();
-            updateDhcpdLeasesListView();
+            switchView(views.clients);
         }
         #endregion MenuPanel
 
@@ -511,10 +518,16 @@ namespace GM4D
             }
             
         }
-        private int tmpCnt = 0;
-        private void menuBottom_backUpConfig_Click(object sender, EventArgs e)
+        private void menuBottom_loadFromDhcp_Click(object sender, EventArgs e)
         {
-
+            try
+            {
+                this.ioController.LoadSettingsFile("/etc/dhcp/dhcpd.conf");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("The file /etc/dhcp/dhcpd.conf could not be loaded.\n" + ex.Message, "Failed to load dhcpd.conf");
+            }
         }
         #endregion MenuBottomPanel
 
@@ -631,10 +644,9 @@ namespace GM4D
             foreach (KeyValuePair<string, DhcpdLease> entry in this.settings.DhcpdLeases)
             {
                 DhcpdLease dhcpdLease = entry.Value;
-                ListViewItem item = new ListViewItem("" + dhcpdLease.ID);
+                ListViewItem item = new ListViewItem(dhcpdLease.MACAddress);
                 item.SubItems.Add(dhcpdLease.DeviceName);
                 item.SubItems.Add(dhcpdLease.IPAddress);
-                item.SubItems.Add(dhcpdLease.MACAddress);
                 item.SubItems.Add(dhcpdLease.LeaseStart);
                 item.SubItems.Add(dhcpdLease.LeaseEnd);
                 item.SubItems.Add("add static lease");
@@ -644,8 +656,18 @@ namespace GM4D
         }
         public void ClientsListviewAddStaticClick(object sender, ListViewColumnMouseEventArgs e)
         {
-            System.Console.WriteLine("Clients_listview_addStatic_click " + e.Item.Text);
-            MessageBox.Show("addstatic: " + e.Item.Text);
+            try
+            {
+                DhcpdLease dhcpLease = this.settings.DhcpdLeases[e.Item.Text];
+                this.staticLeases_input_tb_ip.Text = dhcpLease.IPAddress;
+                this.staticLeases_input_tb_mac.Text = dhcpLease.MACAddress;
+                this.staticLeases_input_tb_name.Text = dhcpLease.DeviceName;
+                switchView(views.staticLeases);
+            }
+            catch (Exception exep)
+            {
+                System.Console.WriteLine("ClientsListviewAddStaticClick " + exep.Message);
+            }
         }
         #endregion DhcpdLeases
 

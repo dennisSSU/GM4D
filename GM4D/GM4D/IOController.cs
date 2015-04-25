@@ -161,9 +161,16 @@ namespace GM4D
         /// <param name="filename"></param>
         public void LoadSettingsFile(String filename)
         {
-            System.Console.WriteLine("LoadSettingsFile filename: " + filename);
-            ReadConfigFileDelegate readConfigFileDelegate = new ReadConfigFileDelegate(ProcessConfigFile);
-            IAsyncResult readConfigFileDelegateResult = readConfigFileDelegate.BeginInvoke(filename, parseConfig, null);
+            if (File.Exists(filename))
+            {
+                System.Console.WriteLine("LoadSettingsFile filename: " + filename);
+                ReadConfigFileDelegate readConfigFileDelegate = new ReadConfigFileDelegate(ProcessConfigFile);
+                IAsyncResult readConfigFileDelegateResult = readConfigFileDelegate.BeginInvoke(filename, parseConfig, null);
+            }
+            else
+            {
+                throw new FileNotFoundException(filename + " not found.");
+            }
         }
         /// <summary>
         /// takes a filename, reads in the text content of file and calls parseConfig with the content
@@ -173,20 +180,23 @@ namespace GM4D
         private ArrayList ProcessConfigFile(string filename)
         {
             System.Console.WriteLine("ProcessConfigFile filename: " + filename);
-            if (!File.Exists(filename))
+            if (File.Exists(filename))
             {
-                Console.WriteLine(filename + " does not exist");
-                return null;
-            }
-            using (StreamReader sr = File.OpenText(filename))
-            {
-                string input;
-                ArrayList filecontent = new ArrayList();
-                while ((input = sr.ReadLine()) != null)
+                using (StreamReader sr = File.OpenText(filename))
                 {
-                    filecontent.Add(input);
+                    string input;
+                    ArrayList filecontent = new ArrayList();
+                    while ((input = sr.ReadLine()) != null)
+                    {
+                        filecontent.Add(input);
+                    }
+                    return filecontent;
                 }
-                return filecontent;
+            }
+            else
+            {
+                throw new FileNotFoundException(filename + " not found.");
+                return null;
             }
         }
         /// <summary>
@@ -788,22 +798,43 @@ namespace GM4D
                     // start watching.
                     this.DhcpdLeasesFileWatcher.EnableRaisingEvents = true;
                 }
+                else
+                {
+                    throw new FileNotFoundException("/var/lib/dhcp/dhcpd.leases not found");
+                }
+            }
+            else
+            {
+                throw new System.Exception("Error in IOController - InitiateDhcpdLeasesFileWatcher - System is not a Unix environment");
             }
         }
 
-        // eventhandler for filewatcher
         private void OnDhcpdLeasesChanged(object source, FileSystemEventArgs e)
         {
             System.Console.WriteLine("OnDhcpdLeasesChanged: " + e.FullPath.ToString());
             this.ReadDhcpdLeasesFile(e.FullPath);
         }
         
-        private void ReadDhcpdLeasesFile(object obj)
+        public void ReadDhcpdLeasesFile(object obj)
         {
             string filename = obj.ToString();
-            System.Console.WriteLine("ReadDhcpdLeasesFile filename: " + filename);
-            ReadDhcpdLeasesFileDelegate readDhcpdLeasesFileDelegate = new ReadDhcpdLeasesFileDelegate(ProcessDhcpdLeasesFile);
-            IAsyncResult readDhcpdLeasesFileResult = readDhcpdLeasesFileDelegate.BeginInvoke(filename, parseDhcpdLeasesFile, null);
+            if (OsIsUnix)
+            {
+                if (File.Exists(filename))
+                {
+                    System.Console.WriteLine("ReadDhcpdLeasesFile filename: " + filename);
+                    ReadDhcpdLeasesFileDelegate readDhcpdLeasesFileDelegate = new ReadDhcpdLeasesFileDelegate(ProcessDhcpdLeasesFile);
+                    IAsyncResult readDhcpdLeasesFileResult = readDhcpdLeasesFileDelegate.BeginInvoke(filename, parseDhcpdLeasesFile, null);
+                }
+                else
+                {
+                    throw new FileNotFoundException(filename + " not found");
+                }
+            }
+            else
+            {
+                throw new System.Exception("Error in IOController - ReadDhcpdLeasesFile - System is not a Unix environment");
+            }
         }
 
         private ArrayList ProcessDhcpdLeasesFile(string filename)
@@ -844,7 +875,6 @@ namespace GM4D
                     if (cleanline.StartsWith("lease"))
                     {
                         dhcpdLease = new DhcpdLease();
-                        dhcpdLease.ID = dhcpdLeasesList.Count + 1;
                         int endindex = cleanline.IndexOf("{") - 1;
                         int startindex = 6;
                         dhcpdLease.IPAddress = cleanline.Substring(startindex, endindex - startindex);

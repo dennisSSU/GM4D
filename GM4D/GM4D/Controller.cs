@@ -73,7 +73,14 @@ namespace GM4D
             {
                 System.Console.WriteLine("Controller InitiateDhcpdLeasesFileWatcher " + exc.Message);
             }
-
+            try
+            {
+                this.ioController.ReadDhcpdLeasesFile("/var/lib/dhcp/dhcpd.leases");
+            }
+            catch (Exception exc)
+            {
+                System.Console.WriteLine("Controller ReadDhcpdLeasesFile " + exc.Message);
+            }
         }
     }
 }
