@@ -41,7 +41,6 @@
             this.hostIP_lbl = new System.Windows.Forms.Label();
             this.hostSubnetMask_lbl = new System.Windows.Forms.Label();
             this.hostSubnetMask_tb = new System.Windows.Forms.TextBox();
-            this.settingsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.hostIP_lblInfo = new System.Windows.Forms.Label();
             this.hostSubnetMask_lblInfo = new System.Windows.Forms.Label();
             this.hostIP_tb = new System.Windows.Forms.TextBox();
@@ -150,10 +149,10 @@
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.statusRequired = new System.Windows.Forms.ErrorProvider(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.settingsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.menu_panelMain.SuspendLayout();
             this.settings_panelMain.SuspendLayout();
             this.settings_panelInfo.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.settingsBindingSource)).BeginInit();
             this.settings_panelInput.SuspendLayout();
             this.ipRangeStart_panelInput.SuspendLayout();
             this.subnet_panelInput.SuspendLayout();
@@ -180,6 +179,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.validationStatus_ok)).BeginInit();
             this.menuBottom_panelMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.statusRequired)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.settingsBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // menu_btnOverview
@@ -189,7 +189,7 @@
             this.menu_btnOverview.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.ControlLightLight;
             this.menu_btnOverview.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.Control;
             this.menu_btnOverview.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.menu_btnOverview.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.menu_btnOverview.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.menu_btnOverview.Location = new System.Drawing.Point(8, 8);
             this.menu_btnOverview.Name = "menu_btnOverview";
             this.menu_btnOverview.Size = new System.Drawing.Size(100, 105);
@@ -206,7 +206,7 @@
             this.menu_btnBasicSettings.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.ControlLightLight;
             this.menu_btnBasicSettings.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.Control;
             this.menu_btnBasicSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.menu_btnBasicSettings.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.menu_btnBasicSettings.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.menu_btnBasicSettings.Location = new System.Drawing.Point(8, 119);
             this.menu_btnBasicSettings.Name = "menu_btnBasicSettings";
             this.menu_btnBasicSettings.Size = new System.Drawing.Size(100, 105);
@@ -223,7 +223,7 @@
             this.menu_btnStaticLeases.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.ControlLightLight;
             this.menu_btnStaticLeases.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.Control;
             this.menu_btnStaticLeases.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.menu_btnStaticLeases.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.menu_btnStaticLeases.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.menu_btnStaticLeases.Location = new System.Drawing.Point(8, 230);
             this.menu_btnStaticLeases.Name = "menu_btnStaticLeases";
             this.menu_btnStaticLeases.Size = new System.Drawing.Size(100, 105);
@@ -240,7 +240,7 @@
             this.menu_btnClients.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.ControlLightLight;
             this.menu_btnClients.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.Control;
             this.menu_btnClients.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.menu_btnClients.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.menu_btnClients.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.menu_btnClients.Location = new System.Drawing.Point(8, 341);
             this.menu_btnClients.Name = "menu_btnClients";
             this.menu_btnClients.Size = new System.Drawing.Size(100, 105);
@@ -276,7 +276,7 @@
             this.menuBottom_btnSave.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.ControlLightLight;
             this.menuBottom_btnSave.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.Control;
             this.menuBottom_btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.menuBottom_btnSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.menuBottom_btnSave.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.menuBottom_btnSave.Location = new System.Drawing.Point(3, 3);
             this.menuBottom_btnSave.Name = "menuBottom_btnSave";
             this.menuBottom_btnSave.Size = new System.Drawing.Size(100, 50);
@@ -328,9 +328,10 @@
             // 
             this.hostIP_lbl.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.hostIP_lbl.AutoSize = true;
+            this.hostIP_lbl.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.hostIP_lbl.Location = new System.Drawing.Point(3, 6);
             this.hostIP_lbl.Name = "hostIP_lbl";
-            this.hostIP_lbl.Size = new System.Drawing.Size(62, 20);
+            this.hostIP_lbl.Size = new System.Drawing.Size(60, 20);
             this.hostIP_lbl.TabIndex = 0;
             this.hostIP_lbl.Text = "Host IP";
             // 
@@ -338,15 +339,17 @@
             // 
             this.hostSubnetMask_lbl.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.hostSubnetMask_lbl.AutoSize = true;
+            this.hostSubnetMask_lbl.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.hostSubnetMask_lbl.Location = new System.Drawing.Point(3, 39);
             this.hostSubnetMask_lbl.Name = "hostSubnetMask_lbl";
-            this.hostSubnetMask_lbl.Size = new System.Drawing.Size(141, 20);
+            this.hostSubnetMask_lbl.Size = new System.Drawing.Size(138, 20);
             this.hostSubnetMask_lbl.TabIndex = 1;
             this.hostSubnetMask_lbl.Text = "Host Subnet Mask";
             // 
             // hostSubnetMask_tb
             // 
             this.hostSubnetMask_tb.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.settingsBindingSource, "HostSubnetMask", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.hostSubnetMask_tb.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.hostSubnetMask_tb.Location = new System.Drawing.Point(153, 35);
             this.hostSubnetMask_tb.Name = "hostSubnetMask_tb";
             this.hostSubnetMask_tb.ReadOnly = true;
@@ -354,17 +357,14 @@
             this.hostSubnetMask_tb.TabIndex = 0;
             this.hostSubnetMask_tb.TabStop = false;
             // 
-            // settingsBindingSource
-            // 
-            this.settingsBindingSource.DataSource = typeof(GM4D.Settings);
-            // 
             // hostIP_lblInfo
             // 
             this.hostIP_lblInfo.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.hostIP_lblInfo.AutoSize = true;
+            this.hostIP_lblInfo.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.hostIP_lblInfo.Location = new System.Drawing.Point(303, 6);
             this.hostIP_lblInfo.Name = "hostIP_lblInfo";
-            this.hostIP_lblInfo.Size = new System.Drawing.Size(86, 20);
+            this.hostIP_lblInfo.Size = new System.Drawing.Size(84, 20);
             this.hostIP_lblInfo.TabIndex = 4;
             this.hostIP_lblInfo.Text = "HostIPInfo";
             // 
@@ -372,15 +372,17 @@
             // 
             this.hostSubnetMask_lblInfo.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.hostSubnetMask_lblInfo.AutoSize = true;
+            this.hostSubnetMask_lblInfo.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.hostSubnetMask_lblInfo.Location = new System.Drawing.Point(303, 39);
             this.hostSubnetMask_lblInfo.Name = "hostSubnetMask_lblInfo";
-            this.hostSubnetMask_lblInfo.Size = new System.Drawing.Size(161, 20);
+            this.hostSubnetMask_lblInfo.Size = new System.Drawing.Size(158, 20);
             this.hostSubnetMask_lblInfo.TabIndex = 5;
             this.hostSubnetMask_lblInfo.Text = "HostSubnetMaskInfo";
             // 
             // hostIP_tb
             // 
             this.hostIP_tb.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.settingsBindingSource, "HostIP", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.hostIP_tb.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.hostIP_tb.Location = new System.Drawing.Point(153, 3);
             this.hostIP_tb.Name = "hostIP_tb";
             this.hostIP_tb.ReadOnly = true;
@@ -686,9 +688,10 @@
             // 
             this.ipRangeStart_lblInfo.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.ipRangeStart_lblInfo.AutoSize = true;
+            this.ipRangeStart_lblInfo.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.ipRangeStart_lblInfo.Location = new System.Drawing.Point(353, 5);
             this.ipRangeStart_lblInfo.Name = "ipRangeStart_lblInfo";
-            this.ipRangeStart_lblInfo.Size = new System.Drawing.Size(273, 20);
+            this.ipRangeStart_lblInfo.Size = new System.Drawing.Size(271, 20);
             this.ipRangeStart_lblInfo.TabIndex = 1;
             this.ipRangeStart_lblInfo.Text = "First IP address of DHCP client range";
             // 
@@ -696,9 +699,10 @@
             // 
             this.ipRangeStart_lbl.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.ipRangeStart_lbl.AutoSize = true;
+            this.ipRangeStart_lbl.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.ipRangeStart_lbl.Location = new System.Drawing.Point(3, 5);
             this.ipRangeStart_lbl.Name = "ipRangeStart_lbl";
-            this.ipRangeStart_lbl.Size = new System.Drawing.Size(115, 20);
+            this.ipRangeStart_lbl.Size = new System.Drawing.Size(110, 20);
             this.ipRangeStart_lbl.TabIndex = 0;
             this.ipRangeStart_lbl.Text = "IP Range Start";
             // 
@@ -706,9 +710,10 @@
             // 
             this.subnetMask_lbl.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.subnetMask_lbl.AutoSize = true;
+            this.subnetMask_lbl.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.subnetMask_lbl.Location = new System.Drawing.Point(3, 65);
             this.subnetMask_lbl.Name = "subnetMask_lbl";
-            this.subnetMask_lbl.Size = new System.Drawing.Size(103, 20);
+            this.subnetMask_lbl.Size = new System.Drawing.Size(100, 20);
             this.subnetMask_lbl.TabIndex = 8;
             this.subnetMask_lbl.Text = "Subnet Mask";
             // 
@@ -716,9 +721,10 @@
             // 
             this.gateway_lbl.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.gateway_lbl.AutoSize = true;
+            this.gateway_lbl.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.gateway_lbl.Location = new System.Drawing.Point(3, 95);
             this.gateway_lbl.Name = "gateway_lbl";
-            this.gateway_lbl.Size = new System.Drawing.Size(72, 20);
+            this.gateway_lbl.Size = new System.Drawing.Size(71, 20);
             this.gateway_lbl.TabIndex = 9;
             this.gateway_lbl.Text = "Gateway";
             // 
@@ -726,9 +732,10 @@
             // 
             this.subnetMask_lblInfo.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.subnetMask_lblInfo.AutoSize = true;
+            this.subnetMask_lblInfo.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.subnetMask_lblInfo.Location = new System.Drawing.Point(353, 65);
             this.subnetMask_lblInfo.Name = "subnetMask_lblInfo";
-            this.subnetMask_lblInfo.Size = new System.Drawing.Size(211, 20);
+            this.subnetMask_lblInfo.Size = new System.Drawing.Size(209, 20);
             this.subnetMask_lblInfo.TabIndex = 10;
             this.subnetMask_lblInfo.Text = "Subnet mak of DCHP  range";
             // 
@@ -736,9 +743,10 @@
             // 
             this.gateway_lblInfo.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.gateway_lblInfo.AutoSize = true;
+            this.gateway_lblInfo.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.gateway_lblInfo.Location = new System.Drawing.Point(353, 95);
             this.gateway_lblInfo.Name = "gateway_lblInfo";
-            this.gateway_lblInfo.Size = new System.Drawing.Size(263, 20);
+            this.gateway_lblInfo.Size = new System.Drawing.Size(267, 20);
             this.gateway_lblInfo.TabIndex = 11;
             this.gateway_lblInfo.Text = "Gateway for DHCP clients (optional)";
             // 
@@ -746,9 +754,10 @@
             // 
             this.primaryDNS_lbl.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.primaryDNS_lbl.AutoSize = true;
+            this.primaryDNS_lbl.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.primaryDNS_lbl.Location = new System.Drawing.Point(3, 125);
             this.primaryDNS_lbl.Name = "primaryDNS_lbl";
-            this.primaryDNS_lbl.Size = new System.Drawing.Size(99, 20);
+            this.primaryDNS_lbl.Size = new System.Drawing.Size(97, 20);
             this.primaryDNS_lbl.TabIndex = 12;
             this.primaryDNS_lbl.Text = "Primary DNS";
             // 
@@ -756,9 +765,10 @@
             // 
             this.secondaryDNS_lbl.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.secondaryDNS_lbl.AutoSize = true;
+            this.secondaryDNS_lbl.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.secondaryDNS_lbl.Location = new System.Drawing.Point(3, 155);
             this.secondaryDNS_lbl.Name = "secondaryDNS_lbl";
-            this.secondaryDNS_lbl.Size = new System.Drawing.Size(123, 20);
+            this.secondaryDNS_lbl.Size = new System.Drawing.Size(119, 20);
             this.secondaryDNS_lbl.TabIndex = 13;
             this.secondaryDNS_lbl.Text = "Secondary DNS";
             // 
@@ -766,9 +776,10 @@
             // 
             this.primaryDNS_lblInfo.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.primaryDNS_lblInfo.AutoSize = true;
+            this.primaryDNS_lblInfo.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.primaryDNS_lblInfo.Location = new System.Drawing.Point(353, 125);
             this.primaryDNS_lblInfo.Name = "primaryDNS_lblInfo";
-            this.primaryDNS_lblInfo.Size = new System.Drawing.Size(146, 20);
+            this.primaryDNS_lblInfo.Size = new System.Drawing.Size(145, 20);
             this.primaryDNS_lblInfo.TabIndex = 14;
             this.primaryDNS_lblInfo.Text = "Primary DNS server";
             // 
@@ -776,9 +787,10 @@
             // 
             this.secondaryDNS_lblInfo.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.secondaryDNS_lblInfo.AutoSize = true;
+            this.secondaryDNS_lblInfo.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.secondaryDNS_lblInfo.Location = new System.Drawing.Point(353, 155);
             this.secondaryDNS_lblInfo.Name = "secondaryDNS_lblInfo";
-            this.secondaryDNS_lblInfo.Size = new System.Drawing.Size(146, 20);
+            this.secondaryDNS_lblInfo.Size = new System.Drawing.Size(145, 20);
             this.secondaryDNS_lblInfo.TabIndex = 15;
             this.secondaryDNS_lblInfo.Text = "Primary DNS server";
             // 
@@ -786,9 +798,9 @@
             // 
             this.ipRangeStart_panelInput.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.ipRangeStart_panelInput.Controls.Add(this.ipRangeStart_input);
+            this.statusRequired.SetIconPadding(this.ipRangeStart_panelInput, 1);
             this.validationStatus_error.SetIconPadding(this.ipRangeStart_panelInput, 1);
             this.validationStatus_ok.SetIconPadding(this.ipRangeStart_panelInput, 1);
-            this.statusRequired.SetIconPadding(this.ipRangeStart_panelInput, 1);
             this.ipRangeStart_panelInput.Location = new System.Drawing.Point(150, 0);
             this.ipRangeStart_panelInput.Margin = new System.Windows.Forms.Padding(0);
             this.ipRangeStart_panelInput.Name = "ipRangeStart_panelInput";
@@ -818,9 +830,9 @@
             // 
             this.subnet_panelInput.Controls.Add(this.ipRangeEnd_input);
             this.subnet_panelInput.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.statusRequired.SetIconPadding(this.subnet_panelInput, 1);
             this.validationStatus_error.SetIconPadding(this.subnet_panelInput, 1);
             this.validationStatus_ok.SetIconPadding(this.subnet_panelInput, 1);
-            this.statusRequired.SetIconPadding(this.subnet_panelInput, 1);
             this.subnet_panelInput.Location = new System.Drawing.Point(150, 30);
             this.subnet_panelInput.Margin = new System.Windows.Forms.Padding(0);
             this.subnet_panelInput.Name = "subnet_panelInput";
@@ -850,9 +862,9 @@
             // 
             this.subnetMask_panelInput.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.subnetMask_panelInput.Controls.Add(this.subnetMask_input);
+            this.statusRequired.SetIconPadding(this.subnetMask_panelInput, 1);
             this.validationStatus_error.SetIconPadding(this.subnetMask_panelInput, 1);
             this.validationStatus_ok.SetIconPadding(this.subnetMask_panelInput, 1);
-            this.statusRequired.SetIconPadding(this.subnetMask_panelInput, 1);
             this.subnetMask_panelInput.Location = new System.Drawing.Point(150, 60);
             this.subnetMask_panelInput.Margin = new System.Windows.Forms.Padding(0);
             this.subnetMask_panelInput.Name = "subnetMask_panelInput";
@@ -882,9 +894,9 @@
             // 
             this.gateway_inputPanel.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.gateway_inputPanel.Controls.Add(this.gateway_input);
+            this.statusRequired.SetIconPadding(this.gateway_inputPanel, 1);
             this.validationStatus_error.SetIconPadding(this.gateway_inputPanel, 1);
             this.validationStatus_ok.SetIconPadding(this.gateway_inputPanel, 1);
-            this.statusRequired.SetIconPadding(this.gateway_inputPanel, 1);
             this.gateway_inputPanel.Location = new System.Drawing.Point(150, 90);
             this.gateway_inputPanel.Margin = new System.Windows.Forms.Padding(0);
             this.gateway_inputPanel.Name = "gateway_inputPanel";
@@ -913,9 +925,9 @@
             // 
             this.primaryDNS_panelInput.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.primaryDNS_panelInput.Controls.Add(this.primaryDNS_input);
+            this.statusRequired.SetIconPadding(this.primaryDNS_panelInput, 1);
             this.validationStatus_error.SetIconPadding(this.primaryDNS_panelInput, 1);
             this.validationStatus_ok.SetIconPadding(this.primaryDNS_panelInput, 1);
-            this.statusRequired.SetIconPadding(this.primaryDNS_panelInput, 1);
             this.primaryDNS_panelInput.Location = new System.Drawing.Point(150, 120);
             this.primaryDNS_panelInput.Margin = new System.Windows.Forms.Padding(0);
             this.primaryDNS_panelInput.Name = "primaryDNS_panelInput";
@@ -945,9 +957,9 @@
             // 
             this.secondaryDNS_panelInput.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.secondaryDNS_panelInput.Controls.Add(this.secondaryDNS_input);
+            this.statusRequired.SetIconPadding(this.secondaryDNS_panelInput, 1);
             this.validationStatus_error.SetIconPadding(this.secondaryDNS_panelInput, 1);
             this.validationStatus_ok.SetIconPadding(this.secondaryDNS_panelInput, 1);
-            this.statusRequired.SetIconPadding(this.secondaryDNS_panelInput, 1);
             this.secondaryDNS_panelInput.Location = new System.Drawing.Point(150, 150);
             this.secondaryDNS_panelInput.Margin = new System.Windows.Forms.Padding(0);
             this.secondaryDNS_panelInput.Name = "secondaryDNS_panelInput";
@@ -977,9 +989,9 @@
             // 
             this.ipRangeEnde_panelInput.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.ipRangeEnde_panelInput.Controls.Add(this.subnet_input);
+            this.statusRequired.SetIconPadding(this.ipRangeEnde_panelInput, 1);
             this.validationStatus_error.SetIconPadding(this.ipRangeEnde_panelInput, 1);
             this.validationStatus_ok.SetIconPadding(this.ipRangeEnde_panelInput, 1);
-            this.statusRequired.SetIconPadding(this.ipRangeEnde_panelInput, 1);
             this.ipRangeEnde_panelInput.Location = new System.Drawing.Point(150, 180);
             this.ipRangeEnde_panelInput.Margin = new System.Windows.Forms.Padding(0);
             this.ipRangeEnde_panelInput.Name = "ipRangeEnde_panelInput";
@@ -1009,9 +1021,10 @@
             // 
             this.ipRangeEnd_lbl.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.ipRangeEnd_lbl.AutoSize = true;
+            this.ipRangeEnd_lbl.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.ipRangeEnd_lbl.Location = new System.Drawing.Point(3, 35);
             this.ipRangeEnd_lbl.Name = "ipRangeEnd_lbl";
-            this.ipRangeEnd_lbl.Size = new System.Drawing.Size(109, 20);
+            this.ipRangeEnd_lbl.Size = new System.Drawing.Size(102, 20);
             this.ipRangeEnd_lbl.TabIndex = 2;
             this.ipRangeEnd_lbl.Text = "IP Range End";
             // 
@@ -1019,9 +1032,10 @@
             // 
             this.subnet_lbl.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.subnet_lbl.AutoSize = true;
+            this.subnet_lbl.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.subnet_lbl.Location = new System.Drawing.Point(3, 185);
             this.subnet_lbl.Name = "subnet_lbl";
-            this.subnet_lbl.Size = new System.Drawing.Size(82, 20);
+            this.subnet_lbl.Size = new System.Drawing.Size(78, 20);
             this.subnet_lbl.TabIndex = 16;
             this.subnet_lbl.Text = "Subnet ID";
             // 
@@ -1029,9 +1043,10 @@
             // 
             this.ipRangeEnd_lblInfo.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.ipRangeEnd_lblInfo.AutoSize = true;
+            this.ipRangeEnd_lblInfo.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.ipRangeEnd_lblInfo.Location = new System.Drawing.Point(353, 35);
             this.ipRangeEnd_lblInfo.Name = "ipRangeEnd_lblInfo";
-            this.ipRangeEnd_lblInfo.Size = new System.Drawing.Size(273, 20);
+            this.ipRangeEnd_lblInfo.Size = new System.Drawing.Size(269, 20);
             this.ipRangeEnd_lblInfo.TabIndex = 3;
             this.ipRangeEnd_lblInfo.Text = "Last IP address of DHCP client range";
             // 
@@ -1039,9 +1054,10 @@
             // 
             this.subnet_lblInfo.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.subnet_lblInfo.AutoSize = true;
+            this.subnet_lblInfo.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.subnet_lblInfo.Location = new System.Drawing.Point(353, 185);
             this.subnet_lblInfo.Name = "subnet_lblInfo";
-            this.subnet_lblInfo.Size = new System.Drawing.Size(82, 20);
+            this.subnet_lblInfo.Size = new System.Drawing.Size(78, 20);
             this.subnet_lblInfo.TabIndex = 17;
             this.subnet_lblInfo.Text = "Subnet ID";
             // 
@@ -1074,6 +1090,7 @@
             this.columnIPaddress,
             this.columnedit,
             this.columndelete});
+            this.staticLeases_listview.Font = new System.Drawing.Font("Ubuntu", 10F);
             this.staticLeases_listview.FullRowSelect = true;
             this.staticLeases_listview.Location = new System.Drawing.Point(3, 3);
             this.staticLeases_listview.MultiSelect = false;
@@ -1114,6 +1131,7 @@
             // staticLeases_input_lbl
             // 
             this.staticLeases_input_lbl.AutoSize = true;
+            this.staticLeases_input_lbl.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.staticLeases_input_lbl.Location = new System.Drawing.Point(3, 326);
             this.staticLeases_input_lbl.Name = "staticLeases_input_lbl";
             this.staticLeases_input_lbl.Size = new System.Drawing.Size(153, 20);
@@ -1149,9 +1167,10 @@
             // 
             this.staticLeases_input_lbl_name.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.staticLeases_input_lbl_name.AutoSize = true;
+            this.staticLeases_input_lbl_name.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.staticLeases_input_lbl_name.Location = new System.Drawing.Point(3, 3);
             this.staticLeases_input_lbl_name.Name = "staticLeases_input_lbl_name";
-            this.staticLeases_input_lbl_name.Size = new System.Drawing.Size(51, 20);
+            this.staticLeases_input_lbl_name.Size = new System.Drawing.Size(50, 20);
             this.staticLeases_input_lbl_name.TabIndex = 0;
             this.staticLeases_input_lbl_name.Text = "Name";
             // 
@@ -1159,9 +1178,10 @@
             // 
             this.staticLeases_input_lbl_mac.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.staticLeases_input_lbl_mac.AutoSize = true;
+            this.staticLeases_input_lbl_mac.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.staticLeases_input_lbl_mac.Location = new System.Drawing.Point(183, 3);
             this.staticLeases_input_lbl_mac.Name = "staticLeases_input_lbl_mac";
-            this.staticLeases_input_lbl_mac.Size = new System.Drawing.Size(105, 20);
+            this.staticLeases_input_lbl_mac.Size = new System.Drawing.Size(103, 20);
             this.staticLeases_input_lbl_mac.TabIndex = 1;
             this.staticLeases_input_lbl_mac.Text = "MAC address";
             // 
@@ -1169,9 +1189,10 @@
             // 
             this.staticLeases_input_lbl_ip.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.staticLeases_input_lbl_ip.AutoSize = true;
+            this.staticLeases_input_lbl_ip.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.staticLeases_input_lbl_ip.Location = new System.Drawing.Point(363, 3);
             this.staticLeases_input_lbl_ip.Name = "staticLeases_input_lbl_ip";
-            this.staticLeases_input_lbl_ip.Size = new System.Drawing.Size(85, 20);
+            this.staticLeases_input_lbl_ip.Size = new System.Drawing.Size(81, 20);
             this.staticLeases_input_lbl_ip.TabIndex = 2;
             this.staticLeases_input_lbl_ip.Text = "IP address";
             // 
@@ -1183,6 +1204,7 @@
             this.staticLeases_input_btn_add.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.ControlLightLight;
             this.staticLeases_input_btn_add.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.Control;
             this.staticLeases_input_btn_add.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.staticLeases_input_btn_add.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.staticLeases_input_btn_add.Location = new System.Drawing.Point(543, 30);
             this.staticLeases_input_btn_add.Name = "staticLeases_input_btn_add";
             this.staticLeases_input_btn_add.Size = new System.Drawing.Size(100, 34);
@@ -1202,9 +1224,10 @@
             // staticLeases_input_tb_name
             // 
             this.staticLeases_input_tb_name.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.staticLeases_input_tb_name.Font = new System.Drawing.Font("Ubuntu", 10F);
             this.staticLeases_input_tb_name.Location = new System.Drawing.Point(3, 3);
             this.staticLeases_input_tb_name.Name = "staticLeases_input_tb_name";
-            this.staticLeases_input_tb_name.Size = new System.Drawing.Size(112, 26);
+            this.staticLeases_input_tb_name.Size = new System.Drawing.Size(112, 23);
             this.staticLeases_input_tb_name.TabIndex = 3;
             // 
             // flowLayoutPanel2
@@ -1218,9 +1241,10 @@
             // staticLeases_input_tb_mac
             // 
             this.staticLeases_input_tb_mac.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.staticLeases_input_tb_mac.Font = new System.Drawing.Font("Ubuntu", 10F);
             this.staticLeases_input_tb_mac.Location = new System.Drawing.Point(3, 3);
             this.staticLeases_input_tb_mac.Name = "staticLeases_input_tb_mac";
-            this.staticLeases_input_tb_mac.Size = new System.Drawing.Size(111, 26);
+            this.staticLeases_input_tb_mac.Size = new System.Drawing.Size(111, 23);
             this.staticLeases_input_tb_mac.TabIndex = 4;
             // 
             // flowLayoutPanel3
@@ -1235,16 +1259,16 @@
             // 
             this.staticLeases_input_tb_ip.AllowInternalTab = false;
             this.staticLeases_input_tb_ip.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.staticLeases_input_tb_ip.AutoHeight = true;
+            this.staticLeases_input_tb_ip.AutoHeight = false;
             this.staticLeases_input_tb_ip.BackColor = System.Drawing.SystemColors.Window;
-            this.staticLeases_input_tb_ip.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.staticLeases_input_tb_ip.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.staticLeases_input_tb_ip.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.staticLeases_input_tb_ip.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.staticLeases_input_tb_ip.Font = new System.Drawing.Font("Ubuntu", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.staticLeases_input_tb_ip.Location = new System.Drawing.Point(3, 3);
-            this.staticLeases_input_tb_ip.MinimumSize = new System.Drawing.Size(99, 22);
+            this.staticLeases_input_tb_ip.MinimumSize = new System.Drawing.Size(97, 22);
             this.staticLeases_input_tb_ip.Name = "staticLeases_input_tb_ip";
             this.staticLeases_input_tb_ip.ReadOnly = false;
-            this.staticLeases_input_tb_ip.Size = new System.Drawing.Size(150, 22);
+            this.staticLeases_input_tb_ip.Size = new System.Drawing.Size(150, 26);
             this.staticLeases_input_tb_ip.TabIndex = 1;
             this.staticLeases_input_tb_ip.Text = "...";
             // 
@@ -1268,9 +1292,10 @@
             // clients_lbl
             // 
             this.clients_lbl.AutoSize = true;
+            this.clients_lbl.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.clients_lbl.Location = new System.Drawing.Point(3, 0);
             this.clients_lbl.Name = "clients_lbl";
-            this.clients_lbl.Size = new System.Drawing.Size(136, 20);
+            this.clients_lbl.Size = new System.Drawing.Size(139, 20);
             this.clients_lbl.TabIndex = 1;
             this.clients_lbl.Text = "Connected clients";
             // 
@@ -1284,6 +1309,7 @@
             this.columnClientsLeaseStart,
             this.columnClientsLeaseEnd,
             this.columnClientsAddToStatic});
+            this.clients_dhcpdLeases_listView.Font = new System.Drawing.Font("Ubuntu", 10F);
             this.clients_dhcpdLeases_listView.FullRowSelect = true;
             this.clients_dhcpdLeases_listView.Location = new System.Drawing.Point(3, 23);
             this.clients_dhcpdLeases_listView.MultiSelect = false;
@@ -1296,17 +1322,17 @@
             // columnClientsMAC
             // 
             this.columnClientsMAC.Text = "MAC Address";
-            this.columnClientsMAC.Width = 121;
+            this.columnClientsMAC.Width = 129;
             // 
             // columnClientsName
             // 
             this.columnClientsName.Text = "Host Name";
-            this.columnClientsName.Width = 104;
+            this.columnClientsName.Width = 129;
             // 
             // columnClientsIP
             // 
             this.columnClientsIP.Text = "Assigned IP";
-            this.columnClientsIP.Width = 105;
+            this.columnClientsIP.Width = 138;
             // 
             // columnClientsLeaseStart
             // 
@@ -1333,6 +1359,7 @@
             this.overview_panelMain.Controls.Add(this.overview_tablepanel);
             this.overview_panelMain.Controls.Add(this.overview_setHostIp_panel);
             this.overview_panelMain.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.overview_panelMain.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.overview_panelMain.Location = new System.Drawing.Point(140, 0);
             this.overview_panelMain.Margin = new System.Windows.Forms.Padding(0);
             this.overview_panelMain.Name = "overview_panelMain";
@@ -1377,9 +1404,10 @@
             // 
             this.overview_hostip_lbl.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.overview_hostip_lbl.AutoSize = true;
+            this.overview_hostip_lbl.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.overview_hostip_lbl.Location = new System.Drawing.Point(3, 42);
             this.overview_hostip_lbl.Name = "overview_hostip_lbl";
-            this.overview_hostip_lbl.Size = new System.Drawing.Size(62, 20);
+            this.overview_hostip_lbl.Size = new System.Drawing.Size(60, 20);
             this.overview_hostip_lbl.TabIndex = 0;
             this.overview_hostip_lbl.Text = "Host IP";
             // 
@@ -1388,9 +1416,10 @@
             this.overview_hostip_status_lbl.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.overview_hostip_status_lbl.AutoSize = true;
             this.overview_hostip_status_lbl.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.settingsBindingSource, "OverviewDhcpStatus", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.overview_hostip_status_lbl.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.overview_hostip_status_lbl.Location = new System.Drawing.Point(103, 42);
             this.overview_hostip_status_lbl.Name = "overview_hostip_status_lbl";
-            this.overview_hostip_status_lbl.Size = new System.Drawing.Size(53, 20);
+            this.overview_hostip_status_lbl.Size = new System.Drawing.Size(52, 20);
             this.overview_hostip_status_lbl.TabIndex = 1;
             this.overview_hostip_status_lbl.Text = "status";
             // 
@@ -1398,9 +1427,10 @@
             // 
             this.overview_dhcpServer_lbl.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.overview_dhcpServer_lbl.AutoSize = true;
+            this.overview_dhcpServer_lbl.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.overview_dhcpServer_lbl.Location = new System.Drawing.Point(3, 87);
             this.overview_dhcpServer_lbl.Name = "overview_dhcpServer_lbl";
-            this.overview_dhcpServer_lbl.Size = new System.Drawing.Size(58, 40);
+            this.overview_dhcpServer_lbl.Size = new System.Drawing.Size(56, 40);
             this.overview_dhcpServer_lbl.TabIndex = 3;
             this.overview_dhcpServer_lbl.Text = "DHCP Server";
             // 
@@ -1409,9 +1439,10 @@
             this.overview_dhcpServer_status_lbl.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.overview_dhcpServer_status_lbl.AutoSize = true;
             this.overview_dhcpServer_status_lbl.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.settingsBindingSource, "OverviewDhcpServerInstallStatus", true, System.Windows.Forms.DataSourceUpdateMode.OnValidation, "not installed"));
+            this.overview_dhcpServer_status_lbl.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.overview_dhcpServer_status_lbl.Location = new System.Drawing.Point(103, 97);
             this.overview_dhcpServer_status_lbl.Name = "overview_dhcpServer_status_lbl";
-            this.overview_dhcpServer_status_lbl.Size = new System.Drawing.Size(53, 20);
+            this.overview_dhcpServer_status_lbl.Size = new System.Drawing.Size(52, 20);
             this.overview_dhcpServer_status_lbl.TabIndex = 4;
             this.overview_dhcpServer_status_lbl.Text = "status";
             // 
@@ -1419,9 +1450,10 @@
             // 
             this.overview_dhcpServer_info_lbl.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.overview_dhcpServer_info_lbl.AutoSize = true;
+            this.overview_dhcpServer_info_lbl.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.overview_dhcpServer_info_lbl.Location = new System.Drawing.Point(223, 97);
             this.overview_dhcpServer_info_lbl.Name = "overview_dhcpServer_info_lbl";
-            this.overview_dhcpServer_info_lbl.Size = new System.Drawing.Size(317, 20);
+            this.overview_dhcpServer_info_lbl.Size = new System.Drawing.Size(315, 20);
             this.overview_dhcpServer_info_lbl.TabIndex = 5;
             this.overview_dhcpServer_info_lbl.Text = "Status if DHCP server is installed on system";
             // 
@@ -1429,9 +1461,10 @@
             // 
             this.overview_dhcpDeamon_lbl.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.overview_dhcpDeamon_lbl.AutoSize = true;
+            this.overview_dhcpDeamon_lbl.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.overview_dhcpDeamon_lbl.Location = new System.Drawing.Point(3, 142);
             this.overview_dhcpDeamon_lbl.Name = "overview_dhcpDeamon_lbl";
-            this.overview_dhcpDeamon_lbl.Size = new System.Drawing.Size(70, 40);
+            this.overview_dhcpDeamon_lbl.Size = new System.Drawing.Size(69, 40);
             this.overview_dhcpDeamon_lbl.TabIndex = 6;
             this.overview_dhcpDeamon_lbl.Text = "DHCP Deamon";
             // 
@@ -1440,9 +1473,10 @@
             this.overview_dhcpDeamon_status_lbl.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.overview_dhcpDeamon_status_lbl.AutoSize = true;
             this.overview_dhcpDeamon_status_lbl.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.settingsBindingSource, "OverviewDhcpServerStatus", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged, "no status"));
+            this.overview_dhcpDeamon_status_lbl.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.overview_dhcpDeamon_status_lbl.Location = new System.Drawing.Point(103, 152);
             this.overview_dhcpDeamon_status_lbl.Name = "overview_dhcpDeamon_status_lbl";
-            this.overview_dhcpDeamon_status_lbl.Size = new System.Drawing.Size(53, 20);
+            this.overview_dhcpDeamon_status_lbl.Size = new System.Drawing.Size(52, 20);
             this.overview_dhcpDeamon_status_lbl.TabIndex = 7;
             this.overview_dhcpDeamon_status_lbl.Text = "status";
             // 
@@ -1450,9 +1484,10 @@
             // 
             this.overview_dhcpDeamon_info_lbl.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.overview_dhcpDeamon_info_lbl.AutoSize = true;
+            this.overview_dhcpDeamon_info_lbl.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.overview_dhcpDeamon_info_lbl.Location = new System.Drawing.Point(223, 152);
             this.overview_dhcpDeamon_info_lbl.Name = "overview_dhcpDeamon_info_lbl";
-            this.overview_dhcpDeamon_info_lbl.Size = new System.Drawing.Size(251, 20);
+            this.overview_dhcpDeamon_info_lbl.Size = new System.Drawing.Size(248, 20);
             this.overview_dhcpDeamon_info_lbl.TabIndex = 8;
             this.overview_dhcpDeamon_info_lbl.Text = "Status if DHCP deamon is running";
             // 
@@ -1462,6 +1497,7 @@
             this.overview_hostip_btn.BackColor = System.Drawing.SystemColors.ControlDark;
             this.overview_hostip_btn.FlatAppearance.BorderSize = 0;
             this.overview_hostip_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.overview_hostip_btn.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.overview_hostip_btn.Location = new System.Drawing.Point(549, 32);
             this.overview_hostip_btn.Name = "overview_hostip_btn";
             this.overview_hostip_btn.Size = new System.Drawing.Size(100, 40);
@@ -1476,6 +1512,7 @@
             this.overview_dhcpServer_btn.BackColor = System.Drawing.SystemColors.ControlDark;
             this.overview_dhcpServer_btn.FlatAppearance.BorderSize = 0;
             this.overview_dhcpServer_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.overview_dhcpServer_btn.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.overview_dhcpServer_btn.Location = new System.Drawing.Point(549, 87);
             this.overview_dhcpServer_btn.Name = "overview_dhcpServer_btn";
             this.overview_dhcpServer_btn.Size = new System.Drawing.Size(100, 40);
@@ -1490,6 +1527,7 @@
             this.overview_dhcpDeamon_btn.BackColor = System.Drawing.SystemColors.ControlDark;
             this.overview_dhcpDeamon_btn.FlatAppearance.BorderSize = 0;
             this.overview_dhcpDeamon_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.overview_dhcpDeamon_btn.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.overview_dhcpDeamon_btn.Location = new System.Drawing.Point(549, 142);
             this.overview_dhcpDeamon_btn.Name = "overview_dhcpDeamon_btn";
             this.overview_dhcpDeamon_btn.Size = new System.Drawing.Size(100, 40);
@@ -1512,18 +1550,20 @@
             // overview_hostip_subnetMask_info_lbl
             // 
             this.overview_hostip_subnetMask_info_lbl.AutoSize = true;
+            this.overview_hostip_subnetMask_info_lbl.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.overview_hostip_subnetMask_info_lbl.Location = new System.Drawing.Point(3, 26);
             this.overview_hostip_subnetMask_info_lbl.Name = "overview_hostip_subnetMask_info_lbl";
-            this.overview_hostip_subnetMask_info_lbl.Size = new System.Drawing.Size(107, 20);
+            this.overview_hostip_subnetMask_info_lbl.Size = new System.Drawing.Size(104, 20);
             this.overview_hostip_subnetMask_info_lbl.TabIndex = 5;
             this.overview_hostip_subnetMask_info_lbl.Text = "Subnet mask:";
             // 
             // overview_hostip_info_lbl
             // 
             this.overview_hostip_info_lbl.AutoSize = true;
+            this.overview_hostip_info_lbl.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.overview_hostip_info_lbl.Location = new System.Drawing.Point(3, 3);
             this.overview_hostip_info_lbl.Name = "overview_hostip_info_lbl";
-            this.overview_hostip_info_lbl.Size = new System.Drawing.Size(91, 20);
+            this.overview_hostip_info_lbl.Size = new System.Drawing.Size(88, 20);
             this.overview_hostip_info_lbl.TabIndex = 4;
             this.overview_hostip_info_lbl.Text = "IP Address:";
             // 
@@ -1531,9 +1571,10 @@
             // 
             this.overview_hostip_info_subnetMask_lbl.AutoSize = true;
             this.overview_hostip_info_subnetMask_lbl.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.settingsBindingSource, "HostSubnetMask", true));
+            this.overview_hostip_info_subnetMask_lbl.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.overview_hostip_info_subnetMask_lbl.Location = new System.Drawing.Point(116, 26);
             this.overview_hostip_info_subnetMask_lbl.Name = "overview_hostip_info_subnetMask_lbl";
-            this.overview_hostip_info_subnetMask_lbl.Size = new System.Drawing.Size(96, 20);
+            this.overview_hostip_info_subnetMask_lbl.Size = new System.Drawing.Size(94, 20);
             this.overview_hostip_info_subnetMask_lbl.TabIndex = 3;
             this.overview_hostip_info_subnetMask_lbl.Text = "subnetMask";
             // 
@@ -1541,6 +1582,7 @@
             // 
             this.overview_hostip_info_ip_lbl.AutoSize = true;
             this.overview_hostip_info_ip_lbl.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.settingsBindingSource, "HostIP", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.overview_hostip_info_ip_lbl.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.overview_hostip_info_ip_lbl.Location = new System.Drawing.Point(116, 3);
             this.overview_hostip_info_ip_lbl.Name = "overview_hostip_info_ip_lbl";
             this.overview_hostip_info_ip_lbl.Size = new System.Drawing.Size(21, 20);
@@ -1551,9 +1593,10 @@
             // 
             this.overview_header_lbl_c1.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.overview_header_lbl_c1.AutoSize = true;
+            this.overview_header_lbl_c1.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.overview_header_lbl_c1.Location = new System.Drawing.Point(3, 2);
             this.overview_header_lbl_c1.Name = "overview_header_lbl_c1";
-            this.overview_header_lbl_c1.Size = new System.Drawing.Size(68, 20);
+            this.overview_header_lbl_c1.Size = new System.Drawing.Size(72, 20);
             this.overview_header_lbl_c1.TabIndex = 13;
             this.overview_header_lbl_c1.Text = "Property";
             // 
@@ -1561,9 +1604,10 @@
             // 
             this.overview_header_lbl_c2.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.overview_header_lbl_c2.AutoSize = true;
+            this.overview_header_lbl_c2.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.overview_header_lbl_c2.Location = new System.Drawing.Point(103, 2);
             this.overview_header_lbl_c2.Name = "overview_header_lbl_c2";
-            this.overview_header_lbl_c2.Size = new System.Drawing.Size(56, 20);
+            this.overview_header_lbl_c2.Size = new System.Drawing.Size(54, 20);
             this.overview_header_lbl_c2.TabIndex = 14;
             this.overview_header_lbl_c2.Text = "Status";
             // 
@@ -1571,6 +1615,7 @@
             // 
             this.overview_header_lbl_c3.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.overview_header_lbl_c3.AutoSize = true;
+            this.overview_header_lbl_c3.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.overview_header_lbl_c3.Location = new System.Drawing.Point(223, 2);
             this.overview_header_lbl_c3.Name = "overview_header_lbl_c3";
             this.overview_header_lbl_c3.Size = new System.Drawing.Size(37, 20);
@@ -1581,9 +1626,10 @@
             // 
             this.overview_header_lbl_c4.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.overview_header_lbl_c4.AutoSize = true;
+            this.overview_header_lbl_c4.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.overview_header_lbl_c4.Location = new System.Drawing.Point(549, 2);
             this.overview_header_lbl_c4.Name = "overview_header_lbl_c4";
-            this.overview_header_lbl_c4.Size = new System.Drawing.Size(54, 20);
+            this.overview_header_lbl_c4.Size = new System.Drawing.Size(56, 20);
             this.overview_header_lbl_c4.TabIndex = 16;
             this.overview_header_lbl_c4.Text = "Action";
             // 
@@ -1606,7 +1652,7 @@
             this.overview_setHostIp_lbl.AutoSize = true;
             this.overview_setHostIp_lbl.Location = new System.Drawing.Point(8, 5);
             this.overview_setHostIp_lbl.Name = "overview_setHostIp_lbl";
-            this.overview_setHostIp_lbl.Size = new System.Drawing.Size(144, 20);
+            this.overview_setHostIp_lbl.Size = new System.Drawing.Size(140, 20);
             this.overview_setHostIp_lbl.TabIndex = 2;
             this.overview_setHostIp_lbl.Text = "Set host IP adress:";
             // 
@@ -1634,9 +1680,10 @@
             // 
             this.overview_setHostIp_ip_lbl.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.overview_setHostIp_ip_lbl.AutoSize = true;
+            this.overview_setHostIp_ip_lbl.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.overview_setHostIp_ip_lbl.Location = new System.Drawing.Point(3, 15);
             this.overview_setHostIp_ip_lbl.Name = "overview_setHostIp_ip_lbl";
-            this.overview_setHostIp_ip_lbl.Size = new System.Drawing.Size(85, 20);
+            this.overview_setHostIp_ip_lbl.Size = new System.Drawing.Size(81, 20);
             this.overview_setHostIp_ip_lbl.TabIndex = 0;
             this.overview_setHostIp_ip_lbl.Text = "IP address";
             // 
@@ -1644,9 +1691,10 @@
             // 
             this.overview_setHostIp_ip_lbl_info.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.overview_setHostIp_ip_lbl_info.AutoSize = true;
+            this.overview_setHostIp_ip_lbl_info.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.overview_setHostIp_ip_lbl_info.Location = new System.Drawing.Point(323, 15);
             this.overview_setHostIp_ip_lbl_info.Name = "overview_setHostIp_ip_lbl_info";
-            this.overview_setHostIp_ip_lbl_info.Size = new System.Drawing.Size(263, 20);
+            this.overview_setHostIp_ip_lbl_info.Size = new System.Drawing.Size(265, 20);
             this.overview_setHostIp_ip_lbl_info.TabIndex = 1;
             this.overview_setHostIp_ip_lbl_info.Text = "Please enter IP address for the host";
             // 
@@ -1654,9 +1702,10 @@
             // 
             this.overview_setHostIp_subnetmask_lbl.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.overview_setHostIp_subnetmask_lbl.AutoSize = true;
+            this.overview_setHostIp_subnetmask_lbl.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.overview_setHostIp_subnetmask_lbl.Location = new System.Drawing.Point(3, 65);
             this.overview_setHostIp_subnetmask_lbl.Name = "overview_setHostIp_subnetmask_lbl";
-            this.overview_setHostIp_subnetmask_lbl.Size = new System.Drawing.Size(103, 20);
+            this.overview_setHostIp_subnetmask_lbl.Size = new System.Drawing.Size(100, 20);
             this.overview_setHostIp_subnetmask_lbl.TabIndex = 2;
             this.overview_setHostIp_subnetmask_lbl.Text = "Subnet mask";
             // 
@@ -1664,9 +1713,10 @@
             // 
             this.overview_setHostIp_subnetmask_lbl_info.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.overview_setHostIp_subnetmask_lbl_info.AutoSize = true;
+            this.overview_setHostIp_subnetmask_lbl_info.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.overview_setHostIp_subnetmask_lbl_info.Location = new System.Drawing.Point(323, 65);
             this.overview_setHostIp_subnetmask_lbl_info.Name = "overview_setHostIp_subnetmask_lbl_info";
-            this.overview_setHostIp_subnetmask_lbl_info.Size = new System.Drawing.Size(291, 20);
+            this.overview_setHostIp_subnetmask_lbl_info.Size = new System.Drawing.Size(294, 20);
             this.overview_setHostIp_subnetmask_lbl_info.TabIndex = 3;
             this.overview_setHostIp_subnetmask_lbl_info.Text = "Please enter a subnet mask for the host";
             // 
@@ -1684,16 +1734,16 @@
             // 
             this.overview_setHostIp_ip_ipinput.AllowInternalTab = false;
             this.overview_setHostIp_ip_ipinput.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.overview_setHostIp_ip_ipinput.AutoHeight = true;
+            this.overview_setHostIp_ip_ipinput.AutoHeight = false;
             this.overview_setHostIp_ip_ipinput.BackColor = System.Drawing.SystemColors.Window;
-            this.overview_setHostIp_ip_ipinput.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.overview_setHostIp_ip_ipinput.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.overview_setHostIp_ip_ipinput.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.overview_setHostIp_ip_ipinput.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.overview_setHostIp_ip_ipinput.Font = new System.Drawing.Font("Ubuntu", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.overview_setHostIp_ip_ipinput.Location = new System.Drawing.Point(9, 9);
-            this.overview_setHostIp_ip_ipinput.MinimumSize = new System.Drawing.Size(111, 23);
+            this.overview_setHostIp_ip_ipinput.MinimumSize = new System.Drawing.Size(109, 22);
             this.overview_setHostIp_ip_ipinput.Name = "overview_setHostIp_ip_ipinput";
             this.overview_setHostIp_ip_ipinput.ReadOnly = false;
-            this.overview_setHostIp_ip_ipinput.Size = new System.Drawing.Size(160, 23);
+            this.overview_setHostIp_ip_ipinput.Size = new System.Drawing.Size(150, 22);
             this.overview_setHostIp_ip_ipinput.TabIndex = 1;
             this.overview_setHostIp_ip_ipinput.Text = "...";
             this.overview_setHostIp_ip_ipinput.Validated += new System.EventHandler(this.overview_validateIpInput);
@@ -1712,16 +1762,16 @@
             // 
             this.overview_setHostIp_subnetmask_ipinput.AllowInternalTab = false;
             this.overview_setHostIp_subnetmask_ipinput.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.overview_setHostIp_subnetmask_ipinput.AutoHeight = true;
+            this.overview_setHostIp_subnetmask_ipinput.AutoHeight = false;
             this.overview_setHostIp_subnetmask_ipinput.BackColor = System.Drawing.SystemColors.Window;
-            this.overview_setHostIp_subnetmask_ipinput.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.overview_setHostIp_subnetmask_ipinput.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.overview_setHostIp_subnetmask_ipinput.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.overview_setHostIp_subnetmask_ipinput.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.overview_setHostIp_subnetmask_ipinput.Font = new System.Drawing.Font("Ubuntu", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.overview_setHostIp_subnetmask_ipinput.Location = new System.Drawing.Point(9, 9);
-            this.overview_setHostIp_subnetmask_ipinput.MinimumSize = new System.Drawing.Size(111, 23);
+            this.overview_setHostIp_subnetmask_ipinput.MinimumSize = new System.Drawing.Size(109, 22);
             this.overview_setHostIp_subnetmask_ipinput.Name = "overview_setHostIp_subnetmask_ipinput";
             this.overview_setHostIp_subnetmask_ipinput.ReadOnly = false;
-            this.overview_setHostIp_subnetmask_ipinput.Size = new System.Drawing.Size(160, 23);
+            this.overview_setHostIp_subnetmask_ipinput.Size = new System.Drawing.Size(150, 23);
             this.overview_setHostIp_subnetmask_ipinput.TabIndex = 2;
             this.overview_setHostIp_subnetmask_ipinput.Text = "...";
             this.overview_setHostIp_subnetmask_ipinput.Validated += new System.EventHandler(this.overview_validateSubnetMaskInput);
@@ -1741,6 +1791,7 @@
             this.overview_setHostIp_set_btn.BackColor = System.Drawing.SystemColors.ControlDark;
             this.overview_setHostIp_set_btn.FlatAppearance.BorderSize = 0;
             this.overview_setHostIp_set_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.overview_setHostIp_set_btn.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.overview_setHostIp_set_btn.Location = new System.Drawing.Point(3, 3);
             this.overview_setHostIp_set_btn.Name = "overview_setHostIp_set_btn";
             this.overview_setHostIp_set_btn.Size = new System.Drawing.Size(100, 40);
@@ -1755,6 +1806,7 @@
             this.overview_setHostIp_cancel_btn.BackColor = System.Drawing.SystemColors.ControlDark;
             this.overview_setHostIp_cancel_btn.FlatAppearance.BorderSize = 0;
             this.overview_setHostIp_cancel_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.overview_setHostIp_cancel_btn.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.overview_setHostIp_cancel_btn.Location = new System.Drawing.Point(109, 3);
             this.overview_setHostIp_cancel_btn.Name = "overview_setHostIp_cancel_btn";
             this.overview_setHostIp_cancel_btn.Size = new System.Drawing.Size(100, 40);
@@ -1805,7 +1857,7 @@
             this.menuBottom_btnLoad.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.ControlLightLight;
             this.menuBottom_btnLoad.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.Control;
             this.menuBottom_btnLoad.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.menuBottom_btnLoad.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.menuBottom_btnLoad.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.menuBottom_btnLoad.Location = new System.Drawing.Point(109, 3);
             this.menuBottom_btnLoad.Name = "menuBottom_btnLoad";
             this.menuBottom_btnLoad.Size = new System.Drawing.Size(100, 50);
@@ -1823,7 +1875,7 @@
             this.menuBottom_btnApply.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.ControlLightLight;
             this.menuBottom_btnApply.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.Control;
             this.menuBottom_btnApply.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.menuBottom_btnApply.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.menuBottom_btnApply.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.menuBottom_btnApply.Location = new System.Drawing.Point(215, 3);
             this.menuBottom_btnApply.Name = "menuBottom_btnApply";
             this.menuBottom_btnApply.Size = new System.Drawing.Size(100, 50);
@@ -1841,7 +1893,7 @@
             this.menuBottom_LoadFromDhcp.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.ControlLightLight;
             this.menuBottom_LoadFromDhcp.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.Control;
             this.menuBottom_LoadFromDhcp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.menuBottom_LoadFromDhcp.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.menuBottom_LoadFromDhcp.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.menuBottom_LoadFromDhcp.Location = new System.Drawing.Point(321, 3);
             this.menuBottom_LoadFromDhcp.Name = "menuBottom_LoadFromDhcp";
             this.menuBottom_LoadFromDhcp.Size = new System.Drawing.Size(100, 50);
@@ -1875,6 +1927,10 @@
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
+            // settingsBindingSource
+            // 
+            this.settingsBindingSource.DataSource = typeof(GM4D.Settings);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -1890,7 +1946,7 @@
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
-            this.MinimumSize = new System.Drawing.Size(400, 208);
+            this.MinimumSize = new System.Drawing.Size(800, 600);
             this.Name = "MainWindow";
             this.Text = "GM4D - Graphical Manager for DHCP";
             this.Load += new System.EventHandler(this.MainWindow_Load);
@@ -1898,7 +1954,6 @@
             this.settings_panelMain.ResumeLayout(false);
             this.settings_panelInfo.ResumeLayout(false);
             this.settings_panelInfo.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.settingsBindingSource)).EndInit();
             this.settings_panelInput.ResumeLayout(false);
             this.settings_panelInput.PerformLayout();
             this.ipRangeStart_panelInput.ResumeLayout(false);
@@ -1935,6 +1990,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.validationStatus_ok)).EndInit();
             this.menuBottom_panelMain.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.statusRequired)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.settingsBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
