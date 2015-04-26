@@ -38,7 +38,7 @@ namespace GM4D
             }
             catch (Exception exc)
             {
-                System.Console.WriteLine("Controller ioController.InitShell " + exc.Message);
+                IOController.Log(this, "InitShell " + exc.Message, IOController.Flag.error);
             }
             try
             {
@@ -46,7 +46,7 @@ namespace GM4D
             }
             catch (Exception exc)
             {
-                System.Console.WriteLine("Controller ioController.GetHostInfo " + exc.Message);
+                IOController.Log(this, "InitShell " + exc.Message, IOController.Flag.error);
             }
             if (settings.Interfaces.Count > 0) settings.selectInterface(0);
             try
@@ -55,7 +55,7 @@ namespace GM4D
             }
             catch (Exception exc)
             {
-                System.Console.WriteLine("Controller GetDHCPServerInstallStatus " + exc.Message);
+                IOController.Log(this, "InitShell " + exc.Message, IOController.Flag.error);
             }
             try
             {
@@ -63,7 +63,7 @@ namespace GM4D
             }    
             catch (Exception exc)
             {
-                System.Console.WriteLine("Controller GetDHCPServerStatus " + exc.Message);
+                IOController.Log(this, "GetDHCPServerStatus " + exc.Message, IOController.Flag.error);
             } 
             try
             {
@@ -71,7 +71,7 @@ namespace GM4D
             }
             catch (Exception exc)
             {
-                System.Console.WriteLine("Controller InitiateDhcpdLeasesFileWatcher " + exc.Message);
+                IOController.Log(this, "InitiateDhcpdLeasesFileWatcher " + exc.Message, IOController.Flag.error);
             }
             try
             {
@@ -79,7 +79,7 @@ namespace GM4D
             }
             catch (Exception exc)
             {
-                System.Console.WriteLine("Controller ReadDhcpdLeasesFile " + exc.Message);
+                IOController.Log(this, "ReadDhcpdLeasesFile " + exc.Message, IOController.Flag.error);
             }
         }
     }

@@ -57,11 +57,11 @@ namespace GM4D
         }
         public void InitShell()
         {
+            IOController.Log(this, "OS: " + Environment.OSVersion.ToString(), Flag.status);
             if (Environment.OSVersion.ToString().Contains("Unix"))
             {
                 this.OsIsUnix = true;
                 this.shellProc = new Process();
-                System.Security.SecureString pw = new System.Security.SecureString();
                 this.shellStartInfo = new ProcessStartInfo();
                 this.shellStartInfo.FileName = "/bin/bash";
                 this.shellStartInfo.UseShellExecute = false;
@@ -71,9 +71,6 @@ namespace GM4D
                 this.shellProc.Start();
                 string username = this.shellProc.StandardOutput.ReadToEnd();
                 username = Regex.Replace(username, @"\s+", "");
-                System.Console.WriteLine("##################################");
-                System.Console.WriteLine("user: " + username);
-                System.Console.WriteLine("##################################");
                 if (username == "root")
                 {
                     this.UserIsSU = true;
@@ -151,9 +148,9 @@ namespace GM4D
         /// is called when settings file save is complete
         /// </summary>
         /// <param name="result"></param>
-        public static void SaveSettingsToFileComplete(IAsyncResult result)
+        public void SaveSettingsToFileComplete(IAsyncResult result)
         {
-
+            IOController.Log(this, "File saved", Flag.status);
         }
         /// <summary>
         /// loads DHCP setting from file with filename
@@ -163,7 +160,7 @@ namespace GM4D
         {
             if (File.Exists(filename))
             {
-                System.Console.WriteLine("LoadSettingsFile filename: " + filename);
+                IOController.Log(this, "LoadSettingsFile filename: " + filename, Flag.status);
                 ReadConfigFileDelegate readConfigFileDelegate = new ReadConfigFileDelegate(ProcessConfigFile);
                 IAsyncResult readConfigFileDelegateResult = readConfigFileDelegate.BeginInvoke(filename, parseConfig, null);
             }
@@ -179,7 +176,7 @@ namespace GM4D
         /// <returns></returns>
         private ArrayList ProcessConfigFile(string filename)
         {
-            System.Console.WriteLine("ProcessConfigFile filename: " + filename);
+            IOController.Log(this, "ProcessConfigFile filename: " + filename, Flag.status);
             if (File.Exists(filename))
             {
                 using (StreamReader sr = File.OpenText(filename))
@@ -208,8 +205,9 @@ namespace GM4D
             AsyncResult aResult = (AsyncResult)result;
             ReadConfigFileDelegate readConfigFileDelegate = (ReadConfigFileDelegate)aResult.AsyncDelegate;
             ArrayList filecontent = readConfigFileDelegate.EndInvoke(result);
-            System.Console.WriteLine("parseConfig filecontent: " + String.Join(",", filecontent));
+            IOController.Log(this, "parseConfig filecontent: " + String.Join(",", filecontent), Flag.debug);
             StaticLease staticLease = null;
+            this.settings.StaticLeases.Clear();
             foreach (string line in filecontent)
             {
                 string cleanline = Regex.Replace(line, @"\s+", " ");
@@ -354,7 +352,7 @@ namespace GM4D
                 SaveSettingsFile(Environment.CurrentDirectory.ToString() + "/dhcpd.gm4d");
                 shellStartInfo.Arguments = string.Format("-c \"gksudo ifconfig " + ((HostNIC)this.settings.Interfaces[this.settings.SelectedInterface]).Id + " " + this.settings.NewHostIP + " netmask " + this.settings.NewHostSubnetMask + "\"");
                 shellProc.Start();
-                System.Console.WriteLine("SetNewHostIp " + shellProc.StandardOutput.ReadToEnd());
+                IOController.Log(this, "SetNewHostIp " + shellProc.StandardOutput.ReadToEnd() , Flag.debug);
                 shellProc.WaitForExit();
                 GetHostInfo();
                 /*
@@ -380,7 +378,7 @@ namespace GM4D
             }
             else
             {
-                throw new System.Exception("Error in IOController - SetNewHostIp - System is not a Unix environment");
+                throw new System.Exception("System is not a Unix environment");
             }
         }
 
@@ -391,7 +389,7 @@ namespace GM4D
                 SaveSettingsFile(Environment.CurrentDirectory.ToString() + "/dhcpd.gm4d");
                 shellStartInfo.Arguments = string.Format("-c \"gksudo apt-get install isc-dhcp-server\"");
                 shellProc.Start();
-                System.Console.WriteLine("InstallDHCPServer " + shellProc.StandardOutput.ReadToEnd());
+                IOController.Log(this, "InstallDHCPServer " + shellProc.StandardOutput.ReadToEnd(), Flag.debug);
                 shellProc.WaitForExit();
                 GetDHCPServerInstallStatus();
                 /*
@@ -416,7 +414,7 @@ namespace GM4D
             }
             else
             {
-                throw new System.Exception("Error in IOController - InstallDHCPServer - System is not a Unix environment");
+                throw new System.Exception("System is not a Unix environment");
             }
         }
 
@@ -427,7 +425,7 @@ namespace GM4D
                 SaveSettingsFile(Environment.CurrentDirectory.ToString() + "/dhcpd.gm4d");
                 shellStartInfo.Arguments = string.Format("-c \"gksudo mv " + Environment.CurrentDirectory.ToString() + "/dhcpd.gm4d /etc/dhcp/dhcpd.conf\"");
                 shellProc.Start();
-                System.Console.WriteLine("ApplySettingsToDHCPServer " + shellProc.StandardOutput.ReadToEnd());
+                IOController.Log(this, "ApplySettingsToDHCPServer " + shellProc.StandardOutput.ReadToEnd(), Flag.debug);
                 shellProc.WaitForExit();
                 /*
                 SaveSettingsFile(Environment.CurrentDirectory.ToString() + "/dhcpd.gm4d");
@@ -451,7 +449,7 @@ namespace GM4D
             }
             else
             {
-                throw new System.Exception("Error in IOController - ApplySettingsToDHCPServer - System is not a Unix environment");
+                throw new System.Exception("System is not a Unix environment");
             }
             if (this.settings.IsDHCPServerRunning)
             {
@@ -467,7 +465,7 @@ namespace GM4D
             // loop through all network interfaces
             foreach (NetworkInterface adapter in nics)
             {
-                Console.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name + " nic: " + adapter.Name +" type: " + adapter.NetworkInterfaceType);
+                //IOController.Log(this, "nic: " + adapter.Name +" type: " + adapter.NetworkInterfaceType, IOController.Flag.debug);
                 //check if interface is loopback
                 if (adapter.NetworkInterfaceType == NetworkInterfaceType.Loopback)
                 {
@@ -477,7 +475,7 @@ namespace GM4D
                 //check if adapter is up
                 if (adapter.OperationalStatus != OperationalStatus.Up)
                 {
-                    Console.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name + " nic: " + adapter.Name + " type: " + adapter.NetworkInterfaceType + " status " + adapter.OperationalStatus);
+                    //IOController.Log(this, "nic: " + adapter.Name + " type: " + adapter.NetworkInterfaceType + " status " + adapter.OperationalStatus, IOController.Flag.debug);
                     //if not up skip this interface
                     continue;
                 }
@@ -516,6 +514,7 @@ namespace GM4D
                             }
                             catch (NotImplementedException e)
                             {
+                                IOController.Log(this, "failed to get subnetmask with unicastIPAddressInformation.IPv4Mask, using workaround", Flag.status);
                                 // workaround to get subnetmask in unix environment with mono using the custom SubnetMask class 
                                 snetMask = "";
                                 snetMask = SubnetMask.GetIPv4Mask(adapter.Name);
@@ -532,7 +531,7 @@ namespace GM4D
                     }
                     catch (Exception e)
                     {
-                        Console.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name + "Errror in IOController getHostInfo - failed to get DNS server addresses - " + e);
+                        IOController.Log(this, "failed to get DNS server addresses " + e, Flag.error);
                     }
                     //calculate network id 
                     try
@@ -542,7 +541,7 @@ namespace GM4D
                     }
                     catch (Exception e)
                     {
-                        Console.WriteLine("Errror in IOController getHostInfo - failed calculate network address - " + e);
+                        IOController.Log(this, "failed calculate network address " + e, Flag.error);
                     }
                 }
                 //add NIC to settings
@@ -552,17 +551,23 @@ namespace GM4D
 
         public void GetDHCPServerInstallStatus()
         {
-            this.settings.OverviewDhcpServerInstallStatus = "not installed";
+            this.settings.OverviewDhcpServerInstallStatus = "no status";
             if (OsIsUnix)
             {
                 shellStartInfo.Arguments = "-c \" dpkg-query -s isc-dhcp-server | head -n2 | tail -n1 | cut -f3 -d' '\"";
                 shellProc.Start();
                 string strOutput = shellProc.StandardOutput.ReadToEnd();
                 strOutput = strOutput.Trim();
-                System.Console.WriteLine("GetDHCPServerInstallStatus " + strOutput);
+                IOController.Log(this, "GetDHCPServerInstallStatus " + strOutput, Flag.status);
                 if (strOutput.Contains("ok"))
                 {
                     this.settings.OverviewDhcpServerInstallStatus = "installed";
+                    this.settings.IsDHCPServerInstalled = true;
+                }
+                else
+                {
+                    this.settings.OverviewDhcpServerInstallStatus = "not installed";
+                    this.settings.IsDHCPServerInstalled = false;
                 }
                 shellProc.WaitForExit();
                 /*
@@ -590,7 +595,7 @@ namespace GM4D
             }
             else
             {
-                throw new System.Exception("Error in IOController - getDHCPServerInstallStatus - System is not a Unix environment");
+                throw new System.Exception("System is not a Unix environment");
             }
         }
 
@@ -604,7 +609,7 @@ namespace GM4D
                 shellProc.Start();
                 string strOutput = shellProc.StandardOutput.ReadToEnd();
                 shellProc.WaitForExit();
-                Console.WriteLine("GetDHCPServerStatus " + strOutput);
+                IOController.Log(this, "GetDHCPServerStatus " + strOutput, Flag.status);
                 if (strOutput.Split(' ')[1].Contains("start"))
                 {
                     this.settings.IsDHCPServerRunning = true;
@@ -615,14 +620,13 @@ namespace GM4D
                 else if (strOutput.Split(' ')[1].Contains("stop"))
                 {
                     this.settings.IsDHCPServerRunning = false;
-                    this.settings.IsDHCPServerRunning = true;
                     var strStatus = strOutput.Split(' ')[1];
                     this.settings.OverviewDhcpServerStatus = strStatus;
                 }
                 else
                 {
                     this.settings.IsDHCPServerRunning = false;
-                    throw new System.Exception("Error in IOController - GetDHCPServerStatus - Unknown status" + strOutput);
+                    throw new System.Exception("Unknown status" + strOutput);
                 }
                 /*
                 SaveSettingsFile(Environment.CurrentDirectory.ToString() + "/dhcpd.gm4d");
@@ -639,7 +643,7 @@ namespace GM4D
                     {
                         var strOutput = p.StandardOutput.ReadToEnd();
                         p.WaitForExit();
-                        Console.WriteLine("GetDHCPServerStatus "+strOutput);
+                        IOController.Log(this, "GetDHCPServerStatus "+strOutput);
                         if (strOutput.Split(' ')[1].Contains("start"))
                         {
                             this.settings.IsDHCPServerRunning = true;
@@ -660,15 +664,15 @@ namespace GM4D
                             this.settings.IsDHCPServerRunning = false;
                             throw new System.Exception("Error in IOController - GetDHCPServerStatus - Unknown status" + strOutput);
                         }
-                        Console.WriteLine("settings.OverviewDhcpServerStatus " + this.settings.OverviewDhcpServerStatus);
-                        Console.WriteLine("settings.IsDHCPServerRunning " + this.settings.IsDHCPServerRunning);
+                        IOController.Log(this, "settings.OverviewDhcpServerStatus " + this.settings.OverviewDhcpServerStatus);
+                        IOController.Log(this, "settings.IsDHCPServerRunning " + this.settings.IsDHCPServerRunning);
                     }
                 }
                  */
             }
             else
             {
-                throw new System.Exception("Error in IOController - GetDHCPServerStatus - System is not a Unix environment");
+                throw new System.Exception("System is not a Unix environment");
             }
         }
 
@@ -679,7 +683,7 @@ namespace GM4D
                 SaveSettingsFile(Environment.CurrentDirectory.ToString() + "/dhcpd.gm4d");
                 shellStartInfo.Arguments = string.Format("-c \"gksudo service isc-dhcp-server start\"");
                 shellProc.Start();
-                System.Console.WriteLine("StartDHCPServer " + shellProc.StandardOutput.ReadToEnd());
+                IOController.Log(this, "StartDHCPServer " + shellProc.StandardOutput.ReadToEnd(), Flag.debug);
                 shellProc.WaitForExit();
                 GetDHCPServerStatus();
                 /*
@@ -695,14 +699,14 @@ namespace GM4D
                 {
                     var strOutput = p.StandardOutput.ReadToEnd();
                     p.WaitForExit();
-                    Console.WriteLine("\n\nStartDHCPServer\n" + strOutput);
+                    IOController.Log(this, "\n\nStartDHCPServer\n" + strOutput);
                 }
                 GetDHCPServerStatus();
                  */
             }
             else
             {
-                throw new System.Exception("Error in IOController - StartDHCPServer - System is not a Unix environment");
+                throw new System.Exception("System is not a Unix environment");
             }
         }
         public void StopDHCPServer()
@@ -712,7 +716,7 @@ namespace GM4D
                 SaveSettingsFile(Environment.CurrentDirectory.ToString() + "/dhcpd.gm4d");
                 shellStartInfo.Arguments = string.Format("-c \"gksudo service isc-dhcp-server stop\"");
                 shellProc.Start();
-                System.Console.WriteLine("StopDHCPServer " + shellProc.StandardOutput.ReadToEnd());
+                IOController.Log(this, "StopDHCPServer " + shellProc.StandardOutput.ReadToEnd(), Flag.debug);
                 shellProc.WaitForExit();
                 GetDHCPServerStatus();
                 /*
@@ -728,13 +732,13 @@ namespace GM4D
                 {
                     var strOutput = p.StandardOutput.ReadToEnd();
                     p.WaitForExit();
-                    Console.WriteLine("\n\nStopDHCPServer\n" + strOutput);
+                    IOController.Log(this, "\n\nStopDHCPServer\n" + strOutput);
                 }
                  */
             }
             else
             {
-                throw new System.Exception("Error in IOController - StopDHCPServer - System is not a Unix environment");
+                throw new System.Exception("System is not a Unix environment");
             }
         }
         public void RestartDHCPServer()
@@ -744,7 +748,7 @@ namespace GM4D
                 SaveSettingsFile(Environment.CurrentDirectory.ToString() + "/dhcpd.gm4d");
                 shellStartInfo.Arguments = string.Format("-c \"gksudo service isc-dhcp-server restart\"");
                 shellProc.Start();
-                System.Console.WriteLine("RestartDHCPServer " + shellProc.StandardOutput.ReadToEnd());
+                IOController.Log(this, "RestartDHCPServer " + shellProc.StandardOutput.ReadToEnd(), Flag.debug);
                 shellProc.WaitForExit();
                 GetDHCPServerStatus();
                 /*
@@ -760,13 +764,13 @@ namespace GM4D
                 {
                     var strOutput = p.StandardOutput.ReadToEnd();
                     p.WaitForExit();
-                    Console.WriteLine("\n\nRestartDHCPServer\n" + strOutput);
+                    IOController.Log(this, "\n\nRestartDHCPServer\n" + strOutput);
                 }
                  */
             }
             else
             {
-                throw new System.Exception("Error in IOController - RestartDHCPServer - System is not a Unix environment");
+                throw new System.Exception("System is not a Unix environment");
             }
         }
         public FileSystemWatcher DhcpdLeasesFileWatcher { get; set; }
@@ -777,16 +781,16 @@ namespace GM4D
                 if (!File.Exists("/var/lib/dhcp/dhcpd.leases"))
                 {
                     shellStartInfo.Arguments = string.Format("-c \"gksudo touch /var/lib/dhcp/dhcpd.leases\"");
-                    System.Console.WriteLine("initiateDhcpdLeasesFileWatcher create dhcpd.leases " + shellProc.StandardOutput.ReadToEnd());
+                    IOController.Log(this, "initiateDhcpdLeasesFileWatcher create dhcpd.leases " + shellProc.StandardOutput.ReadToEnd(), Flag.status);
                     shellProc.WaitForExit();
                 }
                 if (File.Exists("/var/lib/dhcp/dhcpd.leases"))
                 {
-                    System.Console.WriteLine("initiateDhcpdLeasesFileWatcher file /var/lib/dhcp/dhcpd.leases is present");
+                    IOController.Log(this, "initiateDhcpdLeasesFileWatcher file /var/lib/dhcp/dhcpd.leases is present", Flag.status);
                     // create a new FileSystemWatcher
                     this.DhcpdLeasesFileWatcher = new FileSystemWatcher();
                     string path = Path.Combine("/", "var", "lib", "dhcp");
-                    System.Console.WriteLine("path to watch: " + path);
+                    IOController.Log(this, "path to watch: " + path);
                     // set path
                     this.DhcpdLeasesFileWatcher.Path = path;
                     // watch for changes in LastAccess and LastWrite times
@@ -805,24 +809,25 @@ namespace GM4D
             }
             else
             {
-                throw new System.Exception("Error in IOController - InitiateDhcpdLeasesFileWatcher - System is not a Unix environment");
+                throw new System.Exception("System is not a Unix environment");
             }
         }
 
         private void OnDhcpdLeasesChanged(object source, FileSystemEventArgs e)
         {
-            System.Console.WriteLine("OnDhcpdLeasesChanged: " + e.FullPath.ToString());
+            IOController.Log(this, "OnDhcpdLeasesChanged: " + e.FullPath.ToString(), Flag.debug);
             this.ReadDhcpdLeasesFile(e.FullPath);
         }
         
         public void ReadDhcpdLeasesFile(object obj)
         {
+            IOController.Log(this, "ReadDhcpdLeasesFile start", Flag.debug);
             string filename = obj.ToString();
             if (OsIsUnix)
             {
                 if (File.Exists(filename))
                 {
-                    System.Console.WriteLine("ReadDhcpdLeasesFile filename: " + filename);
+                    IOController.Log(this, "ReadDhcpdLeasesFile filename: " + filename, Flag.debug);
                     ReadDhcpdLeasesFileDelegate readDhcpdLeasesFileDelegate = new ReadDhcpdLeasesFileDelegate(ProcessDhcpdLeasesFile);
                     IAsyncResult readDhcpdLeasesFileResult = readDhcpdLeasesFileDelegate.BeginInvoke(filename, parseDhcpdLeasesFile, null);
                 }
@@ -833,16 +838,16 @@ namespace GM4D
             }
             else
             {
-                throw new System.Exception("Error in IOController - ReadDhcpdLeasesFile - System is not a Unix environment");
+                throw new System.Exception("System is not a Unix environment");
             }
         }
 
         private ArrayList ProcessDhcpdLeasesFile(string filename)
         {
-            System.Console.WriteLine("ProcessDhcpdLeasesFile filename: " + filename);
+            IOController.Log(this, "ProcessDhcpdLeasesFile filename: " + filename, Flag.debug);
             if (!File.Exists(filename))
             {
-                Console.WriteLine(filename + " does not exist");
+                IOController.Log(this, filename + " does not exist", Flag.error);
                 return null;
             }
             using (StreamReader sr = File.OpenText(filename))
@@ -859,15 +864,16 @@ namespace GM4D
 
         private void parseDhcpdLeasesFile(IAsyncResult result)
         {
-            AsyncResult aResult = (AsyncResult)result;
-            ReadDhcpdLeasesFileDelegate readDhcpdLeasesFileDelegate = (ReadDhcpdLeasesFileDelegate)aResult.AsyncDelegate;
-            ArrayList filecontent = readDhcpdLeasesFileDelegate.EndInvoke(result);
-            System.Console.WriteLine("parseDhcpdLeasesFile filecontent: " + String.Join(",",filecontent));
-            this.settings.DhcpdLeases.Clear();
+            IOController.Log(this, "parseDhcpdLeasesFile start", Flag.debug);
             System.Collections.Generic.Dictionary<String, DhcpdLease> dhcpdLeasesList = new System.Collections.Generic.Dictionary<String, DhcpdLease>();
             DhcpdLease dhcpdLease = new DhcpdLease();
             try
             {
+                AsyncResult aResult = (AsyncResult)result;
+                ReadDhcpdLeasesFileDelegate readDhcpdLeasesFileDelegate = (ReadDhcpdLeasesFileDelegate)aResult.AsyncDelegate;
+                ArrayList filecontent = readDhcpdLeasesFileDelegate.EndInvoke(result);
+                this.settings.DhcpdLeases.Clear();
+                //IOController.Log(this, "parseDhcpdLeasesFile finished EndInvoke", Flag.debug);
                 foreach (string line in filecontent)
                 {
                     string cleanline = Regex.Replace(line, @"\s+", " ");
@@ -896,6 +902,7 @@ namespace GM4D
                         string[] strArr = cleanline.Split(' ');
                         if (strArr.Length > 3)
                         {
+                            strArr[3] = strArr[3].TrimEnd(';');
                             dhcpdLease.LeaseStart = strArr[2] + " " + strArr[3];
                         }
                     }
@@ -904,21 +911,61 @@ namespace GM4D
                         string[] strArr = cleanline.Split(' ');
                         if (strArr.Length > 3)
                         {
+                            strArr[3] = strArr[3].TrimEnd(';');
                             dhcpdLease.LeaseEnd = strArr[2] + " " + strArr[3];
+                        }
+                    }
+                    else if (cleanline.StartsWith("binding state"))
+                    {
+                        string[] strArr = cleanline.Split(' ');
+                        if (strArr.Length > 2)
+                        {
+                            strArr[2] = strArr[2].TrimEnd(';');
+                            dhcpdLease.LeaseState = strArr[2];
                         }
                     }
                     else if (cleanline.Contains("}"))
                     {
                         dhcpdLeasesList[dhcpdLease.MACAddress] = dhcpdLease;
-                        System.Console.WriteLine("new dhcpdLease: " + dhcpdLease.ToString());
+                        //IOController.Log(this, "found dhcpdLease: " + dhcpdLease.ToString(), Flag.debug);
                     }
                 }
             }
             catch (Exception e)
             {
-                System.Console.WriteLine("parseDhcpdLeasesFile ERROR " + e.ToString());
+                IOController.Log(this, "parsing failed " + e.ToString());
             }
             this.settings.DhcpdLeases = dhcpdLeasesList;
+            IOController.Log(this, string.Join("\n", "Active Leases found:\n" + dhcpdLeasesList.Select(x => x.Key + "=" + x.Value).ToArray()), Flag.status);
+        }
+        public enum Flag { debug, error, status}
+        public static void Log(object sender, string message, Flag flag = Flag.error)
+        {
+            System.Diagnostics.StackTrace s = new System.Diagnostics.StackTrace(System.Threading.Thread.CurrentThread, true);
+            string className = sender.GetType().FullName;
+            string methodName = s.GetFrame(1).GetMethod().Name;
+            string fileName = s.GetFrame(1).GetFileName();
+            int lineNumber = s.GetFrame(1).GetFileLineNumber();
+            string logheader = System.DateTime.Now + " " + className + "." + methodName + ":";
+            switch (flag)
+            {
+                case Flag.error: 
+                    System.Console.BackgroundColor = ConsoleColor.Red;
+                    logheader += "!!! ERROR !!!";
+                    break;
+                case Flag.debug: 
+                    System.Console.ForegroundColor = ConsoleColor.Green;
+                    logheader += "debug";
+                    break;
+                case Flag.status:
+                    logheader += "status";
+                    break;
+                default: break;
+            }
+            System.Console.WriteLine(logheader);
+            System.Console.ResetColor();
+            System.Console.WriteLine(message);
+            System.Console.WriteLine();
         }
     }
 }

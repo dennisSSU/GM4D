@@ -11,33 +11,53 @@ namespace GM4D
         {
             this.staticLeases = new System.Collections.Generic.Dictionary<String, StaticLease>();
             this.dhcpdLeases = new System.Collections.Generic.Dictionary<String, DhcpdLease>();
-            this.StaticLeasesIsSet = false;
-            this.PrimaryDNSIsSet = false;
-            this.SecondaryDNSIsSet = false;
-            this.StaticLeasesIsSet = false;
+            this.Interfaces = new ArrayList();
+            this.HostNetCalcTool = new NetCalcTool();
+            this.DHCPNetCalcTool = new NetCalcTool();
+            ClearDHCPSettings();
+            ClearHostSettings();
+        }
+        public void ClearDHCPSettings()
+        {
+            this.ipRangeStart = "";
+            this.IpRangeStartIsSet = false;
+            this.IpRangeEnd = "";
+            this.IpRangeEndIsSet = false;
+            this.Subnet = "";
             this.SubnetIsSet = false;
+            this.SubnetMask = "";
             this.SubnetMaskIsSet = false;
-            this.MaxLeaseTimeIsSet = false;
+            this.Gateway = "";
             this.GatewayIsSet = false;
+            this.PrimaryDNS = "";
+            this.PrimaryDNSIsSet = false;
+            this.SecondaryDNS = "";
+            this.SecondaryDNSIsSet = false;
+            this.StaticLeases.Clear();
+            this.StaticLeasesIsSet = false;
+            this.DefaultLeaseTime = 600;
             this.DefaultLeaseTimeIsSet = false;
+            this.MaxLeaseTime = 7200;
+            this.MaxLeaseTimeIsSet = false;
+
+        }
+        public void ClearHostSettings()
+        {
             this.HostIpIsSet = false;
             this.HostSubnetMaskIsSet = false;
             this.HostSubnetIsSet = false;
-            this.IpRangeStartIsSet = false;
-            this.IpRangeEndIsSet = false;
             this.HostNameIsSet = false;
             this.HostGatewayIsSet = false;
             this.NewHostIpIsSet = false;
             this.NewHostSubnetMaskIsSet = false;
-            this.Interfaces = new ArrayList();
-            this.HostNetCalcTool = new NetCalcTool();
-            this.DHCPNetCalcTool = new NetCalcTool();
         }
         //################################################################### eventhandling
         #region eventhandling
         public event PropertyChangedEventHandler PropertyChanged;
         public event PropertyChangedEventHandler DhcpdLeasesChangedEvt;
         public event PropertyChangedEventHandler StaticLeasesChangedEvt;
+        public event PropertyChangedEventHandler IsDHCPServerRunningChangedEvt;
+        public event PropertyChangedEventHandler IsDHCPServerInstalledChangedEvt;
         private void NotifyPropertyChanged(String value)
         {
             if (PropertyChanged != null)
@@ -67,7 +87,7 @@ namespace GM4D
             this.HostSubnet = nic.SubnetIdentifier;
             this.HostHasStaticIp = nic.StaticIPAddress;
             this.SelectedInterface = i;
-            Console.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name + nic.ToString());
+            IOController.Log(this, nic.ToString(), IOController.Flag.status);
         }
         private ArrayList interfaces;
         public ArrayList Interfaces 
@@ -84,7 +104,7 @@ namespace GM4D
         public void AddInterface(HostNIC nic)
         {
             this.interfaces.Add(nic);
-            Console.WriteLine("Added Interface:\n" + nic.ToString() + "\n");
+            IOController.Log(this, "Added Interface:\n" + nic.ToString() + "\n", IOController.Flag.status);
         }
         private int selectedInterface;
         public int SelectedInterface
@@ -97,7 +117,7 @@ namespace GM4D
             {
                 this.selectedInterface = value;
                 NotifyPropertyChanged(this.SelectedInterface);
-                Console.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name + this.selectedInterface);
+                IOController.Log(this, " " + this.selectedInterface, IOController.Flag.status);
             }
         }
         #endregion interface selection
@@ -118,7 +138,7 @@ namespace GM4D
                 this.hostIP = value;
                 this.HostIpIsSet = true;
                 NotifyPropertyChanged(this.HostIP);
-                Console.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name + this.hostIP);
+                IOController.Log(this, this.hostIP, IOController.Flag.debug);
             }
         }
         public bool NewHostIpIsSet { get; set; }
@@ -134,7 +154,7 @@ namespace GM4D
                 this.newHostIP = value;
                 this.NewHostIpIsSet = true;
                 NotifyPropertyChanged(this.NewHostIP);
-                Console.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name + this.newHostIP);
+                IOController.Log(this, this.newHostIP, IOController.Flag.debug);
             }
         }
         private bool hostHasStaticIp;
@@ -155,7 +175,6 @@ namespace GM4D
                 {
                     this.OverviewDhcpStatus = "dynamic";
                 }
-                Console.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name + this.hostHasStaticIp);
             }
         }
         public bool HostNameIsSet { get; private set; }
@@ -171,7 +190,7 @@ namespace GM4D
                 this.hostName = value;
                 this.HostNameIsSet = true;
                 NotifyPropertyChanged(this.HostName);
-                Console.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name + this.hostName);
+                IOController.Log(this, this.hostName, IOController.Flag.debug);
             }
         }
         public bool HostSubnetMaskIsSet { get; private set; }
@@ -187,7 +206,7 @@ namespace GM4D
                 this.hostSubnetMask = value;
                 this.HostSubnetMaskIsSet = true;
                 NotifyPropertyChanged(HostSubnetMask);
-                Console.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name + this.hostSubnetMask);
+                IOController.Log(this, this.hostSubnetMask, IOController.Flag.debug);
             }
         }
         public bool NewHostSubnetMaskIsSet { get; set; }
@@ -203,7 +222,7 @@ namespace GM4D
                 this.newHostSubnetMask = value;
                 this.NewHostSubnetMaskIsSet = true;
                 NotifyPropertyChanged(NewHostSubnetMask);
-                Console.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name + this.newHostSubnetMask);
+                IOController.Log(this, this.newHostSubnetMask, IOController.Flag.debug);
             }
         }
         public bool HostSubnetIsSet { get; private set; }
@@ -219,7 +238,7 @@ namespace GM4D
                 this.hostSubnet = value;
                 this.HostSubnetIsSet = true;
                 NotifyPropertyChanged(HostSubnet);
-                Console.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name + this.hostSubnet);
+                IOController.Log(this, this.hostSubnet, IOController.Flag.debug);
             }
         }
         public bool HostGatewayIsSet { get; private set; }
@@ -235,11 +254,10 @@ namespace GM4D
                 this.hostGateway = value;
                 this.HostGatewayIsSet = true;
                 NotifyPropertyChanged(this.HostGateway);
-                Console.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name + this.hostGateway);
+                IOController.Log(this, this.hostGateway, IOController.Flag.debug);
             }
         }
         #endregion host
-
         //################################################################### network
         #region network
         public NetCalcTool DHCPNetCalcTool { get; set; }
@@ -256,7 +274,7 @@ namespace GM4D
                 this.ipRangeStart = value;
                 this.IpRangeStartIsSet = true;
                 NotifyPropertyChanged(IpRangeStart);
-                Console.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name + this.ipRangeStart);
+                IOController.Log(this, this.ipRangeStart, IOController.Flag.debug);
             }
         }
         public bool IpRangeEndIsSet { get; private set; }
@@ -397,7 +415,6 @@ namespace GM4D
         }
         public void AddStaticLease(StaticLease staticLease)
         {
-            System.Console.WriteLine("AddStaticLease " + staticLease.ToString());
             this.staticLeases[staticLease.ID] = staticLease;
             this.StaticLeasesIsSet = true;
             StaticLeasesChangedEvt(this, new PropertyChangedEventArgs("StaticLeases"));
@@ -455,6 +472,7 @@ namespace GM4D
                 NotifyPropertyChanged(MaxLeaseTime);
             }
         }
+        //################################################################### StaticLeases
         public bool DhcpdLeasesIsSet { get; private set; }
         private System.Collections.Generic.Dictionary<String, DhcpdLease> dhcpdLeases;
         public System.Collections.Generic.Dictionary<String, DhcpdLease> DhcpdLeases
@@ -470,6 +488,7 @@ namespace GM4D
                 {
                     DhcpdLeasesChangedEvt(this.dhcpdLeases, new PropertyChangedEventArgs("DhcpdLeases"));
                 }
+                IOController.Log(this, "DhcpdLeases set", IOController.Flag.debug);
             }
         }
         public void AddDhcpdLease(DhcpdLease dhcpdLease)
@@ -482,10 +501,25 @@ namespace GM4D
             this.dhcpdLeases.Remove(macaddress);
             DhcpdLeasesChangedEvt(this.dhcpdLeases, new PropertyChangedEventArgs("DhcpdLeases"));
         }
-        public bool IsDHCPServerRunning { get; set; }
         #endregion network
         //################################################################### GUIStatus
         #region GUIStatus
+        private bool isDHCPServerRunning;
+        public bool IsDHCPServerRunning 
+        {
+            get 
+            {
+                return this.isDHCPServerRunning;
+            }
+            set 
+            {
+                this.isDHCPServerRunning = value;
+                if (IsDHCPServerRunningChangedEvt != null)
+                {
+                    IsDHCPServerRunningChangedEvt(this.isDHCPServerRunning, new PropertyChangedEventArgs("IsDHCPServerRunning"));
+                }
+            } 
+        }
         private string overviewDhcpStatus;
         public String OverviewDhcpStatus
         {
@@ -497,6 +531,22 @@ namespace GM4D
             {
                 this.overviewDhcpStatus = value;
                 NotifyPropertyChanged(this.OverviewDhcpStatus);
+            }
+        }
+        private bool isDHCPServerInstalled;
+        public bool IsDHCPServerInstalled
+        {
+            get
+            {
+                return this.isDHCPServerInstalled;
+            }
+            set
+            {
+                this.isDHCPServerInstalled = value;
+                if (IsDHCPServerInstalledChangedEvt != null)
+                {
+                    IsDHCPServerInstalledChangedEvt(this.isDHCPServerInstalled, new PropertyChangedEventArgs("IsDHCPServerInstalled"));
+                }
             }
         }
         private String overviewDhcpServerInstallStatus;
