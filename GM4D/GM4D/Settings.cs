@@ -16,6 +16,8 @@ namespace GM4D
             this.DHCPNetCalcTool = new NetCalcTool();
             ClearDHCPSettings();
             ClearHostSettings();
+            this.overviewDhcpServerInstallStatus = "no status";
+            this.overviewDhcpServerStatus = "no status";
         }
         public void ClearDHCPSettings()
         {

@@ -1439,7 +1439,7 @@
             // 
             this.overview_dhcpDeamon_status_lbl.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.overview_dhcpDeamon_status_lbl.AutoSize = true;
-            this.overview_dhcpDeamon_status_lbl.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.settingsBindingSource, "OverviewDhcpServerStatus", true, System.Windows.Forms.DataSourceUpdateMode.OnValidation, "no status"));
+            this.overview_dhcpDeamon_status_lbl.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.settingsBindingSource, "OverviewDhcpServerStatus", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged, "no status"));
             this.overview_dhcpDeamon_status_lbl.Location = new System.Drawing.Point(103, 152);
             this.overview_dhcpDeamon_status_lbl.Name = "overview_dhcpDeamon_status_lbl";
             this.overview_dhcpDeamon_status_lbl.Size = new System.Drawing.Size(53, 20);
@@ -1883,10 +1883,10 @@
             this.ClientSize = new System.Drawing.Size(872, 617);
             this.Controls.Add(this.menuBottom_panelMain);
             this.Controls.Add(this.menu_panelMain);
-            this.Controls.Add(this.clients_panelMain);
             this.Controls.Add(this.overview_panelMain);
             this.Controls.Add(this.settings_panelMain);
             this.Controls.Add(this.staticLeases_panelMain);
+            this.Controls.Add(this.clients_panelMain);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);

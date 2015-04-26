@@ -570,28 +570,6 @@ namespace GM4D
                     this.settings.IsDHCPServerInstalled = false;
                 }
                 shellProc.WaitForExit();
-                /*
-                SaveSettingsFile(Environment.CurrentDirectory.ToString() + "/dhcpd.gm4d");
-                var psi = new System.Diagnostics.ProcessStartInfo
-                {
-                    FileName = "/bin/bash",
-                    UseShellExecute = false,
-                    RedirectStandardOutput = true,
-                    Arguments = string.Format("-c \" dpkg-query -s isc-dhcp-server | head -n2 | tail -n1 | cut -f3 -d' '\"")
-                };
-                using (var p = System.Diagnostics.Process.Start(psi))
-                {
-                    if (p != null)
-                    {
-                        var strOutput = p.StandardOutput.ReadToEnd();
-                        p.WaitForExit();
-                        if (strOutput.Length == 3)
-                        {
-                            this.settings.OverviewDhcpServerInstallStatus = "installed";
-                        }
-                    }
-                }
-                 */
             }
             else
             {
@@ -601,7 +579,6 @@ namespace GM4D
 
         public void GetDHCPServerStatus()
         {
-            this.settings.OverviewDhcpServerStatus = "no status";
             if (OsIsUnix)
             {
                 SaveSettingsFile(Environment.CurrentDirectory.ToString() + "/dhcpd.gm4d");
@@ -610,65 +587,22 @@ namespace GM4D
                 string strOutput = shellProc.StandardOutput.ReadToEnd();
                 shellProc.WaitForExit();
                 IOController.Log(this, "GetDHCPServerStatus " + strOutput, Flag.status);
-                if (strOutput.Split(' ')[1].Contains("start"))
+                if (strOutput.Contains("start"))
                 {
                     this.settings.IsDHCPServerRunning = true;
-                    var strStatus = strOutput.Split(' ')[1];
-                    strStatus = strStatus.Remove(strStatus.IndexOf(','));
-                    this.settings.OverviewDhcpServerStatus = strStatus;
+                    this.settings.OverviewDhcpServerStatus = "running";
                 }
-                else if (strOutput.Split(' ')[1].Contains("stop"))
+                else if (strOutput.Contains("stop"))
                 {
                     this.settings.IsDHCPServerRunning = false;
-                    var strStatus = strOutput.Split(' ')[1];
-                    this.settings.OverviewDhcpServerStatus = strStatus;
+                    this.settings.OverviewDhcpServerStatus = "stopped";
                 }
                 else
                 {
                     this.settings.IsDHCPServerRunning = false;
-                    throw new System.Exception("Unknown status" + strOutput);
+                    this.settings.OverviewDhcpServerStatus = "no status";
+                    throw new System.Exception("unknown status " + strOutput);
                 }
-                /*
-                SaveSettingsFile(Environment.CurrentDirectory.ToString() + "/dhcpd.gm4d");
-                var psi = new System.Diagnostics.ProcessStartInfo
-                {
-                    FileName = "/bin/bash",
-                    UseShellExecute = false,
-                    RedirectStandardOutput = true,
-                    Arguments = string.Format("-c \"gksudo service isc-dhcp-server status\"")
-                };
-                using (var p = System.Diagnostics.Process.Start(psi))
-                {
-                    if (p != null)
-                    {
-                        var strOutput = p.StandardOutput.ReadToEnd();
-                        p.WaitForExit();
-                        IOController.Log(this, "GetDHCPServerStatus "+strOutput);
-                        if (strOutput.Split(' ')[1].Contains("start"))
-                        {
-                            this.settings.IsDHCPServerRunning = true;
-                            var strStatus = strOutput.Split(' ')[1];
-                            strStatus = strStatus.Remove(strStatus.IndexOf(','));
-                            this.settings.OverviewDhcpServerStatus = strStatus;
-                            
-                        }
-                        else if (strOutput.Split(' ')[1].Contains("stop"))
-                        {
-                            this.settings.IsDHCPServerRunning = false;
-                            this.settings.IsDHCPServerRunning = true;
-                            var strStatus = strOutput.Split(' ')[1];
-                            this.settings.OverviewDhcpServerStatus = strStatus;
-                        }
-                        else
-                        {
-                            this.settings.IsDHCPServerRunning = false;
-                            throw new System.Exception("Error in IOController - GetDHCPServerStatus - Unknown status" + strOutput);
-                        }
-                        IOController.Log(this, "settings.OverviewDhcpServerStatus " + this.settings.OverviewDhcpServerStatus);
-                        IOController.Log(this, "settings.IsDHCPServerRunning " + this.settings.IsDHCPServerRunning);
-                    }
-                }
-                 */
             }
             else
             {
@@ -936,7 +870,7 @@ namespace GM4D
                 IOController.Log(this, "parsing failed " + e.ToString());
             }
             this.settings.DhcpdLeases = dhcpdLeasesList;
-            IOController.Log(this, string.Join("\n", "Active Leases found:\n" + dhcpdLeasesList.Select(x => x.Key + "=" + x.Value).ToArray()), Flag.status);
+            IOController.Log(this, "Active Leases found:\n" + string.Join("\n", dhcpdLeasesList.Select(x => x.Key + "=" + x.Value).ToArray()), Flag.status);
         }
         public enum Flag { debug, error, status}
         public static void Log(object sender, string message, Flag flag = Flag.error)

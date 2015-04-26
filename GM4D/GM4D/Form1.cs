@@ -28,6 +28,8 @@ namespace GM4D
             this.ioController = _ioCOntroller;
             this.settings.DhcpdLeasesChangedEvt += this.OnSettingsDhcpdLeasesChange;
             this.settings.StaticLeasesChangedEvt += this.StaticLeases_ListView_update;
+            this.settings.IsDHCPServerInstalledChangedEvt += OnIsDHCPServerInstalledChange;
+            this.settings.IsDHCPServerRunningChangedEvt += OnIsDHCPServerRunningChange;
             this.ioController.SettingsFileLoadedEvt += this.OnSettingsFileLoaded;
             this.ioController.UserIsSUChanged += this.OnUserIsSUChanged;
             this.ioController.OsIsUnixChanged += this.OnOsIsUnixChanged;
@@ -323,7 +325,7 @@ namespace GM4D
                 IOController.Log(this, ex.Message, IOController.Flag.error);
             }
         }
-        public void OnIsDHCPServerInstalledChange()
+        public void OnIsDHCPServerInstalledChange(object sender, PropertyChangedEventArgs e)
         {
             if (this.overview_dhcpServer_btn.InvokeRequired)
             {
@@ -350,7 +352,7 @@ namespace GM4D
                 IOController.Log(this, ex.Message, IOController.Flag.error);
             }
         }
-        public void OnIsDHCPServerRunningChange()
+        public void OnIsDHCPServerRunningChange(object sender, PropertyChangedEventArgs e)
         {
             if (this.overview_dhcpDeamon_btn.InvokeRequired)
             {
@@ -370,10 +372,12 @@ namespace GM4D
                 if (this.settings.IsDHCPServerRunning)
                 {
                     this.overview_dhcpDeamon_btn.Text = "stop";
+                    this.overview_dhcpDeamon_status_lbl.Text = "running";
                 }
                 else
                 {
                     this.overview_dhcpDeamon_btn.Text = "start";
+                    this.overview_dhcpDeamon_status_lbl.Text = "stopped";
                 }
             }
             catch (Exception ex)
