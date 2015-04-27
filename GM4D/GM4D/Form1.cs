@@ -16,6 +16,13 @@ namespace GM4D
         #region Main
         private Settings settings;
         private IOController ioController;
+        private Color buttonColorBgInactive = SystemColors.Control;
+        private Color buttonColorBgActive = Color.Coral;
+        private Color buttonColorMouseOver = Color.Coral;
+        private Color buttonColorMouseDown = Color.OrangeRed;
+        private Color menuColorBg = SystemColors.Control;
+        private Color panelColorBg = SystemColors.AppWorkspace;
+        private Color listViewColorBg = SystemColors.Control;
         /// <summary>
         /// constructor for MainWindow
         /// </summary>
@@ -80,30 +87,89 @@ namespace GM4D
             clients_lvbc_addStatic.Click += ClientsListviewAddStaticClick;
             clients_lvbc_addStatic.FixedWidth = true;
             clients_lve.AddColumn(clients_lvbc_addStatic);
+            //listview switch nic
+            ListViewExtender switchNic_lve = new ListViewExtender(selectNic_listview);
+            ListViewButtonColumn switchNic_lvbc_select = new ListViewButtonColumn(5);
+            switchNic_lvbc_select.Click += switchNicSelectClick;
+            switchNic_lvbc_select.FixedWidth = true;
+            switchNic_lve.AddColumn(switchNic_lvbc_select);
+            updateColors();
+        }
+        private void updateColors()
+        {
+            foreach (Control c in this.Controls)
+            {
+                setColors(c);
+            }
+        }
+        private void setColors(Control ctrl)
+        {
+            foreach (Control c in ctrl.Controls)
+            {
+                if (c is Button)
+                {
+                    ((Button)c).BackColor = this.buttonColorBgInactive;
+                    ((Button)c).FlatAppearance.MouseDownBackColor = this.buttonColorMouseDown;
+                    ((Button)c).FlatAppearance.MouseOverBackColor = this.buttonColorMouseOver;
+                }
+                else if (c is Panel)
+                {
+                    ((Panel)c).BackColor = panelColorBg;
+                }
+                else if (c is FlowLayoutPanel){
+                    ((FlowLayoutPanel)c).BackColor = panelColorBg;
+                }
+                else if (c is ListView)
+                {
+                    ((ListView)c).BackColor = this.listViewColorBg;
+                }
+                if (c.HasChildren)
+                {
+                    setColors(c);
+                }
+            }
+            this.menu_panelMain.BackColor = this.menuColorBg;
+            this.menuBottom_panelMain.BackColor = this.menuColorBg;
         }
         #endregion Main
 
         #region MenuPanel
-        private enum views {none,overview, settings, staticLeases, clients};
+        private enum views {none, overview, changenic, sethostip, settings, staticLeases, clients, about};
         private void switchView(views view)
         {
             this.overview_panelMain.Visible = false;
+            this.menu_btnOverview.BackColor = this.buttonColorBgInactive;
             this.settings_panelMain.Visible = false;
+            this.menu_btnBasicSettings.BackColor = this.buttonColorBgInactive;
             this.staticLeases_panelMain.Visible = false;
+            this.menu_btnStaticLeases.BackColor = this.buttonColorBgInactive;
             this.clients_panelMain.Visible = false;
+            this.menu_btnClients.BackColor = this.buttonColorBgInactive;
+            this.changeNic_panelMain.Visible = false;
+            this.setHostIp_panelMain.Visible = false;
             switch (view)
             {
                 case views.overview: 
                     this.overview_panelMain.Visible = true;
+                    this.menu_btnOverview.BackColor = this.buttonColorBgActive;
+                    break;
+                case views.changenic:
+                    this.changeNic_panelMain.Visible = true;
+                    break;
+                case views.sethostip:
+                    this.setHostIp_panelMain.Visible = true;
                     break;
                 case views.settings: 
                     this.settings_panelMain.Visible = true;
+                    this.menu_btnBasicSettings.BackColor = this.buttonColorBgActive;
                     break;
                 case views.staticLeases: 
                     this.staticLeases_panelMain.Visible = true;
+                    this.menu_btnStaticLeases.BackColor = this.buttonColorBgActive;
                     break;
                 case views.clients: 
                     this.clients_panelMain.Visible = true;
+                    this.menu_btnClients.BackColor = this.buttonColorBgActive;
                     break;
                 default: break;
             }
@@ -127,7 +193,7 @@ namespace GM4D
         private void btnBasicSettings_Click(object sender, EventArgs e)
         {
             switchView(views.settings);
-            settingsValidateAllInputs();
+            settingsTriggerValidation();
         }
         /// <summary>
         /// third menue button click
@@ -146,6 +212,10 @@ namespace GM4D
         private void btnClients_Click(object sender, EventArgs e)
         {
             switchView(views.clients);
+        }
+        private void button1_Click(object sender, EventArgs e)
+        {
+            switchView(views.about);
         }
         #endregion MenuPanel
 
@@ -207,19 +277,26 @@ namespace GM4D
 
         private void overview_hostip_btn_Click(object sender, EventArgs e)
         {
-            try
+            if (ioController.OsIsUnix)
             {
-                this.overview_setHostIp_panel.Visible = true;
-                ((Button)sender).Enabled = false;
-                if (this.settings.HostIpIsSet && this.settings.HostSubnetMaskIsSet)
+                try
                 {
-                    this.overview_setHostIp_ip_ipinput.Text = this.settings.HostIP;
-                    this.overview_setHostIp_subnetmask_ipinput.Text = this.settings.HostSubnetMask;
+                    switchView(views.sethostip);
+                    ((Button)sender).Enabled = false;
+                    if (this.settings.HostIpIsSet && this.settings.HostSubnetMaskIsSet)
+                    {
+                        this.overview_setHostIp_ip_ipinput.Text = this.settings.HostIP;
+                        this.overview_setHostIp_subnetmask_ipinput.Text = this.settings.HostSubnetMask;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    IOController.Log(this, ex.Message, IOController.Flag.error);
                 }
             }
-            catch (Exception ex)
+            else
             {
-                IOController.Log(this, ex.Message, IOController.Flag.error);
+                MessageBox.Show("This feature is only supported in an Unix environment.", "Not an Unix environment!");
             }
         }
 
@@ -241,7 +318,7 @@ namespace GM4D
                         MessageBox.Show("This is only supported on a Unix machine.", exc.Message);
                     }
                     this.overview_hostip_btn.Enabled = true;
-                    this.overview_setHostIp_panel.Visible = false;
+                    switchView(views.overview);
                     this.validationStatus_error.SetError(this.overview_setHostIp_ip_ipinput, "");
                     this.validationStatus_ok.SetError(this.overview_setHostIp_ip_ipinput, "");
                     this.validationStatus_error.SetError(this.overview_setHostIp_subnetmask_ipinput, "");
@@ -262,7 +339,7 @@ namespace GM4D
             try
             {
                 this.overview_hostip_btn.Enabled = true;
-                this.overview_setHostIp_panel.Visible = false;
+                switchView(views.overview);
                 this.settings.NewHostIpIsSet = false;
                 this.settings.NewHostSubnetMaskIsSet = false;
                 this.overview_setHostIp_ip_ipinput.Clear();
@@ -277,52 +354,108 @@ namespace GM4D
                 IOController.Log(this, ex.Message, IOController.Flag.error);
             }
         }
-
+        private void overview_hostNic_btn_Click(object sender, EventArgs e)
+        {
+            this.selectNic_listview.Items.Clear();
+            for (int i = 0; i < this.settings.Interfaces.Count;i++ )
+            {
+                HostNIC nic = (HostNIC)this.settings.Interfaces[i];
+                if (nic.Ipv4Enabled)
+                {
+                    ListViewItem item = new ListViewItem(i.ToString());
+                    item.SubItems.Add(nic.Id);
+                    item.SubItems.Add(nic.Name);
+                    item.SubItems.Add(nic.MacAddress);
+                    item.SubItems.Add(nic.IPAddress);
+                    item.SubItems.Add("select");
+                    this.selectNic_listview.Items.Add(item);
+                }
+            }
+            switchView(views.changenic);
+            this.selectNic_listview.Refresh();
+        }
+        private void switchNicSelectClick(object sender, ListViewColumnMouseEventArgs e)
+        {
+            int i = int.Parse(e.Item.Text);
+            if (ioController.OsIsUnix)
+            {
+                try
+                {
+                    this.settings.selectInterface(i);
+                    this.ioController.ApplySelectedInterface();
+                    switchView(views.overview);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("This interface can not be used for the DHCP server. Make sure IPv4 is enabled and IP is set.", "Failed to select interface");
+                    IOController.Log(this, ex.Message, IOController.Flag.error);
+                }
+            }
+            else
+            {
+                this.settings.selectInterface(i);
+                MessageBox.Show("This feature is only supported in an Unix environment.", "Not an Unix environment!");
+            }
+        }
         private void overview_dhcpServer_btn_Click(object sender, EventArgs e)
         {
-            try
+            if (ioController.OsIsUnix)
             {
-                this.ioController.InstallDHCPServer();
-                this.ioController.GetDHCPServerInstallStatus();
+                try
+                {
+                    this.ioController.InstallDHCPServer();
+                    this.ioController.GetDHCPServerInstallStatus();
+                }
+                catch (Exception ex)
+                {
+                    IOController.Log(this, ex.Message, IOController.Flag.error);
+                    MessageBox.Show("Failed to install DHCP server");
+                }
             }
-            catch (Exception ex)
+            else
             {
-                IOController.Log(this, ex.Message, IOController.Flag.error);
-                MessageBox.Show("Failed to install DHCP server");
+                MessageBox.Show("This feature is only supported in an Unix environment.", "Not an Unix environment!");
             }
         }
         private void overview_dhcpDeamon_btn_Click(object sender, EventArgs e)
         {
-            try
+            if (ioController.OsIsUnix)
             {
-                if (this.settings.IsDHCPServerRunning)
+                try
                 {
-                    try
+                    if (this.settings.IsDHCPServerRunning)
                     {
-                        this.ioController.StopDHCPServer();
+                        try
+                        {
+                            this.ioController.StopDHCPServer();
+                        }
+                        catch (Exception exc)
+                        {
+                            IOController.Log(this, exc.Message, IOController.Flag.error);
+                            MessageBox.Show("StopDHCPServer failed");
+                        }
                     }
-                    catch (Exception exc)
+                    else
                     {
-                        IOController.Log(this, exc.Message, IOController.Flag.error);
-                        MessageBox.Show("StopDHCPServer failed");
+                        try
+                        {
+                            this.ioController.StartDHCPServer();
+                        }
+                        catch (Exception exc)
+                        {
+                            IOController.Log(this, exc.Message, IOController.Flag.error);
+                            MessageBox.Show(exc.Message, "StartDHCPServer failed");
+                        }
                     }
                 }
-                else
+                catch (Exception ex)
                 {
-                    try
-                    {
-                        this.ioController.StartDHCPServer();
-                    }
-                    catch (Exception exc)
-                    {
-                        IOController.Log(this, exc.Message, IOController.Flag.error);
-                        MessageBox.Show(exc.Message, "StartDHCPServer failed");
-                    }
+                    IOController.Log(this, ex.Message, IOController.Flag.error);
                 }
             }
-            catch (Exception ex)
+            else
             {
-                IOController.Log(this, ex.Message, IOController.Flag.error);
+                MessageBox.Show("This feature is only supported in an Unix environment.", "Not an Unix environment!");
             }
         }
         public void OnIsDHCPServerInstalledChange(object sender, PropertyChangedEventArgs e)
@@ -581,7 +714,6 @@ namespace GM4D
                 IOController.Log(this, ex.Message, IOController.Flag.error);
             }
         }
-
         private void settings_validateSecondaryDNSInput(object sender, EventArgs e)
         {
             try
@@ -606,6 +738,38 @@ namespace GM4D
                     validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "");
                     validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "please enter valid IP address");
                     this.secondaryDNS_lblInfo.Text = "address is not a valid ip address";
+                }
+            }
+            catch (Exception ex)
+            {
+                IOController.Log(this, ex.Message, IOController.Flag.error);
+            }
+        }
+        private void settings_validateDefaultLeaseInput(object sender, EventArgs e)
+        {
+            try
+            {
+                if (((NumericUpDown)sender).Value > 0)
+                {
+                    this.validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "");
+                    this.validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "valid Lease Time");
+                    this.settings.DefaultLeaseTime = Convert.ToInt32(((NumericUpDown)sender).Value);
+                }
+            }
+            catch (Exception ex)
+            {
+                IOController.Log(this, ex.Message, IOController.Flag.error);
+            }
+        }
+        private void settings_validateMaxLeaseInput(object sender, EventArgs e)
+        {
+            try
+            {
+                if (((NumericUpDown)sender).Value > 0)
+                {
+                    this.validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "");
+                    this.validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "valid Lease Time");
+                    this.settings.DefaultLeaseTime = Convert.ToInt32(((NumericUpDown)sender).Value);
                 }
             }
             catch (Exception ex)
@@ -644,14 +808,18 @@ namespace GM4D
                 this.secondaryDNS_input.Refresh();
                 this.subnet_input.Text = this.settings.Subnet;
                 this.subnet_input.Refresh();
-                settingsValidateAllInputs();
+                this.defaultLease_input.Value = Convert.ToDecimal(this.settings.DefaultLeaseTime);
+                this.defaultLease_input.Refresh();
+                this.maxLease_input.Value = Convert.ToDecimal(this.settings.MaxLeaseTime);
+                this.maxLease_input.Refresh();
+                settingsTriggerValidation();
             }
             catch (Exception ex)
             {
                 IOController.Log(this, ex.Message, IOController.Flag.error);
             }
         }
-        private void settingsValidateAllInputs()
+        private void settingsTriggerValidation()
         {
             // Control.Validate() is not implemented yet in Mono
             this.ipRangeStart_input.Validate();
@@ -661,6 +829,8 @@ namespace GM4D
             this.primaryDNS_input.Validate();
             this.secondaryDNS_input.Validate();
             this.subnet_input.Validate();
+            this.defaultLease_input.Validate();
+            this.maxLease_input.Validate();
             this.ipRangeStart_input.Validate();
             // workaround by setting focus
             this.ipRangeStart_input.Focus();
@@ -670,6 +840,8 @@ namespace GM4D
             this.primaryDNS_input.Focus();
             this.secondaryDNS_input.Focus();
             this.subnet_input.Focus();
+            this.defaultLease_input.Focus();
+            this.maxLease_input.Focus();
             this.ipRangeStart_input.Focus();
         }
         #endregion SettingsPanel
@@ -817,22 +989,28 @@ namespace GM4D
         private delegate void staticLeasesListViewAddCallback();
         private void staticLeasesListViewAdd()
         {
-            try
+            staticLeases_input_tb_ip.Focus();
+            staticLeases_input_tb_mac.Focus();
+            staticLeases_input_tb_name.Focus();
+            if (staticLeasesMacInputIsValid && staticLeasesIpInputIsValid)
             {
-                IOController.Log(this, "called", IOController.Flag.debug);
-                StaticLease staticLease = new StaticLease();
-                staticLease.IPAddress = staticLeases_input_tb_ip.Text;
-                staticLease.MACAddress = staticLeases_input_tb_mac.Text;
-                staticLease.DeviceName = staticLeases_input_tb_name.Text;
-                staticLease.ID = (this.settings.GetStaticLeases().Count + 1).ToString();
-                this.settings.AddStaticLease(staticLease);
-                staticLeases_input_tb_name.Clear();
-                staticLeases_input_tb_mac.Clear();
-                staticLeases_input_tb_ip.Clear();
-            }
-            catch (Exception ex)
-            {
-                IOController.Log(this, ex.Message, IOController.Flag.error);
+                try
+                {
+                    IOController.Log(this, "called", IOController.Flag.debug);
+                    StaticLease staticLease = new StaticLease();
+                    staticLease.IPAddress = staticLeases_input_tb_ip.Text;
+                    staticLease.MACAddress = staticLeases_input_tb_mac.Text;
+                    staticLease.DeviceName = staticLeases_input_tb_name.Text;
+                    staticLease.ID = (this.settings.GetStaticLeases().Count + 1).ToString();
+                    this.settings.AddStaticLease(staticLease);
+                    staticLeases_input_tb_name.Clear();
+                    staticLeases_input_tb_mac.Clear();
+                    staticLeases_input_tb_ip.Clear();
+                }
+                catch (Exception ex)
+                {
+                    IOController.Log(this, ex.Message, IOController.Flag.error);
+                }
             }
         }
         private string listviewitemid;
@@ -889,25 +1067,31 @@ namespace GM4D
         private delegate void staticLeasesListViewSaveEditCallback();
         private void staticLeasesListViewSaveEdit()
         {
-            try
+            staticLeases_input_tb_ip.Focus();
+            staticLeases_input_tb_mac.Focus();
+            staticLeases_input_tb_name.Focus();
+            if (staticLeasesMacInputIsValid && staticLeasesIpInputIsValid)
             {
-                StaticLease staticLease = new StaticLease();
-                staticLease.IPAddress = staticLeases_input_tb_ip.Text;
-                staticLease.MACAddress = staticLeases_input_tb_mac.Text;
-                staticLease.DeviceName = staticLeases_input_tb_name.Text;
-                staticLease.ID = listviewitemid;
-                this.settings.AddStaticLease(staticLease);
-                staticLeases_input_tb_name.Clear();
-                staticLeases_input_tb_mac.Clear();
-                staticLeases_input_tb_ip.Clear();
-                this.staticLeases_input_btn_add.Click += staticLeases_input_btn_add_Click;
-                this.staticLeases_input_btn_add.Click -= staticLeases_input_btn_saveEdit_Click;
-                listviewitemid = null;
-                staticLeaseEditing = false;
-            }
-            catch (Exception ex)
-            {
-                IOController.Log(this, ex.Message, IOController.Flag.error);
+                try
+                {
+                    StaticLease staticLease = new StaticLease();
+                    staticLease.IPAddress = staticLeases_input_tb_ip.Text;
+                    staticLease.MACAddress = staticLeases_input_tb_mac.Text;
+                    staticLease.DeviceName = staticLeases_input_tb_name.Text;
+                    staticLease.ID = listviewitemid;
+                    this.settings.AddStaticLease(staticLease);
+                    staticLeases_input_tb_name.Clear();
+                    staticLeases_input_tb_mac.Clear();
+                    staticLeases_input_tb_ip.Clear();
+                    this.staticLeases_input_btn_add.Click += staticLeases_input_btn_add_Click;
+                    this.staticLeases_input_btn_add.Click -= staticLeases_input_btn_saveEdit_Click;
+                    listviewitemid = null;
+                    staticLeaseEditing = false;
+                }
+                catch (Exception ex)
+                {
+                    IOController.Log(this, ex.Message, IOController.Flag.error);
+                }
             }
         }
         private void ListViewDeleteClick(object sender, ListViewColumnMouseEventArgs e)
@@ -945,7 +1129,75 @@ namespace GM4D
                 IOController.Log(this, ex.Message, IOController.Flag.error);
             }
         }
-
+        private bool staticLeasesIpInputIsValid;
+        private void staticLeases_validateIpInput(object sender, EventArgs e)
+        {
+            try
+            {
+                System.Net.IPAddress ipAddress;
+                if (System.Net.IPAddress.TryParse(((IPAddressControlLib.IPAddressControl)sender).Text, out ipAddress))
+                {
+                    if (this.settings.DHCPNetCalcTool.CheckSameSubnet(ipAddress.ToString(), this.settings.IpRangeStart, this.settings.SubnetMask))
+                    {
+                        this.validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "");
+                        this.validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "valid IP address");
+                        staticLeasesIpInputIsValid = true;
+                    }
+                    else
+                    {
+                        validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "");
+                        validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "IP address is not in DHCP subnet");
+                        staticLeasesIpInputIsValid = false;
+                    }
+                }
+                else
+                {
+                    validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "");
+                    validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "please enter valid IP address");
+                    staticLeasesIpInputIsValid = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                IOController.Log(this, ex.Message, IOController.Flag.error);
+            }
+        }
+        private bool staticLeasesMacInputIsValid;
+        private void staticLeases_validateMacInput(object sender, EventArgs e)
+        {
+            try
+            {
+                string input = ((TextBox)sender).Text;
+                input = input.ToUpper();
+                input = input.Replace(':', '-');
+                System.Net.NetworkInformation.PhysicalAddress macAddress = null;
+                try
+                {
+                    macAddress = System.Net.NetworkInformation.PhysicalAddress.Parse(input);
+                }
+                catch (FormatException ex)
+                {
+                    IOController.Log(this, ex.Message, IOController.Flag.error);
+                    macAddress = null;
+                }
+                if (macAddress != null)
+                {
+                    this.validationStatus_error.SetError((TextBox)sender, "");
+                    this.validationStatus_ok.SetError((TextBox)sender, "valid MAC address");
+                    staticLeasesMacInputIsValid = true;
+                }
+                else
+                {
+                    validationStatus_ok.SetError((TextBox)sender, "");
+                    validationStatus_error.SetError((TextBox)sender, "please enter valid MAC address");
+                    staticLeasesMacInputIsValid = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                IOController.Log(this, ex.Message, IOController.Flag.error);
+            }
+        }
         #endregion StaticLeases
 
         #region DhcpdLeases
@@ -1005,6 +1257,6 @@ namespace GM4D
             }
         }
         #endregion DhcpdLeases
-
+        
     }
 }

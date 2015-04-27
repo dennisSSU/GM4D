@@ -170,7 +170,7 @@ namespace GM4D
             }
         }
         /// <summary>
-        /// takes a filename, reads in the text content of file and calls parseConfig with the content
+        /// takes a filename, reads in the text content of file and returns contents as ArrayList of lines
         /// </summary>
         /// <param name="filename"></param>
         /// <returns></returns>
@@ -427,25 +427,6 @@ namespace GM4D
                 shellProc.Start();
                 IOController.Log(this, "ApplySettingsToDHCPServer " + shellProc.StandardOutput.ReadToEnd(), Flag.debug);
                 shellProc.WaitForExit();
-                /*
-                SaveSettingsFile(Environment.CurrentDirectory.ToString() + "/dhcpd.gm4d");
-                var psi = new System.Diagnostics.ProcessStartInfo
-                {
-                    FileName = "/bin/bash",
-                    UseShellExecute = false,
-                    RedirectStandardOutput = true,
-                    Arguments = string.Format("-c \"gksudo mv " + Environment.CurrentDirectory.ToString() + "/dhcpd.gm4d /etc/dhcp/dhcpd.conf\"")
-                };
-
-                using (var p = System.Diagnostics.Process.Start(psi))
-                {
-                    if (p != null)
-                    {
-                        var strOutput = p.StandardOutput.ReadToEnd();
-                        p.WaitForExit();
-                    }
-                }
-                 */
             }
             else
             {
@@ -454,6 +435,94 @@ namespace GM4D
             if (this.settings.IsDHCPServerRunning)
             {
                 this.RestartDHCPServer();
+            }
+        }
+
+        public void ApplySelectedInterface()
+        {
+            if (OsIsUnix)
+            {
+                if (this.settings.IsDHCPServerInstalled)
+                {
+                    if (File.Exists("/etc/default/isc-dhcp-server"))
+                    {
+                        IOController.Log(this, "LoadEtcDefaultConfig", Flag.debug);
+                        ReadConfigFileDelegate readConfigFileDelegate = new ReadConfigFileDelegate(ProcessConfigFile);
+                        IAsyncResult readConfigFileDelegateResult = readConfigFileDelegate.BeginInvoke("/etc/default/isc-dhcp-server", processEtcDefaultConfigFile, null);
+                    }
+                    else
+                    {
+                        throw new FileNotFoundException("/etc/default/isc-dhcp-server" + " not found.");
+                    }
+                }
+                else
+                {
+                    throw new System.Exception("DHCP Server not installed");
+                }
+            }
+            else
+            {
+                throw new System.Exception("System in not a Unix environment");
+            }
+        }
+        private ArrayList newEtcDefaultConfig;
+        private void processEtcDefaultConfigFile(IAsyncResult ar)
+        {
+            AsyncResult aResult = (AsyncResult)ar;
+            ReadConfigFileDelegate readConfigFileDelegate = (ReadConfigFileDelegate)aResult.AsyncDelegate;
+            ArrayList filecontent = readConfigFileDelegate.EndInvoke(ar);
+            IOController.Log(this, "processDefaultConfigFile filecontent: " + String.Join(",", filecontent), Flag.debug);
+            newEtcDefaultConfig = new ArrayList();
+            newEtcDefaultConfig.Add("#configfile /etc/default/isc-dhcp-server modified by GM4D");
+            foreach (string line in filecontent)
+            {
+                string trimmedline = line.Trim();
+                if (trimmedline.StartsWith("#INTERFACES"))
+                {
+                    trimmedline = "INTERFACES=\"" + this.settings.OverviewSelectedInterfaceName + "\"";
+                }
+                else if (trimmedline.StartsWith("INTERFACES"))
+                {
+                    trimmedline = "INTERFACES=\"" + this.settings.OverviewSelectedInterfaceName + "\"";
+                }
+                newEtcDefaultConfig.Add(trimmedline);
+            }
+            saveEtcDefaultConfigFile(Environment.CurrentDirectory.ToString() + "/gm4d-isc-dhcp-server");
+        }
+
+        private void saveEtcDefaultConfigFile(String filename)
+        {
+            SaveSettingsToFileDelegate saveSettingsToFileDelegate = null;
+            saveSettingsToFileDelegate = new SaveSettingsToFileDelegate(writeEtcDefaultConfigFile);
+            IAsyncResult saveSettingsToFileResult = saveSettingsToFileDelegate.BeginInvoke(filename, writeEtcDefaultConfigFileComplete, null);
+        }
+
+        private void writeEtcDefaultConfigFile(String filename)
+        {
+            System.IO.StreamWriter streamWriter = new System.IO.StreamWriter(filename);
+            foreach (string line in this.newEtcDefaultConfig){
+                streamWriter.WriteLine(line);
+            }
+            streamWriter.Flush();
+            streamWriter.Close();
+        }
+
+        private void writeEtcDefaultConfigFileComplete(IAsyncResult ar)
+        {
+            if (OsIsUnix)
+            {
+                shellStartInfo.Arguments = "-c \"gksudo cp /etc/default/isc-dhcp-server /etc/default/isc-dhcp-server.bak;gksudo mv " + Environment.CurrentDirectory.ToString() + "/gm4d-isc-dhcp-server /etc/default/isc-dhcp-server\"";
+                shellProc.Start();
+                IOController.Log(this, "new /etc/default/isc-dhcp-server applied " + shellProc.StandardOutput.ReadToEnd(), Flag.debug);
+                shellProc.WaitForExit();
+                if (this.settings.IsDHCPServerRunning)
+                {
+                    this.RestartDHCPServer();
+                }
+            }
+            else
+            {
+                throw new System.Exception("System is not a Unix environment");
             }
         }
 
@@ -896,10 +965,30 @@ namespace GM4D
                     break;
                 default: break;
             }
+            /*
             System.Console.WriteLine(logheader);
             System.Console.ResetColor();
             System.Console.WriteLine(message);
             System.Console.WriteLine();
+             */
+            string filename = Path.Combine(Environment.CurrentDirectory.ToString(),"gm4d.log");
+            if (!File.Exists(filename))
+            {
+                using (StreamWriter sw = File.AppendText(filename))
+                {
+                    sw.WriteLine("###############################################");
+                    sw.WriteLine("#               GM4D Log file                 #");
+                    sw.WriteLine("###############################################");
+                }
+            }
+            using (StreamWriter sw = File.AppendText(filename))
+            {
+                sw.WriteLine(logheader);
+                sw.WriteLine(message);
+                sw.WriteLine();
+                sw.Flush();
+                sw.Close();
+            }   
         }
     }
 }

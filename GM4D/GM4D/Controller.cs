@@ -14,24 +14,41 @@ namespace GM4D
         private MainWindow mainWindow;
         private Settings settings;
         private IOController ioController;
+        private BackgroundWorker bw;
+        private LoadingWindow loadingWindow;
         public Controller()
         {
             System.Windows.Forms.Application.EnableVisualStyles();
             System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
+            this.bw = new BackgroundWorker();
+            this.bw.DoWork += new DoWorkEventHandler(init);
+            this.bw.WorkerReportsProgress = true;
             this.settings = new Settings();
             this.ioController = new IOController(this.settings);
             this.mainWindow = new MainWindow(this.settings, this.ioController);
+            this.loadingWindow = new LoadingWindow();
         }
 
         public void Run()
         {
+            bw.ProgressChanged += loadingWindow.OnProgressChange;
+            bw.RunWorkerCompleted += bw_RunWorkerCompleted;
+            bw.RunWorkerAsync();
+            System.Windows.Forms.Application.Run(loadingWindow);
             mainWindow.Shown += mainWindow_Shown;
             System.Windows.Forms.Application.Run(mainWindow);
-            
         }
 
-        private void mainWindow_Shown(object sender, EventArgs e)
+        private void bw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            this.loadingWindow.Close();
+            this.loadingWindow.Dispose();
+        }
+
+        private void init(object sender, DoWorkEventArgs e)
+        {
+            BackgroundWorker worker = sender as BackgroundWorker;
+            worker.ReportProgress(1);
             try
             {
                 this.ioController.InitShell();
@@ -40,6 +57,7 @@ namespace GM4D
             {
                 IOController.Log(this, "InitShell " + exc.Message, IOController.Flag.error);
             }
+            worker.ReportProgress(30);
             try
             {
                 this.ioController.GetHostInfo();
@@ -48,6 +66,7 @@ namespace GM4D
             {
                 IOController.Log(this, "InitShell " + exc.Message, IOController.Flag.error);
             }
+            worker.ReportProgress(50);
             if (settings.Interfaces.Count > 0) settings.selectInterface(0);
             try
             {
@@ -57,14 +76,16 @@ namespace GM4D
             {
                 IOController.Log(this, "InitShell " + exc.Message, IOController.Flag.error);
             }
+            worker.ReportProgress(60);
             try
             {
                 this.ioController.GetDHCPServerStatus();
-            }    
+            }
             catch (Exception exc)
             {
                 IOController.Log(this, "GetDHCPServerStatus " + exc.Message, IOController.Flag.error);
-            } 
+            }
+            worker.ReportProgress(70);
             try
             {
                 this.ioController.InitiateDhcpdLeasesFileWatcher();
@@ -73,6 +94,7 @@ namespace GM4D
             {
                 IOController.Log(this, "InitiateDhcpdLeasesFileWatcher " + exc.Message, IOController.Flag.error);
             }
+            worker.ReportProgress(80);
             try
             {
                 this.ioController.ReadDhcpdLeasesFile("/var/lib/dhcp/dhcpd.leases");
@@ -81,6 +103,12 @@ namespace GM4D
             {
                 IOController.Log(this, "ReadDhcpdLeasesFile " + exc.Message, IOController.Flag.error);
             }
+            worker.ReportProgress(100);
+            System.Threading.Thread.Sleep(800);
+        }
+        private void mainWindow_Shown(object sender, EventArgs e)
+        {
+
         }
     }
 }

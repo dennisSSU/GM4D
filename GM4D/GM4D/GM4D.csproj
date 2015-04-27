@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{7F8FA37E-CA22-478B-81BD-3799B474F767}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>GM4D</RootNamespace>
     <AssemblyName>GM4D</AssemblyName>
@@ -95,6 +95,12 @@
     <Compile Include="InputValidation.cs" />
     <Compile Include="IOController.cs" />
     <Compile Include="ListViewExtender.cs" />
+    <Compile Include="LoadingWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LoadingWindow.Designer.cs">
+      <DependentUpon>LoadingWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="NetCalcTool.cs" />
     <Compile Include="IpInput.cs">
       <SubType>UserControl</SubType>
@@ -120,6 +126,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="IpInput.resx">
       <DependentUpon>IpInput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoadingWindow.resx">
+      <DependentUpon>LoadingWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

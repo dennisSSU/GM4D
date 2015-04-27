@@ -60,6 +60,7 @@ namespace GM4D
         public event PropertyChangedEventHandler StaticLeasesChangedEvt;
         public event PropertyChangedEventHandler IsDHCPServerRunningChangedEvt;
         public event PropertyChangedEventHandler IsDHCPServerInstalledChangedEvt;
+        public event PropertyChangedEventHandler InterfaceAddedEvt;
         private void NotifyPropertyChanged(String value)
         {
             if (PropertyChanged != null)
@@ -88,7 +89,9 @@ namespace GM4D
             this.HostSubnetMask = nic.SubnetMask;
             this.HostSubnet = nic.SubnetIdentifier;
             this.HostHasStaticIp = nic.StaticIPAddress;
+            this.HostGateway = nic.Gateway;
             this.SelectedInterface = i;
+            this.overviewSelectedInterfaceName = nic.Name;
             IOController.Log(this, nic.ToString(), IOController.Flag.status);
         }
         private ArrayList interfaces;
@@ -107,6 +110,10 @@ namespace GM4D
         {
             this.interfaces.Add(nic);
             IOController.Log(this, "Added Interface:\n" + nic.ToString() + "\n", IOController.Flag.status);
+            if (InterfaceAddedEvt != null)
+            {
+                InterfaceAddedEvt(this.interfaces, new PropertyChangedEventArgs("InterfaceAdded"));
+            }
         }
         private int selectedInterface;
         public int SelectedInterface
@@ -575,6 +582,19 @@ namespace GM4D
             {
                 this.overviewDhcpServerStatus = value;
                 NotifyPropertyChanged(this.OverviewDhcpServerStatus);
+            }
+        }
+        private string overviewSelectedInterfaceName;
+        public string OverviewSelectedInterfaceName
+        {
+            get
+            {
+                return this.overviewSelectedInterfaceName;
+            }
+            set
+            {
+                this.overviewSelectedInterfaceName = value;
+                NotifyPropertyChanged(this.overviewSelectedInterfaceName);
             }
         }
         #endregion GUIStatus
