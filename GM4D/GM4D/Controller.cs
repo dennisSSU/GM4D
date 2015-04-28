@@ -125,9 +125,9 @@ namespace GM4D
             {
                 IOController.Log(this, "GetSelectedInterfaceFromEtcDeafult " + exc.Message, IOController.Flag.error);
             }
-            if (settings.SelectedInterfaceId == null)
+            if (settings.SelectedInterfaceID == null)
             {
-                if (settings.Interfaces.Count > 0) settings.selectInterface(0);
+                if (settings.Interfaces.Count > 0) settings.SelectInterface(0);
             }
             worker.ReportProgress(100);
             System.Threading.Thread.Sleep(800);

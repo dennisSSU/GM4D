@@ -158,6 +158,7 @@ namespace GM4D
                 case views.overview: 
                     this.overview_panelMain.Visible = true;
                     this.menu_btnOverview.BackColor = this.buttonColorBgActive;
+                    overviewRefresh();
                     break;
                 case views.changenic:
                     this.changeNic_panelMain.Visible = true;
@@ -229,6 +230,15 @@ namespace GM4D
         #endregion MenuPanel
 
         #region OverviewPanel
+        private void overviewRefresh()
+        {
+            this.overview_hostNic_status_lbl.Text = this.settings.OverviewSelectedInterfaceName;
+            this.overview_hostNic_status_lbl.Refresh();
+            this.overview_hostip_info_ip_lbl.Text = this.settings.HostIP;
+            this.overview_hostip_info_ip_lbl.Refresh();
+            this.overview_hostip_info_subnetMask_lbl.Text = this.settings.HostSubnetMask;
+            this.overview_hostip_info_subnetMask_lbl.Refresh();
+        }
         /// <summary>
         /// input validation for host ip address input
         /// </summary>
@@ -393,7 +403,7 @@ namespace GM4D
             {
                 try
                 {
-                    this.settings.selectInterface(i);
+                    this.settings.SelectInterface(i);
                     this.ioController.ApplySelectedInterface();
                     switchView(views.overview);
                 }
@@ -405,7 +415,7 @@ namespace GM4D
             }
             else
             {
-                this.settings.selectInterface(i);
+                this.settings.SelectInterface(i);
                 switchView(views.overview);
             }
         }

@@ -9,7 +9,18 @@ namespace GM4D
     {
         public HostNIC()
         {
-
+            this.Name = "";
+            this.Id = "";
+            this.Type = "";
+            this.Ipv4Enabled = false;
+            this.IPAddress = "";
+            this.StaticIPAddress = false;
+            this.SubnetIdentifier = "";
+            this.SubnetMask = "";
+            this.MacAddress = "";
+            this.PrimaryDNS = "";
+            this.SecondaryDNS = "";
+            this.Gateway = "";
         }
         public string Name { get; set; }
         public string Id { get; set; }

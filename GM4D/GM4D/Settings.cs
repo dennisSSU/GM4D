@@ -78,7 +78,7 @@ namespace GM4D
         #endregion eventhandling
         //################################################################### interface selection
         #region interface selection
-        public void selectInterface(int i)
+        public void SelectInterface(int i)
         {
             if (i > (Interfaces.Count-1))
             {
@@ -91,8 +91,8 @@ namespace GM4D
             this.HostHasStaticIp = nic.StaticIPAddress;
             this.HostGateway = nic.Gateway;
             this.SelectedInterface = i;
-            this.overviewSelectedInterfaceName = nic.Name;
-            this.SelectedInterfaceId = nic.Id;
+            this.SelectedInterfaceID = nic.Id;
+            this.OverviewSelectedInterfaceName = nic.Name;
             IOController.Log(this, nic.ToString(), IOController.Flag.status);
         }
         private ArrayList interfaces;
@@ -116,19 +116,19 @@ namespace GM4D
                 InterfaceAddedEvt(this.interfaces, new PropertyChangedEventArgs("InterfaceAdded"));
             }
         }
-        public string SelectedInterfaceId { get; set; }
-        private int selectedInterface;
+        public string SelectedInterfaceID { get; set; }
+        public int SelectedInterfaceIndex;
         public int SelectedInterface
         {
             get
             {
-                return this.selectedInterface;
+                return this.SelectedInterfaceIndex;
             }
             private set
             {
-                this.selectedInterface = value;
+                this.SelectedInterfaceIndex = value;
                 NotifyPropertyChanged(this.SelectedInterface);
-                IOController.Log(this, " " + this.selectedInterface, IOController.Flag.status);
+                IOController.Log(this, " " + this.SelectedInterfaceIndex, IOController.Flag.status);
             }
         }
         #endregion interface selection

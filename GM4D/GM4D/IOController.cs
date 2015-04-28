@@ -448,16 +448,20 @@ namespace GM4D
             LoadEtcDefaultConfigFile();
             for (int i = 0; i < this.settings.Interfaces.Count; i++)
             {
-                if (((HostNIC)this.settings.Interfaces[i]).Id == this.settings.SelectedInterfaceId)
+                if (((HostNIC)this.settings.Interfaces[i]).Id == this.settings.SelectedInterfaceID)
                 {
-                    IOController.Log(this, "found set interface in /etc/default/isc-dhcp-server: " + this.settings.SelectedInterfaceId, Flag.status);
-                    this.settings.selectInterface(i);
+                    IOController.Log(this, "found set interface in /etc/default/isc-dhcp-server: " + this.settings.SelectedInterfaceID, Flag.status);
+                    if (i != this.settings.SelectedInterfaceIndex)
+                    {
+                        this.settings.SelectInterface(i);
+                    }
                 }
             }
             this.newEtcDefaultConfig = null;
         }
         public void LoadEtcDefaultConfigFile()
         {
+            IOController.Log(this, "LoadEtcDefaultConfigFile enter", Flag.debug);
             if (OsIsUnix)
             {
                 if (this.settings.IsDHCPServerInstalled)
@@ -470,16 +474,19 @@ namespace GM4D
                     }
                     else
                     {
+                        IOController.Log(this, "FileNotFoundException /etc/default/isc-dhcp-server", Flag.error);
                         throw new FileNotFoundException("/etc/default/isc-dhcp-server" + " not found.");
                     }
                 }
                 else
                 {
+                    IOController.Log(this, "DHCP Server not installed", Flag.error);
                     throw new System.Exception("DHCP Server not installed");
                 }
             }
             else
             {
+                IOController.Log(this, "System in not a Unix environment", Flag.error);
                 throw new System.Exception("System in not a Unix environment");
             }
         }
@@ -503,9 +510,13 @@ namespace GM4D
                 {
                     try
                     {
-                        string selectedInterface = trimmedline.Remove(0, 11);
-                        selectedInterface.Trim('"');
-                        this.settings.SelectedInterfaceId = selectedInterface;
+                        if (trimmedline.Length > 13)
+                        {
+                            string selectedInterface = trimmedline.Remove(0, 11);
+                            selectedInterface.Trim('"');
+                            this.settings.SelectedInterfaceID = selectedInterface;
+                            IOController.Log(this, "processEtcDefaultConfigFile found interface " + selectedInterface + "in /etc/default/isc-dhcp-server", Flag.status);
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -520,7 +531,7 @@ namespace GM4D
 
         public void SaveEtcDefaultConfigFile()
         {
-            if (newEtcDefaultConfig == null)
+            if (newEtcDefaultConfig != null)
             {
                 string filename = Environment.CurrentDirectory.ToString() + "/gm4d-isc-dhcp-server";
                 SaveSettingsToFileDelegate saveSettingsToFileDelegate = null;
