@@ -882,13 +882,17 @@ namespace GM4D
                 {
                     if (bge.Error == null)
                     {
-                        this.menuBottom_btnSave.BackColor = Color.Green;
-                        string oldText = this.menuBottom_btnSave.Text;
-                        this.menuBottom_btnSave.Text = "file saved";
-                        this.menuBottom_btnSave.Refresh();
-                        System.Threading.Thread.Sleep(1500);
-                        this.menuBottom_btnSave.BackColor = this.buttonColorBgInactive;
-                        this.menuBottom_btnSave.Text = oldText;
+                        if (this.feedback_panel.InvokeRequired)
+                        {
+                            this.feedback_panel.Invoke((MethodInvoker)delegate
+                            {
+                                GiveUserFeedback("file saved", Color.Green);
+                            });
+                        }
+                        else
+                        {
+                            GiveUserFeedback("file saved", Color.Green);
+                        }
                     }
                     else
                     {
@@ -928,13 +932,17 @@ namespace GM4D
                 {
                     if (bge.Error == null)
                     {
-                        this.menuBottom_btnLoad.BackColor = Color.Green;
-                        string oldText = this.menuBottom_btnLoad.Text;
-                        this.menuBottom_btnLoad.Text = "file loaded";
-                        this.menuBottom_btnLoad.Refresh();
-                        System.Threading.Thread.Sleep(1500);
-                        this.menuBottom_btnLoad.BackColor = this.buttonColorBgInactive;
-                        this.menuBottom_btnLoad.Text = oldText;
+                        if (this.feedback_panel.InvokeRequired)
+                        {
+                            this.feedback_panel.Invoke((MethodInvoker)delegate
+                            {
+                                GiveUserFeedback("file loaded", Color.Green);
+                            });
+                        }
+                        else
+                        {
+                            GiveUserFeedback("file loaded", Color.Green);
+                        }
                     }
                     else
                     {
@@ -976,13 +984,17 @@ namespace GM4D
                     {
                         if (bge.Error == null)
                         {
-                            this.menuBottom_btnApply.BackColor = Color.Green;
-                            string oldText = this.menuBottom_btnApply.Text;
-                            this.menuBottom_btnApply.Text = "settings applied";
-                            this.menuBottom_btnApply.Refresh();
-                            System.Threading.Thread.Sleep(1500);
-                            this.menuBottom_btnApply.BackColor = this.buttonColorBgInactive;
-                            this.menuBottom_btnApply.Text = oldText;
+                            if (this.feedback_panel.InvokeRequired)
+                            {
+                                this.feedback_panel.Invoke((MethodInvoker)delegate
+                                {
+                                    GiveUserFeedback("settings applied", Color.Green);
+                                });
+                            }
+                            else
+                            {
+                                GiveUserFeedback("settings applied", Color.Green);
+                            }
                         }
                         else
                         {
@@ -1017,13 +1029,17 @@ namespace GM4D
                     {
                         if (bge.Error == null)
                         {
-                            this.menuBottom_LoadFromDhcp.BackColor = Color.Green;
-                            string oldText = this.menuBottom_LoadFromDhcp.Text;
-                            this.menuBottom_LoadFromDhcp.Text = "settings loaded";
-                            this.menuBottom_LoadFromDhcp.Refresh();
-                            System.Threading.Thread.Sleep(1500);
-                            this.menuBottom_LoadFromDhcp.BackColor = this.buttonColorBgInactive;
-                            this.menuBottom_LoadFromDhcp.Text = oldText;
+                            if (this.feedback_panel.InvokeRequired)
+                            {
+                                this.feedback_panel.Invoke((MethodInvoker)delegate
+                                {
+                                    GiveUserFeedback("settings loaded", Color.Green);
+                                });
+                            }
+                            else
+                            {
+                                GiveUserFeedback("settings loaded", Color.Green);
+                            }
                         }
                         else
                         {
@@ -1045,6 +1061,23 @@ namespace GM4D
                 MessageBox.Show("This feature requires a Linux environment.");
             }
         }
+        public void GiveUserFeedback(string text, Color colour)
+        {
+            feedback_panel.BackColor = Color.Green;
+            feedback_panel.Visible = true;
+            feedback_lbl.Text = text;
+            feedback_lbl.Refresh();
+            feedback_panel.Refresh();
+            Timer t = new Timer();
+            t.Interval = 1500;
+            t.Tick += (object sender, EventArgs e) =>
+            {
+                feedback_panel.Visible = false;
+                t.Stop();
+            };
+            t.Start();
+        }
+
         #endregion MenuBottomPanel
 
         #region Validation
