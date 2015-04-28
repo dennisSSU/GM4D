@@ -35,6 +35,7 @@
             this.menu_btnStaticLeases = new System.Windows.Forms.Button();
             this.menu_btnClients = new System.Windows.Forms.Button();
             this.menu_panelMain = new System.Windows.Forms.FlowLayoutPanel();
+            this.button1 = new System.Windows.Forms.Button();
             this.menuBottom_btnSave = new System.Windows.Forms.Button();
             this.settings_panelMain = new System.Windows.Forms.FlowLayoutPanel();
             this.settings_panelInfo = new System.Windows.Forms.TableLayoutPanel();
@@ -176,13 +177,12 @@
             this.setHostIp_panelMain = new System.Windows.Forms.FlowLayoutPanel();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.copyright_panel = new System.Windows.Forms.Panel();
-            this.copyright_header = new System.Windows.Forms.Label();
-            this.copyright_subheader = new System.Windows.Forms.Label();
-            this.copyright_sign = new System.Windows.Forms.Label();
-            this.copyright_description = new System.Windows.Forms.Label();
             this.copyright_license = new System.Windows.Forms.RichTextBox();
+            this.copyright_description = new System.Windows.Forms.Label();
+            this.copyright_sign = new System.Windows.Forms.Label();
+            this.copyright_subheader = new System.Windows.Forms.Label();
+            this.copyright_header = new System.Windows.Forms.Label();
             this.settingsBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.button1 = new System.Windows.Forms.Button();
             this.menu_panelMain.SuspendLayout();
             this.settings_panelMain.SuspendLayout();
             this.settings_panelInfo.SuspendLayout();
@@ -317,6 +317,24 @@
             this.menu_panelMain.Size = new System.Drawing.Size(100, 611);
             this.menu_panelMain.TabIndex = 1;
             // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.button1.FlatAppearance.BorderSize = 0;
+            this.button1.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.button1.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Font = new System.Drawing.Font("Ubuntu", 12F);
+            this.button1.Location = new System.Drawing.Point(0, 400);
+            this.button1.Margin = new System.Windows.Forms.Padding(0);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(100, 100);
+            this.button1.TabIndex = 5;
+            this.button1.TabStop = false;
+            this.button1.Text = "About";
+            this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // menuBottom_btnSave
             // 
             this.menuBottom_btnSave.Anchor = System.Windows.Forms.AnchorStyles.None;
@@ -329,10 +347,10 @@
             this.menuBottom_btnSave.Location = new System.Drawing.Point(0, 0);
             this.menuBottom_btnSave.Margin = new System.Windows.Forms.Padding(0);
             this.menuBottom_btnSave.Name = "menuBottom_btnSave";
-            this.menuBottom_btnSave.Size = new System.Drawing.Size(100, 60);
+            this.menuBottom_btnSave.Size = new System.Drawing.Size(150, 66);
             this.menuBottom_btnSave.TabIndex = 5;
             this.menuBottom_btnSave.TabStop = false;
-            this.menuBottom_btnSave.Text = "Save Config";
+            this.menuBottom_btnSave.Text = "Save Config File";
             this.menuBottom_btnSave.UseVisualStyleBackColor = false;
             this.menuBottom_btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
@@ -350,7 +368,7 @@
             this.settings_panelMain.Location = new System.Drawing.Point(100, 0);
             this.settings_panelMain.Margin = new System.Windows.Forms.Padding(0);
             this.settings_panelMain.Name = "settings_panelMain";
-            this.settings_panelMain.Size = new System.Drawing.Size(772, 551);
+            this.settings_panelMain.Size = new System.Drawing.Size(764, 551);
             this.settings_panelMain.TabIndex = 3;
             this.settings_panelMain.Visible = false;
             // 
@@ -752,9 +770,9 @@
             this.ipRangeStart_panelInput.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.ipRangeStart_panelInput.BackColor = System.Drawing.Color.Transparent;
             this.ipRangeStart_panelInput.Controls.Add(this.ipRangeStart_input);
-            this.statusRequired.SetIconPadding(this.ipRangeStart_panelInput, 1);
             this.validationStatus_ok.SetIconPadding(this.ipRangeStart_panelInput, 1);
             this.validationStatus_error.SetIconPadding(this.ipRangeStart_panelInput, 1);
+            this.statusRequired.SetIconPadding(this.ipRangeStart_panelInput, 1);
             this.ipRangeStart_panelInput.Location = new System.Drawing.Point(150, 0);
             this.ipRangeStart_panelInput.Margin = new System.Windows.Forms.Padding(0);
             this.ipRangeStart_panelInput.Name = "ipRangeStart_panelInput";
@@ -787,9 +805,9 @@
             this.subnet_panelInput.Controls.Add(this.ipRangeEnd_input);
             this.subnet_panelInput.Dock = System.Windows.Forms.DockStyle.Fill;
             this.subnet_panelInput.Font = new System.Drawing.Font("Ubuntu", 12F);
-            this.statusRequired.SetIconPadding(this.subnet_panelInput, 1);
             this.validationStatus_ok.SetIconPadding(this.subnet_panelInput, 1);
             this.validationStatus_error.SetIconPadding(this.subnet_panelInput, 1);
+            this.statusRequired.SetIconPadding(this.subnet_panelInput, 1);
             this.subnet_panelInput.Location = new System.Drawing.Point(150, 30);
             this.subnet_panelInput.Margin = new System.Windows.Forms.Padding(0);
             this.subnet_panelInput.Name = "subnet_panelInput";
@@ -822,9 +840,9 @@
             this.subnetMask_panelInput.BackColor = System.Drawing.Color.Transparent;
             this.subnetMask_panelInput.Controls.Add(this.subnetMask_input);
             this.subnetMask_panelInput.Font = new System.Drawing.Font("Ubuntu", 12F);
-            this.statusRequired.SetIconPadding(this.subnetMask_panelInput, 1);
             this.validationStatus_ok.SetIconPadding(this.subnetMask_panelInput, 1);
             this.validationStatus_error.SetIconPadding(this.subnetMask_panelInput, 1);
+            this.statusRequired.SetIconPadding(this.subnetMask_panelInput, 1);
             this.subnetMask_panelInput.Location = new System.Drawing.Point(150, 60);
             this.subnetMask_panelInput.Margin = new System.Windows.Forms.Padding(0);
             this.subnetMask_panelInput.Name = "subnetMask_panelInput";
@@ -857,9 +875,9 @@
             this.gateway_inputPanel.BackColor = System.Drawing.Color.Transparent;
             this.gateway_inputPanel.Controls.Add(this.gateway_input);
             this.gateway_inputPanel.Font = new System.Drawing.Font("Ubuntu", 12F);
-            this.statusRequired.SetIconPadding(this.gateway_inputPanel, 1);
             this.validationStatus_ok.SetIconPadding(this.gateway_inputPanel, 1);
             this.validationStatus_error.SetIconPadding(this.gateway_inputPanel, 1);
+            this.statusRequired.SetIconPadding(this.gateway_inputPanel, 1);
             this.gateway_inputPanel.Location = new System.Drawing.Point(150, 90);
             this.gateway_inputPanel.Margin = new System.Windows.Forms.Padding(0);
             this.gateway_inputPanel.Name = "gateway_inputPanel";
@@ -891,9 +909,9 @@
             this.primaryDNS_panelInput.BackColor = System.Drawing.Color.Transparent;
             this.primaryDNS_panelInput.Controls.Add(this.primaryDNS_input);
             this.primaryDNS_panelInput.Font = new System.Drawing.Font("Ubuntu", 12F);
-            this.statusRequired.SetIconPadding(this.primaryDNS_panelInput, 1);
             this.validationStatus_ok.SetIconPadding(this.primaryDNS_panelInput, 1);
             this.validationStatus_error.SetIconPadding(this.primaryDNS_panelInput, 1);
+            this.statusRequired.SetIconPadding(this.primaryDNS_panelInput, 1);
             this.primaryDNS_panelInput.Location = new System.Drawing.Point(150, 120);
             this.primaryDNS_panelInput.Margin = new System.Windows.Forms.Padding(0);
             this.primaryDNS_panelInput.Name = "primaryDNS_panelInput";
@@ -926,9 +944,9 @@
             this.secondaryDNS_panelInput.BackColor = System.Drawing.Color.Transparent;
             this.secondaryDNS_panelInput.Controls.Add(this.secondaryDNS_input);
             this.secondaryDNS_panelInput.Font = new System.Drawing.Font("Ubuntu", 12F);
-            this.statusRequired.SetIconPadding(this.secondaryDNS_panelInput, 1);
             this.validationStatus_ok.SetIconPadding(this.secondaryDNS_panelInput, 1);
             this.validationStatus_error.SetIconPadding(this.secondaryDNS_panelInput, 1);
+            this.statusRequired.SetIconPadding(this.secondaryDNS_panelInput, 1);
             this.secondaryDNS_panelInput.Location = new System.Drawing.Point(150, 150);
             this.secondaryDNS_panelInput.Margin = new System.Windows.Forms.Padding(0);
             this.secondaryDNS_panelInput.Name = "secondaryDNS_panelInput";
@@ -961,9 +979,9 @@
             this.ipRangeEnde_panelInput.BackColor = System.Drawing.Color.Transparent;
             this.ipRangeEnde_panelInput.Controls.Add(this.subnet_input);
             this.ipRangeEnde_panelInput.Font = new System.Drawing.Font("Ubuntu", 12F);
-            this.statusRequired.SetIconPadding(this.ipRangeEnde_panelInput, 1);
             this.validationStatus_ok.SetIconPadding(this.ipRangeEnde_panelInput, 1);
             this.validationStatus_error.SetIconPadding(this.ipRangeEnde_panelInput, 1);
+            this.statusRequired.SetIconPadding(this.ipRangeEnde_panelInput, 1);
             this.ipRangeEnde_panelInput.Location = new System.Drawing.Point(150, 180);
             this.ipRangeEnde_panelInput.Margin = new System.Windows.Forms.Padding(0);
             this.ipRangeEnde_panelInput.Name = "ipRangeEnde_panelInput";
@@ -1094,7 +1112,7 @@
             this.staticLeases_panelMain.Location = new System.Drawing.Point(100, -1);
             this.staticLeases_panelMain.Margin = new System.Windows.Forms.Padding(0);
             this.staticLeases_panelMain.Name = "staticLeases_panelMain";
-            this.staticLeases_panelMain.Size = new System.Drawing.Size(772, 551);
+            this.staticLeases_panelMain.Size = new System.Drawing.Size(763, 551);
             this.staticLeases_panelMain.TabIndex = 4;
             this.staticLeases_panelMain.Visible = false;
             // 
@@ -1116,7 +1134,7 @@
             this.staticLeases_listview.Margin = new System.Windows.Forms.Padding(0);
             this.staticLeases_listview.MultiSelect = false;
             this.staticLeases_listview.Name = "staticLeases_listview";
-            this.staticLeases_listview.Size = new System.Drawing.Size(772, 444);
+            this.staticLeases_listview.Size = new System.Drawing.Size(755, 444);
             this.staticLeases_listview.TabIndex = 0;
             this.staticLeases_listview.TabStop = false;
             this.staticLeases_listview.UseCompatibleStateImageBehavior = false;
@@ -1164,7 +1182,7 @@
             // 
             this.tableLayoutPanel1.ColumnCount = 4;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 180F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 185F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 190F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 190F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.Controls.Add(this.staticLeases_input_lbl_name, 0, 0);
@@ -1210,7 +1228,7 @@
             this.staticLeases_input_lbl_ip.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.staticLeases_input_lbl_ip.AutoSize = true;
             this.staticLeases_input_lbl_ip.Font = new System.Drawing.Font("Ubuntu", 12F);
-            this.staticLeases_input_lbl_ip.Location = new System.Drawing.Point(368, 3);
+            this.staticLeases_input_lbl_ip.Location = new System.Drawing.Point(373, 3);
             this.staticLeases_input_lbl_ip.Name = "staticLeases_input_lbl_ip";
             this.staticLeases_input_lbl_ip.Size = new System.Drawing.Size(81, 20);
             this.staticLeases_input_lbl_ip.TabIndex = 2;
@@ -1225,7 +1243,7 @@
             this.staticLeases_input_btn_add.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.MenuHighlight;
             this.staticLeases_input_btn_add.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.staticLeases_input_btn_add.Font = new System.Drawing.Font("Ubuntu", 12F);
-            this.staticLeases_input_btn_add.Location = new System.Drawing.Point(558, 30);
+            this.staticLeases_input_btn_add.Location = new System.Drawing.Point(563, 30);
             this.staticLeases_input_btn_add.Name = "staticLeases_input_btn_add";
             this.staticLeases_input_btn_add.Size = new System.Drawing.Size(100, 34);
             this.staticLeases_input_btn_add.TabIndex = 4;
@@ -1264,7 +1282,7 @@
             this.flowLayoutPanel2.Location = new System.Drawing.Point(182, 29);
             this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(2);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(181, 36);
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(186, 36);
             this.flowLayoutPanel2.TabIndex = 8;
             // 
             // staticLeases_input_tb_mac
@@ -1273,10 +1291,11 @@
             this.staticLeases_input_tb_mac.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.staticLeases_input_tb_mac.Font = new System.Drawing.Font("Ubuntu Condensed", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.staticLeases_input_tb_mac.Location = new System.Drawing.Point(5, 8);
-            this.staticLeases_input_tb_mac.Margin = new System.Windows.Forms.Padding(5, 8, 8, 8);
+            this.staticLeases_input_tb_mac.Margin = new System.Windows.Forms.Padding(5, 8, 0, 8);
             this.staticLeases_input_tb_mac.Name = "staticLeases_input_tb_mac";
             this.staticLeases_input_tb_mac.Size = new System.Drawing.Size(150, 19);
             this.staticLeases_input_tb_mac.TabIndex = 2;
+            this.staticLeases_input_tb_mac.Leave += new System.EventHandler(this.staticLeases_validateMacInput);
             this.staticLeases_input_tb_mac.Validated += new System.EventHandler(this.staticLeases_validateMacInput);
             // 
             // flowLayoutPanel3
@@ -1284,7 +1303,7 @@
             this.flowLayoutPanel3.BackColor = System.Drawing.Color.White;
             this.flowLayoutPanel3.Controls.Add(this.staticLeases_input_tb_ip);
             this.flowLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel3.Location = new System.Drawing.Point(367, 29);
+            this.flowLayoutPanel3.Location = new System.Drawing.Point(372, 29);
             this.flowLayoutPanel3.Margin = new System.Windows.Forms.Padding(2);
             this.flowLayoutPanel3.Name = "flowLayoutPanel3";
             this.flowLayoutPanel3.Size = new System.Drawing.Size(186, 36);
@@ -1300,13 +1319,14 @@
             this.staticLeases_input_tb_ip.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.staticLeases_input_tb_ip.Font = new System.Drawing.Font("Ubuntu Condensed", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.staticLeases_input_tb_ip.Location = new System.Drawing.Point(5, 5);
-            this.staticLeases_input_tb_ip.Margin = new System.Windows.Forms.Padding(5);
+            this.staticLeases_input_tb_ip.Margin = new System.Windows.Forms.Padding(5, 5, 0, 5);
             this.staticLeases_input_tb_ip.MinimumSize = new System.Drawing.Size(93, 19);
             this.staticLeases_input_tb_ip.Name = "staticLeases_input_tb_ip";
             this.staticLeases_input_tb_ip.ReadOnly = false;
             this.staticLeases_input_tb_ip.Size = new System.Drawing.Size(150, 26);
             this.staticLeases_input_tb_ip.TabIndex = 3;
             this.staticLeases_input_tb_ip.Text = "...";
+            this.staticLeases_input_tb_ip.Leave += new System.EventHandler(this.staticLeases_validateIpInput);
             this.staticLeases_input_tb_ip.Validated += new System.EventHandler(this.staticLeases_validateIpInput);
             // 
             // clients_panelMain
@@ -1314,14 +1334,13 @@
             this.clients_panelMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.clients_panelMain.AutoScroll = true;
             this.clients_panelMain.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.clients_panelMain.Controls.Add(this.clients_dhcpdLeases_listView);
             this.clients_panelMain.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.clients_panelMain.Location = new System.Drawing.Point(100, 0);
             this.clients_panelMain.Margin = new System.Windows.Forms.Padding(0);
             this.clients_panelMain.Name = "clients_panelMain";
-            this.clients_panelMain.Size = new System.Drawing.Size(772, 551);
+            this.clients_panelMain.Size = new System.Drawing.Size(764, 551);
             this.clients_panelMain.TabIndex = 5;
             this.clients_panelMain.Visible = false;
             // 
@@ -1342,7 +1361,7 @@
             this.clients_dhcpdLeases_listView.Margin = new System.Windows.Forms.Padding(0);
             this.clients_dhcpdLeases_listView.MultiSelect = false;
             this.clients_dhcpdLeases_listView.Name = "clients_dhcpdLeases_listView";
-            this.clients_dhcpdLeases_listView.Size = new System.Drawing.Size(763, 557);
+            this.clients_dhcpdLeases_listView.Size = new System.Drawing.Size(763, 550);
             this.clients_dhcpdLeases_listView.TabIndex = 0;
             this.clients_dhcpdLeases_listView.UseCompatibleStateImageBehavior = false;
             this.clients_dhcpdLeases_listView.View = System.Windows.Forms.View.Details;
@@ -1390,7 +1409,7 @@
             this.overview_panelMain.Location = new System.Drawing.Point(100, 0);
             this.overview_panelMain.Margin = new System.Windows.Forms.Padding(0);
             this.overview_panelMain.Name = "overview_panelMain";
-            this.overview_panelMain.Size = new System.Drawing.Size(772, 551);
+            this.overview_panelMain.Size = new System.Drawing.Size(764, 551);
             this.overview_panelMain.TabIndex = 2;
             this.overview_panelMain.Visible = false;
             // 
@@ -1909,6 +1928,7 @@
             // 
             // validationStatus_error
             // 
+            this.validationStatus_error.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
             this.validationStatus_error.ContainerControl = this;
             this.validationStatus_error.Icon = ((System.Drawing.Icon)(resources.GetObject("validationStatus_error.Icon")));
             // 
@@ -1931,7 +1951,7 @@
             this.menuBottom_panelMain.Location = new System.Drawing.Point(100, 551);
             this.menuBottom_panelMain.Margin = new System.Windows.Forms.Padding(0);
             this.menuBottom_panelMain.Name = "menuBottom_panelMain";
-            this.menuBottom_panelMain.Size = new System.Drawing.Size(772, 60);
+            this.menuBottom_panelMain.Size = new System.Drawing.Size(764, 66);
             this.menuBottom_panelMain.TabIndex = 6;
             // 
             // menuBottom_btnLoad
@@ -1943,13 +1963,13 @@
             this.menuBottom_btnLoad.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.MenuHighlight;
             this.menuBottom_btnLoad.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.menuBottom_btnLoad.Font = new System.Drawing.Font("Ubuntu", 12F);
-            this.menuBottom_btnLoad.Location = new System.Drawing.Point(100, 0);
+            this.menuBottom_btnLoad.Location = new System.Drawing.Point(150, 0);
             this.menuBottom_btnLoad.Margin = new System.Windows.Forms.Padding(0);
             this.menuBottom_btnLoad.Name = "menuBottom_btnLoad";
-            this.menuBottom_btnLoad.Size = new System.Drawing.Size(100, 60);
+            this.menuBottom_btnLoad.Size = new System.Drawing.Size(150, 66);
             this.menuBottom_btnLoad.TabIndex = 6;
             this.menuBottom_btnLoad.TabStop = false;
-            this.menuBottom_btnLoad.Text = "Load Config";
+            this.menuBottom_btnLoad.Text = "Load Config File";
             this.menuBottom_btnLoad.UseVisualStyleBackColor = false;
             this.menuBottom_btnLoad.Click += new System.EventHandler(this.menuBottom_btnLoad_Click);
             // 
@@ -1962,13 +1982,13 @@
             this.menuBottom_btnApply.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.MenuHighlight;
             this.menuBottom_btnApply.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.menuBottom_btnApply.Font = new System.Drawing.Font("Ubuntu", 12F);
-            this.menuBottom_btnApply.Location = new System.Drawing.Point(200, 0);
+            this.menuBottom_btnApply.Location = new System.Drawing.Point(300, 0);
             this.menuBottom_btnApply.Margin = new System.Windows.Forms.Padding(0);
             this.menuBottom_btnApply.Name = "menuBottom_btnApply";
-            this.menuBottom_btnApply.Size = new System.Drawing.Size(100, 60);
+            this.menuBottom_btnApply.Size = new System.Drawing.Size(150, 66);
             this.menuBottom_btnApply.TabIndex = 7;
             this.menuBottom_btnApply.TabStop = false;
-            this.menuBottom_btnApply.Text = "Apply to DHCP Server";
+            this.menuBottom_btnApply.Text = "Apply Config to DHCP Server";
             this.menuBottom_btnApply.UseVisualStyleBackColor = false;
             this.menuBottom_btnApply.Click += new System.EventHandler(this.menuBottom_btnApply_Click);
             // 
@@ -1981,13 +2001,13 @@
             this.menuBottom_LoadFromDhcp.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.MenuHighlight;
             this.menuBottom_LoadFromDhcp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.menuBottom_LoadFromDhcp.Font = new System.Drawing.Font("Ubuntu", 12F);
-            this.menuBottom_LoadFromDhcp.Location = new System.Drawing.Point(300, 0);
+            this.menuBottom_LoadFromDhcp.Location = new System.Drawing.Point(450, 0);
             this.menuBottom_LoadFromDhcp.Margin = new System.Windows.Forms.Padding(0);
             this.menuBottom_LoadFromDhcp.Name = "menuBottom_LoadFromDhcp";
-            this.menuBottom_LoadFromDhcp.Size = new System.Drawing.Size(100, 60);
+            this.menuBottom_LoadFromDhcp.Size = new System.Drawing.Size(150, 66);
             this.menuBottom_LoadFromDhcp.TabIndex = 8;
             this.menuBottom_LoadFromDhcp.TabStop = false;
-            this.menuBottom_LoadFromDhcp.Text = "Load from DHCP";
+            this.menuBottom_LoadFromDhcp.Text = "Load Config from DHCP Server";
             this.menuBottom_LoadFromDhcp.UseVisualStyleBackColor = false;
             this.menuBottom_LoadFromDhcp.Click += new System.EventHandler(this.menuBottom_loadFromDhcp_Click);
             // 
@@ -2020,7 +2040,6 @@
             this.changeNic_panelMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.changeNic_panelMain.AutoScroll = true;
             this.changeNic_panelMain.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.changeNic_panelMain.Controls.Add(this.selectNic_listview);
             this.changeNic_panelMain.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
@@ -2028,7 +2047,7 @@
             this.changeNic_panelMain.Location = new System.Drawing.Point(100, 0);
             this.changeNic_panelMain.Margin = new System.Windows.Forms.Padding(0);
             this.changeNic_panelMain.Name = "changeNic_panelMain";
-            this.changeNic_panelMain.Size = new System.Drawing.Size(772, 551);
+            this.changeNic_panelMain.Size = new System.Drawing.Size(764, 551);
             this.changeNic_panelMain.TabIndex = 7;
             this.changeNic_panelMain.Visible = false;
             // 
@@ -2049,7 +2068,7 @@
             this.selectNic_listview.Margin = new System.Windows.Forms.Padding(0);
             this.selectNic_listview.MultiSelect = false;
             this.selectNic_listview.Name = "selectNic_listview";
-            this.selectNic_listview.Size = new System.Drawing.Size(763, 557);
+            this.selectNic_listview.Size = new System.Drawing.Size(763, 551);
             this.selectNic_listview.TabIndex = 0;
             this.selectNic_listview.UseCompatibleStateImageBehavior = false;
             this.selectNic_listview.View = System.Windows.Forms.View.Details;
@@ -2097,7 +2116,7 @@
             this.setHostIp_panelMain.Location = new System.Drawing.Point(100, 0);
             this.setHostIp_panelMain.Margin = new System.Windows.Forms.Padding(0);
             this.setHostIp_panelMain.Name = "setHostIp_panelMain";
-            this.setHostIp_panelMain.Size = new System.Drawing.Size(772, 551);
+            this.setHostIp_panelMain.Size = new System.Drawing.Size(764, 551);
             this.setHostIp_panelMain.TabIndex = 8;
             this.setHostIp_panelMain.Visible = false;
             // 
@@ -2118,47 +2137,6 @@
             this.copyright_panel.Size = new System.Drawing.Size(649, 415);
             this.copyright_panel.TabIndex = 9;
             // 
-            // copyright_header
-            // 
-            this.copyright_header.AutoSize = true;
-            this.copyright_header.Font = new System.Drawing.Font("Ubuntu", 48F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.copyright_header.Location = new System.Drawing.Point(203, 22);
-            this.copyright_header.Name = "copyright_header";
-            this.copyright_header.Size = new System.Drawing.Size(219, 79);
-            this.copyright_header.TabIndex = 0;
-            this.copyright_header.Text = "GM4D";
-            // 
-            // copyright_subheader
-            // 
-            this.copyright_subheader.AutoSize = true;
-            this.copyright_subheader.Font = new System.Drawing.Font("Ubuntu", 16F);
-            this.copyright_subheader.Location = new System.Drawing.Point(136, 102);
-            this.copyright_subheader.Name = "copyright_subheader";
-            this.copyright_subheader.Size = new System.Drawing.Size(343, 26);
-            this.copyright_subheader.TabIndex = 1;
-            this.copyright_subheader.Text = "A GUI tool for the isc-dhcp-server";
-            // 
-            // copyright_sign
-            // 
-            this.copyright_sign.AutoSize = true;
-            this.copyright_sign.Font = new System.Drawing.Font("Ubuntu", 12F);
-            this.copyright_sign.Location = new System.Drawing.Point(476, 392);
-            this.copyright_sign.Name = "copyright_sign";
-            this.copyright_sign.Size = new System.Drawing.Size(170, 20);
-            this.copyright_sign.TabIndex = 2;
-            this.copyright_sign.Text = "© 2015 Dennis Stodko";
-            // 
-            // copyright_description
-            // 
-            this.copyright_description.AutoSize = true;
-            this.copyright_description.Font = new System.Drawing.Font("Ubuntu", 10F);
-            this.copyright_description.Location = new System.Drawing.Point(3, 140);
-            this.copyright_description.Name = "copyright_description";
-            this.copyright_description.Size = new System.Drawing.Size(650, 18);
-            this.copyright_description.TabIndex = 3;
-            this.copyright_description.Text = "This software is part of the assignment for the BSc(Hons) degree of the Southampt" +
-    "on Solent University";
-            // 
             // copyright_license
             // 
             this.copyright_license.BackColor = System.Drawing.Color.White;
@@ -2171,48 +2149,70 @@
             this.copyright_license.TabIndex = 4;
             this.copyright_license.Text = resources.GetString("copyright_license.Text");
             // 
+            // copyright_description
+            // 
+            this.copyright_description.AutoSize = true;
+            this.copyright_description.Font = new System.Drawing.Font("Ubuntu", 10F);
+            this.copyright_description.Location = new System.Drawing.Point(3, 140);
+            this.copyright_description.Name = "copyright_description";
+            this.copyright_description.Size = new System.Drawing.Size(650, 18);
+            this.copyright_description.TabIndex = 3;
+            this.copyright_description.Text = "This software is part of the assignment for the BSc(Hons) degree of the Southampt" +
+    "on Solent University";
+            // 
+            // copyright_sign
+            // 
+            this.copyright_sign.AutoSize = true;
+            this.copyright_sign.Font = new System.Drawing.Font("Ubuntu", 12F);
+            this.copyright_sign.Location = new System.Drawing.Point(476, 392);
+            this.copyright_sign.Name = "copyright_sign";
+            this.copyright_sign.Size = new System.Drawing.Size(170, 20);
+            this.copyright_sign.TabIndex = 2;
+            this.copyright_sign.Text = "© 2015 Dennis Stodko";
+            // 
+            // copyright_subheader
+            // 
+            this.copyright_subheader.AutoSize = true;
+            this.copyright_subheader.Font = new System.Drawing.Font("Ubuntu", 16F);
+            this.copyright_subheader.Location = new System.Drawing.Point(136, 102);
+            this.copyright_subheader.Name = "copyright_subheader";
+            this.copyright_subheader.Size = new System.Drawing.Size(343, 26);
+            this.copyright_subheader.TabIndex = 1;
+            this.copyright_subheader.Text = "A GUI tool for the isc-dhcp-server";
+            // 
+            // copyright_header
+            // 
+            this.copyright_header.AutoSize = true;
+            this.copyright_header.Font = new System.Drawing.Font("Ubuntu", 48F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.copyright_header.Location = new System.Drawing.Point(203, 22);
+            this.copyright_header.Name = "copyright_header";
+            this.copyright_header.Size = new System.Drawing.Size(219, 79);
+            this.copyright_header.TabIndex = 0;
+            this.copyright_header.Text = "GM4D";
+            // 
             // settingsBindingSource
             // 
             this.settingsBindingSource.DataSource = typeof(GM4D.Settings);
-            // 
-            // button1
-            // 
-            this.button1.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.button1.FlatAppearance.BorderSize = 0;
-            this.button1.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.MenuHighlight;
-            this.button1.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.MenuHighlight;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Ubuntu", 12F);
-            this.button1.Location = new System.Drawing.Point(0, 400);
-            this.button1.Margin = new System.Windows.Forms.Padding(0);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(100, 100);
-            this.button1.TabIndex = 5;
-            this.button1.TabStop = false;
-            this.button1.Text = "About";
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.ClientSize = new System.Drawing.Size(872, 611);
+            this.ClientSize = new System.Drawing.Size(864, 611);
             this.Controls.Add(this.menuBottom_panelMain);
             this.Controls.Add(this.menu_panelMain);
-            this.Controls.Add(this.overview_panelMain);
-            this.Controls.Add(this.settings_panelMain);
             this.Controls.Add(this.staticLeases_panelMain);
             this.Controls.Add(this.changeNic_panelMain);
             this.Controls.Add(this.clients_panelMain);
             this.Controls.Add(this.setHostIp_panelMain);
             this.Controls.Add(this.copyright_panel);
-            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Controls.Add(this.overview_panelMain);
+            this.Controls.Add(this.settings_panelMain);
+            this.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
-            this.MinimumSize = new System.Drawing.Size(880, 650);
             this.Name = "MainWindow";
             this.Text = "GM4D - Graphical Manager for DHCP";
             this.Load += new System.EventHandler(this.MainWindow_Load);

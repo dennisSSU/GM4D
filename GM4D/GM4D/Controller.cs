@@ -43,6 +43,8 @@ namespace GM4D
         {
             this.loadingWindow.Close();
             this.loadingWindow.Dispose();
+            bw.ProgressChanged -= loadingWindow.OnProgressChange;
+            bw.RunWorkerCompleted -= bw_RunWorkerCompleted;
         }
 
         private void init(object sender, DoWorkEventArgs e)
@@ -56,6 +58,18 @@ namespace GM4D
             catch (Exception exc)
             {
                 IOController.Log(this, "InitShell " + exc.Message, IOController.Flag.error);
+            }
+            worker.ReportProgress(20);
+            try
+            {
+                if (!ioController.GetGksudoInstallStatus())
+                {
+                    IOController.Log(this, "gksu not installed ", IOController.Flag.error);
+                }
+            }
+            catch (Exception exc)
+            {
+                IOController.Log(this, "GetGksudoInstallStatus " + exc.Message, IOController.Flag.error);
             }
             worker.ReportProgress(30);
             try
@@ -108,7 +122,28 @@ namespace GM4D
         }
         private void mainWindow_Shown(object sender, EventArgs e)
         {
-
+            if (settings.IsDHCPServerRunning)
+            {
+                bw = new BackgroundWorker();
+                bw.DoWork += bw_loadDHCPDconf;
+                bw.RunWorkerCompleted += bw_loadDHCPDconfCompleted;
+                bw.WorkerReportsProgress = false;
+                bw.RunWorkerAsync();
+            }
         }
+
+        private void bw_loadDHCPDconfCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            bw.DoWork -= bw_loadDHCPDconf;
+            bw.RunWorkerCompleted -= bw_loadDHCPDconfCompleted;
+        }
+
+        void bw_loadDHCPDconf(object sender, DoWorkEventArgs e)
+        {
+            this.ioController.LoadSettingsFile("/etc/dhcp/dhcpd.conf");
+        }
+
+
+
     }
 }

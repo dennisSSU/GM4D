@@ -427,14 +427,14 @@ namespace GM4D
                 shellProc.Start();
                 IOController.Log(this, "ApplySettingsToDHCPServer " + shellProc.StandardOutput.ReadToEnd(), Flag.debug);
                 shellProc.WaitForExit();
+                if (this.settings.IsDHCPServerRunning)
+                {
+                    this.RestartDHCPServer();
+                }
             }
             else
             {
                 throw new System.Exception("System is not a Unix environment");
-            }
-            if (this.settings.IsDHCPServerRunning)
-            {
-                this.RestartDHCPServer();
             }
         }
 
@@ -645,7 +645,32 @@ namespace GM4D
                 throw new System.Exception("System is not a Unix environment");
             }
         }
-
+        public bool GetGksudoInstallStatus()
+        {
+            this.settings.OverviewDhcpServerInstallStatus = "no status";
+            if (OsIsUnix)
+            {
+                shellStartInfo.Arguments = "-c \" dpkg-query -s gksu | head -n2 | tail -n1 | cut -f3 -d' '\"";
+                shellProc.Start();
+                string strOutput = shellProc.StandardOutput.ReadToEnd();
+                strOutput = strOutput.Trim();
+                IOController.Log(this, "GetGksudoInstallStatus " + strOutput, Flag.status);
+                if (strOutput.Contains("ok"))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+                shellProc.WaitForExit();
+            }
+            else
+            {
+                throw new System.Exception("System is not a Unix environment");
+            }
+            return false;
+        }
         public void GetDHCPServerStatus()
         {
             if (OsIsUnix)
@@ -793,7 +818,6 @@ namespace GM4D
                     // create a new FileSystemWatcher
                     this.DhcpdLeasesFileWatcher = new FileSystemWatcher();
                     string path = Path.Combine("/", "var", "lib", "dhcp");
-                    IOController.Log(this, "path to watch: " + path);
                     // set path
                     this.DhcpdLeasesFileWatcher.Path = path;
                     // watch for changes in LastAccess and LastWrite times
@@ -944,27 +968,31 @@ namespace GM4D
         public enum Flag { debug, error, status}
         public static void Log(object sender, string message, Flag flag = Flag.error)
         {
+            string strFlag;
+            switch (flag)
+            {
+                case Flag.error:
+                    System.Console.BackgroundColor = ConsoleColor.Red;
+                    strFlag = "[ERROR]";
+                    break;
+                case Flag.debug:
+                    System.Console.ForegroundColor = ConsoleColor.Green;
+                    strFlag = "[DEBUG]";
+                    break;
+                case Flag.status:
+                    strFlag = "[STATUS]";
+                    break;
+                default: 
+                    strFlag = ""; 
+                    break;
+            }
             System.Diagnostics.StackTrace s = new System.Diagnostics.StackTrace(System.Threading.Thread.CurrentThread, true);
             string className = sender.GetType().FullName;
             string methodName = s.GetFrame(1).GetMethod().Name;
             string fileName = s.GetFrame(1).GetFileName();
             int lineNumber = s.GetFrame(1).GetFileLineNumber();
-            string logheader = System.DateTime.Now + " " + className + "." + methodName + ":";
-            switch (flag)
-            {
-                case Flag.error: 
-                    System.Console.BackgroundColor = ConsoleColor.Red;
-                    logheader += "!!! ERROR !!!";
-                    break;
-                case Flag.debug: 
-                    System.Console.ForegroundColor = ConsoleColor.Green;
-                    logheader += "debug";
-                    break;
-                case Flag.status:
-                    logheader += "status";
-                    break;
-                default: break;
-            }
+            string logheader = System.DateTime.Now + " " + strFlag + " " + className + "." + methodName + ":";
+            
             /*
             System.Console.WriteLine(logheader);
             System.Console.ResetColor();

@@ -196,8 +196,15 @@ namespace GM4D
             }
             set
             {
-                this.hostName = value;
-                this.HostNameIsSet = true;
+                if (value.Length > 0)
+                {
+                    this.hostName = value;
+                    this.HostNameIsSet = true;
+                }
+                else
+                {
+                    this.HostNameIsSet = false;
+                }
                 NotifyPropertyChanged(this.HostName);
                 IOController.Log(this, this.hostName, IOController.Flag.debug);
             }
@@ -212,8 +219,16 @@ namespace GM4D
             }
             set
             {
-                this.hostSubnetMask = value;
-                this.HostSubnetMaskIsSet = true;
+                System.Net.IPAddress ip;
+                if (System.Net.IPAddress.TryParse(value, out ip))
+                {
+                    this.hostSubnetMask = ip.ToString();
+                    this.HostSubnetMaskIsSet = true;
+                }
+                else
+                {
+                    this.HostSubnetMaskIsSet = false;
+                }
                 NotifyPropertyChanged(HostSubnetMask);
                 IOController.Log(this, this.hostSubnetMask, IOController.Flag.debug);
             }
@@ -228,8 +243,16 @@ namespace GM4D
             }
             set
             {
-                this.newHostSubnetMask = value;
-                this.NewHostSubnetMaskIsSet = true;
+                System.Net.IPAddress ip;
+                if (System.Net.IPAddress.TryParse(value, out ip))
+                {
+                    this.newHostSubnetMask = ip.ToString();
+                    this.NewHostSubnetMaskIsSet = true;
+                }
+                else
+                {
+                    this.NewHostSubnetMaskIsSet = false;
+                }
                 NotifyPropertyChanged(NewHostSubnetMask);
                 IOController.Log(this, this.newHostSubnetMask, IOController.Flag.debug);
             }
@@ -244,8 +267,16 @@ namespace GM4D
             }
             set
             {
-                this.hostSubnet = value;
-                this.HostSubnetIsSet = true;
+                System.Net.IPAddress ip;
+                if (System.Net.IPAddress.TryParse(value, out ip))
+                {
+                    this.hostSubnet = ip.ToString();
+                    this.HostSubnetIsSet = true;
+                }
+                else
+                {
+                    this.HostSubnetIsSet = false;
+                }
                 NotifyPropertyChanged(HostSubnet);
                 IOController.Log(this, this.hostSubnet, IOController.Flag.debug);
             }
@@ -260,8 +291,16 @@ namespace GM4D
             }
             set
             {
-                this.hostGateway = value;
-                this.HostGatewayIsSet = true;
+                System.Net.IPAddress ip;
+                if (System.Net.IPAddress.TryParse(value, out ip))
+                {
+                    this.hostGateway = ip.ToString();
+                    this.HostGatewayIsSet = true;
+                }
+                else
+                {
+                    this.HostGatewayIsSet = false;
+                }
                 NotifyPropertyChanged(this.HostGateway);
                 IOController.Log(this, this.hostGateway, IOController.Flag.debug);
             }
@@ -424,13 +463,13 @@ namespace GM4D
         }
         public void AddStaticLease(StaticLease staticLease)
         {
-            this.staticLeases[staticLease.ID] = staticLease;
+            this.staticLeases[staticLease.MACAddress] = staticLease;
             this.StaticLeasesIsSet = true;
             StaticLeasesChangedEvt(this, new PropertyChangedEventArgs("StaticLeases"));
         }
-        public void RemoveStaticLease(string ID)
+        public void RemoveStaticLease(string MacAdress)
         {
-            this.staticLeases.Remove(ID);
+            this.staticLeases.Remove(MacAdress);
             StaticLeasesChangedEvt(this, new PropertyChangedEventArgs("StaticLeases"));
             if (this.staticLeases.Count <= 0)
             {
