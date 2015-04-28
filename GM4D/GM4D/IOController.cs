@@ -440,6 +440,24 @@ namespace GM4D
 
         public void ApplySelectedInterface()
         {
+            LoadEtcDefaultConfigFile();
+            SaveEtcDefaultConfigFile();
+        }
+        public void GetSelectedInterfaceFromEtcDeafult()
+        {
+            LoadEtcDefaultConfigFile();
+            for (int i = 0; i < this.settings.Interfaces.Count; i++)
+            {
+                if (((HostNIC)this.settings.Interfaces[i]).Id == this.settings.SelectedInterfaceId)
+                {
+                    IOController.Log(this, "found set interface in /etc/default/isc-dhcp-server: " + this.settings.SelectedInterfaceId, Flag.status);
+                    this.settings.selectInterface(i);
+                }
+            }
+            this.newEtcDefaultConfig = null;
+        }
+        public void LoadEtcDefaultConfigFile()
+        {
             if (OsIsUnix)
             {
                 if (this.settings.IsDHCPServerInstalled)
@@ -483,18 +501,32 @@ namespace GM4D
                 }
                 else if (trimmedline.StartsWith("INTERFACES"))
                 {
+                    try
+                    {
+                        string selectedInterface = trimmedline.Remove(0, 11);
+                        selectedInterface.Trim('"');
+                        this.settings.SelectedInterfaceId = selectedInterface;
+                    }
+                    catch (Exception ex)
+                    {
+                        IOController.Log(this, "no previous interface selected " + ex.Message, Flag.debug);
+                    }
                     trimmedline = "INTERFACES=\"" + this.settings.OverviewSelectedInterfaceName + "\"";
                 }
                 newEtcDefaultConfig.Add(trimmedline);
             }
-            saveEtcDefaultConfigFile(Environment.CurrentDirectory.ToString() + "/gm4d-isc-dhcp-server");
+            
         }
 
-        private void saveEtcDefaultConfigFile(String filename)
+        public void SaveEtcDefaultConfigFile()
         {
-            SaveSettingsToFileDelegate saveSettingsToFileDelegate = null;
-            saveSettingsToFileDelegate = new SaveSettingsToFileDelegate(writeEtcDefaultConfigFile);
-            IAsyncResult saveSettingsToFileResult = saveSettingsToFileDelegate.BeginInvoke(filename, writeEtcDefaultConfigFileComplete, null);
+            if (newEtcDefaultConfig == null)
+            {
+                string filename = Environment.CurrentDirectory.ToString() + "/gm4d-isc-dhcp-server";
+                SaveSettingsToFileDelegate saveSettingsToFileDelegate = null;
+                saveSettingsToFileDelegate = new SaveSettingsToFileDelegate(writeEtcDefaultConfigFile);
+                IAsyncResult saveSettingsToFileResult = saveSettingsToFileDelegate.BeginInvoke(filename, writeEtcDefaultConfigFileComplete, null);
+            }
         }
 
         private void writeEtcDefaultConfigFile(String filename)
@@ -809,12 +841,12 @@ namespace GM4D
                 if (!File.Exists("/var/lib/dhcp/dhcpd.leases"))
                 {
                     shellStartInfo.Arguments = string.Format("-c \"gksudo touch /var/lib/dhcp/dhcpd.leases\"");
-                    IOController.Log(this, "initiateDhcpdLeasesFileWatcher create dhcpd.leases " + shellProc.StandardOutput.ReadToEnd(), Flag.status);
+                    IOController.Log(this, "initiateDhcpdLeasesFileWatcher create dhcpd.leases " + shellProc.StandardOutput.ReadToEnd(), Flag.debug);
                     shellProc.WaitForExit();
                 }
                 if (File.Exists("/var/lib/dhcp/dhcpd.leases"))
                 {
-                    IOController.Log(this, "initiateDhcpdLeasesFileWatcher file /var/lib/dhcp/dhcpd.leases is present", Flag.status);
+                    IOController.Log(this, "initiateDhcpdLeasesFileWatcher file /var/lib/dhcp/dhcpd.leases is present", Flag.debug);
                     // create a new FileSystemWatcher
                     this.DhcpdLeasesFileWatcher = new FileSystemWatcher();
                     string path = Path.Combine("/", "var", "lib", "dhcp");

@@ -81,7 +81,6 @@ namespace GM4D
                 IOController.Log(this, "InitShell " + exc.Message, IOController.Flag.error);
             }
             worker.ReportProgress(50);
-            if (settings.Interfaces.Count > 0) settings.selectInterface(0);
             try
             {
                 this.ioController.GetDHCPServerInstallStatus();
@@ -116,6 +115,19 @@ namespace GM4D
             catch (Exception exc)
             {
                 IOController.Log(this, "ReadDhcpdLeasesFile " + exc.Message, IOController.Flag.error);
+            }
+            worker.ReportProgress(90);
+            try
+            {
+                this.ioController.GetSelectedInterfaceFromEtcDeafult();
+            }
+            catch (Exception exc)
+            {
+                IOController.Log(this, "GetSelectedInterfaceFromEtcDeafult " + exc.Message, IOController.Flag.error);
+            }
+            if (settings.SelectedInterfaceId == null)
+            {
+                if (settings.Interfaces.Count > 0) settings.selectInterface(0);
             }
             worker.ReportProgress(100);
             System.Threading.Thread.Sleep(800);

@@ -92,6 +92,7 @@ namespace GM4D
             this.HostGateway = nic.Gateway;
             this.SelectedInterface = i;
             this.overviewSelectedInterfaceName = nic.Name;
+            this.SelectedInterfaceId = nic.Id;
             IOController.Log(this, nic.ToString(), IOController.Flag.status);
         }
         private ArrayList interfaces;
@@ -115,6 +116,7 @@ namespace GM4D
                 InterfaceAddedEvt(this.interfaces, new PropertyChangedEventArgs("InterfaceAdded"));
             }
         }
+        public string SelectedInterfaceId { get; set; }
         private int selectedInterface;
         public int SelectedInterface
         {

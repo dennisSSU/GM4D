@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{7F8FA37E-CA22-478B-81BD-3799B474F767}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>GM4D</RootNamespace>
     <AssemblyName>GM4D</AssemblyName>
@@ -64,12 +64,13 @@
     <StartupObject />
   </PropertyGroup>
   <PropertyGroup />
+  <PropertyGroup />
+  <PropertyGroup>
+    <ApplicationIcon>res\gm4dlogo.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup />
   <PropertyGroup>
     <NoWin32Manifest>true</NoWin32Manifest>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationIcon>
-    </ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="IPAddressControlLib">
@@ -167,6 +168,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="res\errorIcon.ico" />
+    <Content Include="res\gm4dlogo.ico" />
     <Content Include="res\okIcon.ico" />
     <Content Include="res\testIcon.ico" />
   </ItemGroup>

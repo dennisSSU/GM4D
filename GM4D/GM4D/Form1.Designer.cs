@@ -42,6 +42,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
             this.hostGateway_tb = new System.Windows.Forms.TextBox();
+            this.settingsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.hostGateway_lbl = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.hostSubnetMask_tb = new System.Windows.Forms.TextBox();
@@ -182,11 +183,11 @@
             this.copyright_sign = new System.Windows.Forms.Label();
             this.copyright_subheader = new System.Windows.Forms.Label();
             this.copyright_header = new System.Windows.Forms.Label();
-            this.settingsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.menu_panelMain.SuspendLayout();
             this.settings_panelMain.SuspendLayout();
             this.settings_panelInfo.SuspendLayout();
             this.panel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.settingsBindingSource)).BeginInit();
             this.panel3.SuspendLayout();
             this.panel2.SuspendLayout();
             this.settings_panelInput.SuspendLayout();
@@ -223,7 +224,6 @@
             this.setHostIp_panelMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.copyright_panel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.settingsBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // menu_btnOverview
@@ -432,6 +432,10 @@
             this.hostGateway_tb.Size = new System.Drawing.Size(150, 30);
             this.hostGateway_tb.TabIndex = 0;
             this.hostGateway_tb.TabStop = false;
+            // 
+            // settingsBindingSource
+            // 
+            this.settingsBindingSource.DataSource = typeof(GM4D.Settings);
             // 
             // hostGateway_lbl
             // 
@@ -770,9 +774,9 @@
             this.ipRangeStart_panelInput.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.ipRangeStart_panelInput.BackColor = System.Drawing.Color.Transparent;
             this.ipRangeStart_panelInput.Controls.Add(this.ipRangeStart_input);
-            this.validationStatus_ok.SetIconPadding(this.ipRangeStart_panelInput, 1);
-            this.validationStatus_error.SetIconPadding(this.ipRangeStart_panelInput, 1);
             this.statusRequired.SetIconPadding(this.ipRangeStart_panelInput, 1);
+            this.validationStatus_error.SetIconPadding(this.ipRangeStart_panelInput, 1);
+            this.validationStatus_ok.SetIconPadding(this.ipRangeStart_panelInput, 1);
             this.ipRangeStart_panelInput.Location = new System.Drawing.Point(150, 0);
             this.ipRangeStart_panelInput.Margin = new System.Windows.Forms.Padding(0);
             this.ipRangeStart_panelInput.Name = "ipRangeStart_panelInput";
@@ -805,9 +809,9 @@
             this.subnet_panelInput.Controls.Add(this.ipRangeEnd_input);
             this.subnet_panelInput.Dock = System.Windows.Forms.DockStyle.Fill;
             this.subnet_panelInput.Font = new System.Drawing.Font("Ubuntu", 12F);
-            this.validationStatus_ok.SetIconPadding(this.subnet_panelInput, 1);
-            this.validationStatus_error.SetIconPadding(this.subnet_panelInput, 1);
             this.statusRequired.SetIconPadding(this.subnet_panelInput, 1);
+            this.validationStatus_error.SetIconPadding(this.subnet_panelInput, 1);
+            this.validationStatus_ok.SetIconPadding(this.subnet_panelInput, 1);
             this.subnet_panelInput.Location = new System.Drawing.Point(150, 30);
             this.subnet_panelInput.Margin = new System.Windows.Forms.Padding(0);
             this.subnet_panelInput.Name = "subnet_panelInput";
@@ -840,9 +844,9 @@
             this.subnetMask_panelInput.BackColor = System.Drawing.Color.Transparent;
             this.subnetMask_panelInput.Controls.Add(this.subnetMask_input);
             this.subnetMask_panelInput.Font = new System.Drawing.Font("Ubuntu", 12F);
-            this.validationStatus_ok.SetIconPadding(this.subnetMask_panelInput, 1);
-            this.validationStatus_error.SetIconPadding(this.subnetMask_panelInput, 1);
             this.statusRequired.SetIconPadding(this.subnetMask_panelInput, 1);
+            this.validationStatus_error.SetIconPadding(this.subnetMask_panelInput, 1);
+            this.validationStatus_ok.SetIconPadding(this.subnetMask_panelInput, 1);
             this.subnetMask_panelInput.Location = new System.Drawing.Point(150, 60);
             this.subnetMask_panelInput.Margin = new System.Windows.Forms.Padding(0);
             this.subnetMask_panelInput.Name = "subnetMask_panelInput";
@@ -875,9 +879,9 @@
             this.gateway_inputPanel.BackColor = System.Drawing.Color.Transparent;
             this.gateway_inputPanel.Controls.Add(this.gateway_input);
             this.gateway_inputPanel.Font = new System.Drawing.Font("Ubuntu", 12F);
-            this.validationStatus_ok.SetIconPadding(this.gateway_inputPanel, 1);
-            this.validationStatus_error.SetIconPadding(this.gateway_inputPanel, 1);
             this.statusRequired.SetIconPadding(this.gateway_inputPanel, 1);
+            this.validationStatus_error.SetIconPadding(this.gateway_inputPanel, 1);
+            this.validationStatus_ok.SetIconPadding(this.gateway_inputPanel, 1);
             this.gateway_inputPanel.Location = new System.Drawing.Point(150, 90);
             this.gateway_inputPanel.Margin = new System.Windows.Forms.Padding(0);
             this.gateway_inputPanel.Name = "gateway_inputPanel";
@@ -909,9 +913,9 @@
             this.primaryDNS_panelInput.BackColor = System.Drawing.Color.Transparent;
             this.primaryDNS_panelInput.Controls.Add(this.primaryDNS_input);
             this.primaryDNS_panelInput.Font = new System.Drawing.Font("Ubuntu", 12F);
-            this.validationStatus_ok.SetIconPadding(this.primaryDNS_panelInput, 1);
-            this.validationStatus_error.SetIconPadding(this.primaryDNS_panelInput, 1);
             this.statusRequired.SetIconPadding(this.primaryDNS_panelInput, 1);
+            this.validationStatus_error.SetIconPadding(this.primaryDNS_panelInput, 1);
+            this.validationStatus_ok.SetIconPadding(this.primaryDNS_panelInput, 1);
             this.primaryDNS_panelInput.Location = new System.Drawing.Point(150, 120);
             this.primaryDNS_panelInput.Margin = new System.Windows.Forms.Padding(0);
             this.primaryDNS_panelInput.Name = "primaryDNS_panelInput";
@@ -944,9 +948,9 @@
             this.secondaryDNS_panelInput.BackColor = System.Drawing.Color.Transparent;
             this.secondaryDNS_panelInput.Controls.Add(this.secondaryDNS_input);
             this.secondaryDNS_panelInput.Font = new System.Drawing.Font("Ubuntu", 12F);
-            this.validationStatus_ok.SetIconPadding(this.secondaryDNS_panelInput, 1);
-            this.validationStatus_error.SetIconPadding(this.secondaryDNS_panelInput, 1);
             this.statusRequired.SetIconPadding(this.secondaryDNS_panelInput, 1);
+            this.validationStatus_error.SetIconPadding(this.secondaryDNS_panelInput, 1);
+            this.validationStatus_ok.SetIconPadding(this.secondaryDNS_panelInput, 1);
             this.secondaryDNS_panelInput.Location = new System.Drawing.Point(150, 150);
             this.secondaryDNS_panelInput.Margin = new System.Windows.Forms.Padding(0);
             this.secondaryDNS_panelInput.Name = "secondaryDNS_panelInput";
@@ -979,9 +983,9 @@
             this.ipRangeEnde_panelInput.BackColor = System.Drawing.Color.Transparent;
             this.ipRangeEnde_panelInput.Controls.Add(this.subnet_input);
             this.ipRangeEnde_panelInput.Font = new System.Drawing.Font("Ubuntu", 12F);
-            this.validationStatus_ok.SetIconPadding(this.ipRangeEnde_panelInput, 1);
-            this.validationStatus_error.SetIconPadding(this.ipRangeEnde_panelInput, 1);
             this.statusRequired.SetIconPadding(this.ipRangeEnde_panelInput, 1);
+            this.validationStatus_error.SetIconPadding(this.ipRangeEnde_panelInput, 1);
+            this.validationStatus_ok.SetIconPadding(this.ipRangeEnde_panelInput, 1);
             this.ipRangeEnde_panelInput.Location = new System.Drawing.Point(150, 180);
             this.ipRangeEnde_panelInput.Margin = new System.Windows.Forms.Padding(0);
             this.ipRangeEnde_panelInput.Name = "ipRangeEnde_panelInput";
@@ -1112,7 +1116,7 @@
             this.staticLeases_panelMain.Location = new System.Drawing.Point(100, -1);
             this.staticLeases_panelMain.Margin = new System.Windows.Forms.Padding(0);
             this.staticLeases_panelMain.Name = "staticLeases_panelMain";
-            this.staticLeases_panelMain.Size = new System.Drawing.Size(763, 551);
+            this.staticLeases_panelMain.Size = new System.Drawing.Size(763, 552);
             this.staticLeases_panelMain.TabIndex = 4;
             this.staticLeases_panelMain.Visible = false;
             // 
@@ -1134,7 +1138,7 @@
             this.staticLeases_listview.Margin = new System.Windows.Forms.Padding(0);
             this.staticLeases_listview.MultiSelect = false;
             this.staticLeases_listview.Name = "staticLeases_listview";
-            this.staticLeases_listview.Size = new System.Drawing.Size(755, 444);
+            this.staticLeases_listview.Size = new System.Drawing.Size(763, 444);
             this.staticLeases_listview.TabIndex = 0;
             this.staticLeases_listview.TabStop = false;
             this.staticLeases_listview.UseCompatibleStateImageBehavior = false;
@@ -1340,7 +1344,7 @@
             this.clients_panelMain.Location = new System.Drawing.Point(100, 0);
             this.clients_panelMain.Margin = new System.Windows.Forms.Padding(0);
             this.clients_panelMain.Name = "clients_panelMain";
-            this.clients_panelMain.Size = new System.Drawing.Size(764, 551);
+            this.clients_panelMain.Size = new System.Drawing.Size(764, 560);
             this.clients_panelMain.TabIndex = 5;
             this.clients_panelMain.Visible = false;
             // 
@@ -1369,7 +1373,7 @@
             // columnClientsMAC
             // 
             this.columnClientsMAC.Text = "MAC Address";
-            this.columnClientsMAC.Width = 138;
+            this.columnClientsMAC.Width = 132;
             // 
             // columnClientsName
             // 
@@ -1379,22 +1383,22 @@
             // columnClientsIP
             // 
             this.columnClientsIP.Text = "Assigned IP";
-            this.columnClientsIP.Width = 150;
+            this.columnClientsIP.Width = 139;
             // 
             // columnClientsLeaseStart
             // 
             this.columnClientsLeaseStart.Text = "Lease Start";
-            this.columnClientsLeaseStart.Width = 118;
+            this.columnClientsLeaseStart.Width = 125;
             // 
             // columnClientsLeaseEnd
             // 
             this.columnClientsLeaseEnd.Text = "Lease End";
-            this.columnClientsLeaseEnd.Width = 125;
+            this.columnClientsLeaseEnd.Width = 133;
             // 
             // columnClientsAddToStatic
             // 
             this.columnClientsAddToStatic.Text = "Add Static";
-            this.columnClientsAddToStatic.Width = 96;
+            this.columnClientsAddToStatic.Width = 98;
             // 
             // overview_panelMain
             // 
@@ -2068,7 +2072,7 @@
             this.selectNic_listview.Margin = new System.Windows.Forms.Padding(0);
             this.selectNic_listview.MultiSelect = false;
             this.selectNic_listview.Name = "selectNic_listview";
-            this.selectNic_listview.Size = new System.Drawing.Size(763, 551);
+            this.selectNic_listview.Size = new System.Drawing.Size(764, 550);
             this.selectNic_listview.TabIndex = 0;
             this.selectNic_listview.UseCompatibleStateImageBehavior = false;
             this.selectNic_listview.View = System.Windows.Forms.View.Details;
@@ -2081,12 +2085,12 @@
             // changeNicColumnHeader1
             // 
             this.changeNicColumnHeader1.Text = "ID";
-            this.changeNicColumnHeader1.Width = 82;
+            this.changeNicColumnHeader1.Width = 88;
             // 
             // changeNicColumnHeader2
             // 
             this.changeNicColumnHeader2.Text = "Name";
-            this.changeNicColumnHeader2.Width = 252;
+            this.changeNicColumnHeader2.Width = 247;
             // 
             // changeNicColumnHeader3
             // 
@@ -2096,12 +2100,12 @@
             // changeNicColumnHeader4
             // 
             this.changeNicColumnHeader4.Text = "IP Address";
-            this.changeNicColumnHeader4.Width = 147;
+            this.changeNicColumnHeader4.Width = 144;
             // 
             // changeNicColumnHeader5
             // 
             this.changeNicColumnHeader5.Text = "Select";
-            this.changeNicColumnHeader5.Width = 96;
+            this.changeNicColumnHeader5.Width = 99;
             // 
             // setHostIp_panelMain
             // 
@@ -2190,10 +2194,6 @@
             this.copyright_header.TabIndex = 0;
             this.copyright_header.Text = "GM4D";
             // 
-            // settingsBindingSource
-            // 
-            this.settingsBindingSource.DataSource = typeof(GM4D.Settings);
-            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -2202,17 +2202,18 @@
             this.ClientSize = new System.Drawing.Size(864, 611);
             this.Controls.Add(this.menuBottom_panelMain);
             this.Controls.Add(this.menu_panelMain);
-            this.Controls.Add(this.staticLeases_panelMain);
             this.Controls.Add(this.changeNic_panelMain);
             this.Controls.Add(this.clients_panelMain);
             this.Controls.Add(this.setHostIp_panelMain);
             this.Controls.Add(this.copyright_panel);
             this.Controls.Add(this.overview_panelMain);
             this.Controls.Add(this.settings_panelMain);
+            this.Controls.Add(this.staticLeases_panelMain);
             this.Font = new System.Drawing.Font("Ubuntu", 12F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
+            this.MaximizeBox = false;
             this.Name = "MainWindow";
             this.Text = "GM4D - Graphical Manager for DHCP";
             this.Load += new System.EventHandler(this.MainWindow_Load);
@@ -2222,6 +2223,7 @@
             this.settings_panelInfo.PerformLayout();
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.settingsBindingSource)).EndInit();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             this.panel2.ResumeLayout(false);
@@ -2270,7 +2272,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.copyright_panel.ResumeLayout(false);
             this.copyright_panel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.settingsBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }

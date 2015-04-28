@@ -18,12 +18,12 @@ namespace GM4D
         private BackgroundWorker bw;
         private IOController ioController;
         private Color buttonColorBgInactive = SystemColors.Control;
-        private Color buttonColorBgActive = Color.Coral;
-        private Color buttonColorMouseOver = Color.Coral;
-        private Color buttonColorMouseDown = Color.OrangeRed;
+        private Color buttonColorBgActive = System.Drawing.ColorTranslator.FromHtml("#E36C43");
+        private Color buttonColorMouseOver = System.Drawing.ColorTranslator.FromHtml("#E05A2B");
+        private Color buttonColorMouseDown = System.Drawing.ColorTranslator.FromHtml("#DD4814");
         private Color menuColorBg = SystemColors.Control;
-        private Color panelColorBg = SystemColors.AppWorkspace;
-        private Color listViewColorBg = SystemColors.Control;
+        private Color panelColorBg = System.Drawing.ColorTranslator.FromHtml("#AEA79F");
+        private Color listViewColorBg = System.Drawing.ColorTranslator.FromHtml("#F6F6F5");
         /// <summary>
         /// constructor for MainWindow
         /// </summary>
@@ -1019,7 +1019,7 @@ namespace GM4D
                         {
                             this.menuBottom_LoadFromDhcp.BackColor = Color.Green;
                             string oldText = this.menuBottom_LoadFromDhcp.Text;
-                            this.menuBottom_LoadFromDhcp.Text = "settings applied";
+                            this.menuBottom_LoadFromDhcp.Text = "settings loaded";
                             this.menuBottom_LoadFromDhcp.Refresh();
                             System.Threading.Thread.Sleep(1500);
                             this.menuBottom_LoadFromDhcp.BackColor = this.buttonColorBgInactive;
