@@ -176,6 +176,7 @@ namespace GM4D
         /// <returns></returns>
         private ArrayList ProcessConfigFile(string filename)
         {
+            IOController.Log(this, "ProcessConfigFile entered", IOController.Flag.debug);
             IOController.Log(this, "ProcessConfigFile filename: " + filename, Flag.status);
             if (File.Exists(filename))
             {
@@ -350,7 +351,7 @@ namespace GM4D
             if (OsIsUnix)
             {
                 SaveSettingsFile(Environment.CurrentDirectory.ToString() + "/dhcpd.gm4d");
-                shellStartInfo.Arguments = string.Format("-c \"gksudo ifconfig " + ((HostNIC)this.settings.Interfaces[this.settings.SelectedInterface]).Id + " " + this.settings.NewHostIP + " netmask " + this.settings.NewHostSubnetMask + "\"");
+                shellStartInfo.Arguments = string.Format("-c \"gksudo ifconfig " + ((HostNIC)this.settings.Interfaces[this.settings.SelectedInterfaceIndex]).Id + " " + this.settings.NewHostIP + " netmask " + this.settings.NewHostSubnetMask + "\"");
                 shellProc.Start();
                 IOController.Log(this, "SetNewHostIp " + shellProc.StandardOutput.ReadToEnd() , Flag.debug);
                 shellProc.WaitForExit();
@@ -427,6 +428,7 @@ namespace GM4D
                 shellProc.Start();
                 IOController.Log(this, "ApplySettingsToDHCPServer " + shellProc.StandardOutput.ReadToEnd(), Flag.debug);
                 shellProc.WaitForExit();
+                this.ApplySelectedInterface();
                 if (this.settings.IsDHCPServerRunning)
                 {
                     this.RestartDHCPServer();
@@ -443,24 +445,59 @@ namespace GM4D
             LoadEtcDefaultConfigFile();
             SaveEtcDefaultConfigFile();
         }
-        public void GetSelectedInterfaceFromEtcDeafult()
+        public void GetSelectedInterfaceFromEtcDefault()
         {
-            LoadEtcDefaultConfigFile();
-            for (int i = 0; i < this.settings.Interfaces.Count; i++)
+            IOController.Log(this, "GetSelectedInterfaceFromEtcDeafult enter", Flag.debug);
+            this.settings.SelectInterface(0);
+            if (OsIsUnix)
             {
-                if (((HostNIC)this.settings.Interfaces[i]).Id == this.settings.SelectedInterfaceID)
+                if (this.settings.IsDHCPServerInstalled)
                 {
-                    IOController.Log(this, "found set interface in /etc/default/isc-dhcp-server: " + this.settings.SelectedInterfaceID, Flag.status);
-                    if (i != this.settings.SelectedInterfaceIndex)
+                    if (File.Exists("/etc/default/isc-dhcp-server"))
                     {
-                        this.settings.SelectInterface(i);
+                        ArrayList filecontent = ProcessConfigFile("/etc/default/isc-dhcp-server");
+                        IOController.Log(this, "ProcessConfigFile returned: filecontent: " + String.Join(",", filecontent), Flag.debug);
+                        foreach (string line in filecontent)
+                        {
+                            string trimmedline = line.Trim();
+                            if (trimmedline.StartsWith("INTERFACES"))
+                            {
+                                IOController.Log(this, "found INTERFACES entry " + trimmedline, IOController.Flag.debug);
+                                if (trimmedline.Length > 13)
+                                {
+                                    string foundInterfaceId = trimmedline.Remove(0, 11);
+                                    foundInterfaceId = foundInterfaceId.Trim('"');
+                                    IOController.Log(this, "getting index for " + foundInterfaceId, Flag.debug);
+                                    for (int i = 0; i < this.settings.Interfaces.Count; i++)
+                                    {
+                                        IOController.Log(this, ((HostNIC)this.settings.Interfaces[i]).Id + " ?= " + foundInterfaceId, Flag.debug);
+                                        if (((HostNIC)this.settings.Interfaces[i]).Id == foundInterfaceId)
+                                        {
+                                            IOController.Log(this, "found matching interface id " + foundInterfaceId + " index " + i, Flag.status);
+                                            this.settings.SelectInterface(i);
+                                            break;
+                                        }
+                                    }
+                                }
+
+                            }
+                        }
+                    }
+                    else
+                    {
+                        IOController.Log(this, "FileNotFoundException /etc/default/isc-dhcp-server", Flag.error);
                     }
                 }
+                else
+                {
+                    IOController.Log(this, "DHCP Server not installed", Flag.error);
+                }
             }
-            this.newEtcDefaultConfig = null;
         }
+
         public void LoadEtcDefaultConfigFile()
         {
+            this.newEtcDefaultConfig = null;
             IOController.Log(this, "LoadEtcDefaultConfigFile enter", Flag.debug);
             if (OsIsUnix)
             {
@@ -493,6 +530,7 @@ namespace GM4D
         private ArrayList newEtcDefaultConfig;
         private void processEtcDefaultConfigFile(IAsyncResult ar)
         {
+            IOController.Log(this, "processEtcDefaultConfigFile entered", IOController.Flag.debug);
             AsyncResult aResult = (AsyncResult)ar;
             ReadConfigFileDelegate readConfigFileDelegate = (ReadConfigFileDelegate)aResult.AsyncDelegate;
             ArrayList filecontent = readConfigFileDelegate.EndInvoke(ar);
@@ -508,25 +546,11 @@ namespace GM4D
                 }
                 else if (trimmedline.StartsWith("INTERFACES"))
                 {
-                    try
-                    {
-                        if (trimmedline.Length > 13)
-                        {
-                            string selectedInterface = trimmedline.Remove(0, 11);
-                            selectedInterface.Trim('"');
-                            this.settings.SelectedInterfaceID = selectedInterface;
-                            IOController.Log(this, "processEtcDefaultConfigFile found interface " + selectedInterface + "in /etc/default/isc-dhcp-server", Flag.status);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        IOController.Log(this, "no previous interface selected " + ex.Message, Flag.debug);
-                    }
                     trimmedline = "INTERFACES=\"" + this.settings.OverviewSelectedInterfaceName + "\"";
                 }
                 newEtcDefaultConfig.Add(trimmedline);
             }
-            
+            IOController.Log(this, "newEtcDefaultConfig created:\n" + string.Join("\n",newEtcDefaultConfig), Flag.debug);
         }
 
         public void SaveEtcDefaultConfigFile()
@@ -558,10 +582,6 @@ namespace GM4D
                 shellProc.Start();
                 IOController.Log(this, "new /etc/default/isc-dhcp-server applied " + shellProc.StandardOutput.ReadToEnd(), Flag.debug);
                 shellProc.WaitForExit();
-                if (this.settings.IsDHCPServerRunning)
-                {
-                    this.RestartDHCPServer();
-                }
             }
             else
             {
@@ -1035,13 +1055,12 @@ namespace GM4D
             string fileName = s.GetFrame(1).GetFileName();
             int lineNumber = s.GetFrame(1).GetFileLineNumber();
             string logheader = System.DateTime.Now + " " + strFlag + " " + className + "." + methodName + ":";
-            
             /*
             System.Console.WriteLine(logheader);
             System.Console.ResetColor();
             System.Console.WriteLine(message);
             System.Console.WriteLine();
-             */
+            */
             string filename = Path.Combine(Environment.CurrentDirectory.ToString(),"gm4d.log");
             if (!File.Exists(filename))
             {

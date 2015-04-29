@@ -96,6 +96,7 @@ namespace GM4D
             switchNic_lve.AddColumn(switchNic_lvbc_select);
             updateColors();
             this.MaximizeBox = false;
+            switchView(views.about);
         }
         private void updateColors()
         {
@@ -142,6 +143,7 @@ namespace GM4D
         private enum views {none, overview, changenic, sethostip, settings, staticLeases, clients, about};
         private void switchView(views view)
         {
+            IOController.Log(this, "switchView: " + view.ToString(), IOController.Flag.status);
             this.overview_panelMain.Visible = false;
             this.menu_btnOverview.BackColor = this.buttonColorBgInactive;
             this.settings_panelMain.Visible = false;
@@ -153,6 +155,7 @@ namespace GM4D
             this.changeNic_panelMain.Visible = false;
             this.setHostIp_panelMain.Visible = false;
             this.copyright_panel.Visible = false;
+            IOController.Log(this, "switchView: all panels invisible", IOController.Flag.status);
             switch (view)
             {
                 case views.overview: 
@@ -166,9 +169,10 @@ namespace GM4D
                 case views.sethostip:
                     this.setHostIp_panelMain.Visible = true;
                     break;
-                case views.settings: 
+                case views.settings:
                     this.settings_panelMain.Visible = true;
                     this.menu_btnBasicSettings.BackColor = this.buttonColorBgActive;
+                    settingsTriggerValidation();
                     break;
                 case views.staticLeases: 
                     this.staticLeases_panelMain.Visible = true;
@@ -203,7 +207,6 @@ namespace GM4D
         private void btnBasicSettings_Click(object sender, EventArgs e)
         {
             switchView(views.settings);
-            settingsTriggerValidation();
         }
         /// <summary>
         /// third menue button click
@@ -404,7 +407,6 @@ namespace GM4D
                 try
                 {
                     this.settings.SelectInterface(i);
-                    this.ioController.ApplySelectedInterface();
                     switchView(views.overview);
                 }
                 catch (Exception ex)
@@ -801,6 +803,7 @@ namespace GM4D
         }
         public void OnSettingsFileLoaded(object sender, EventArgs ea)
         {
+            IOController.Log(this, "OnSettingsFileLoaded called, calling refreshSettings...", IOController.Flag.debug);
             if (this.settings_panelMain.InvokeRequired)
             {
                 refreshSettingsCallback rc = new refreshSettingsCallback(refreshSettings);
@@ -814,6 +817,8 @@ namespace GM4D
         private delegate void refreshSettingsCallback();
         private void refreshSettings()
         {
+            
+            IOController.Log(this, "refreshSettings called, refreshSettings...", IOController.Flag.debug);
             try
             {
                 this.ipRangeStart_input.Text = this.settings.IpRangeStart;
@@ -834,16 +839,20 @@ namespace GM4D
                 this.defaultLease_input.Refresh();
                 this.maxLease_input.Value = Convert.ToDecimal(this.settings.MaxLeaseTime);
                 this.maxLease_input.Refresh();
+                IOController.Log(this, "refreshSettings finished, calling settingsTriggerValidation...", IOController.Flag.debug);
                 settingsTriggerValidation();
             }
             catch (Exception ex)
             {
                 IOController.Log(this, ex.Message, IOController.Flag.error);
             }
+             
         }
         private void settingsTriggerValidation()
         {
+            IOController.Log(this, "settingsTriggerValidation called, triggering...", IOController.Flag.debug);
             // Control.Validate() is not implemented yet in Mono
+            /*
             this.ipRangeStart_input.Validate();
             this.ipRangeEnd_input.Validate();
             this.subnetMask_input.Validate();
@@ -854,6 +863,7 @@ namespace GM4D
             this.defaultLease_input.Validate();
             this.maxLease_input.Validate();
             this.ipRangeStart_input.Validate();
+             * */
             // workaround by setting focus
             this.ipRangeStart_input.Focus();
             this.ipRangeEnd_input.Focus();
@@ -865,6 +875,15 @@ namespace GM4D
             this.defaultLease_input.Focus();
             this.maxLease_input.Focus();
             this.ipRangeStart_input.Focus();
+            IOController.Log(this, "settingsTriggerValidation validation triggered. ", IOController.Flag.debug);
+            //refreshing hostinfo
+            this.hostIP_tb.Text = this.settings.HostIP;
+            this.hostIP_tb.Refresh();
+            this.hostSubnetMask_tb.Text = this.settings.HostSubnetMask;
+            this.hostSubnetMask_tb.Refresh();
+            this.hostGateway_tb.Text = this.settings.HostGateway;
+            this.hostGateway_tb.Refresh();
+            IOController.Log(this, "settingsTriggerValidation Hostinfo refreshed.", IOController.Flag.debug);
         }
         #endregion SettingsPanel
 

@@ -80,20 +80,25 @@ namespace GM4D
         #region interface selection
         public void SelectInterface(int i)
         {
-            if (i > (Interfaces.Count-1))
+            if (i < Interfaces.Count)
             {
-                throw new IndexOutOfRangeException("Index for interface out of range. Index: " + i + " number of interfaces: " + Interfaces.Count);
+                IOController.Log(this, "SelectInterface called index:" + i, IOController.Flag.debug);
+                HostNIC nic = (HostNIC)Interfaces[i];
+                this.HostIP = nic.IPAddress;
+                this.HostSubnetMask = nic.SubnetMask;
+                this.HostSubnet = nic.SubnetIdentifier;
+                this.HostHasStaticIp = nic.StaticIPAddress;
+                this.HostGateway = nic.Gateway;
+                this.SelectedInterfaceIndex = i;
+                this.SelectedInterfaceID = nic.Id;
+                IOController.Log(this, "SelectInterface ID" + nic.Id, IOController.Flag.debug);
+                this.OverviewSelectedInterfaceName = nic.Name;
+                IOController.Log(this, nic.ToString(), IOController.Flag.status);
             }
-            HostNIC nic = (HostNIC)Interfaces[i];
-            this.HostIP = nic.IPAddress;
-            this.HostSubnetMask = nic.SubnetMask;
-            this.HostSubnet = nic.SubnetIdentifier;
-            this.HostHasStaticIp = nic.StaticIPAddress;
-            this.HostGateway = nic.Gateway;
-            this.SelectedInterface = i;
-            this.SelectedInterfaceID = nic.Id;
-            this.OverviewSelectedInterfaceName = nic.Name;
-            IOController.Log(this, nic.ToString(), IOController.Flag.status);
+            else
+            {
+                IOController.Log(this, "SelectInterface IndexOutOfRange index:" + i, IOController.Flag.error);
+            }
         }
         private ArrayList interfaces;
         public ArrayList Interfaces 
@@ -110,24 +115,24 @@ namespace GM4D
         public void AddInterface(HostNIC nic)
         {
             this.interfaces.Add(nic);
-            IOController.Log(this, "Added Interface:\n" + nic.ToString() + "\n", IOController.Flag.status);
+            IOController.Log(this, "Added Interface at " + (this.interfaces.Count - 1) + ":\n" + nic.ToString() + "\n", IOController.Flag.status);
             if (InterfaceAddedEvt != null)
             {
                 InterfaceAddedEvt(this.interfaces, new PropertyChangedEventArgs("InterfaceAdded"));
             }
         }
         public string SelectedInterfaceID { get; set; }
-        public int SelectedInterfaceIndex;
-        public int SelectedInterface
+        private int selectedInterfaceIndex;
+        public int SelectedInterfaceIndex
         {
             get
             {
-                return this.SelectedInterfaceIndex;
+                return this.selectedInterfaceIndex;
             }
             private set
             {
-                this.SelectedInterfaceIndex = value;
-                NotifyPropertyChanged(this.SelectedInterface);
+                this.selectedInterfaceIndex = value;
+                NotifyPropertyChanged(this.selectedInterfaceIndex);
                 IOController.Log(this, " " + this.SelectedInterfaceIndex, IOController.Flag.status);
             }
         }
@@ -321,10 +326,18 @@ namespace GM4D
             }
             set
             {
-                this.ipRangeStart = value;
-                this.IpRangeStartIsSet = true;
+                if (value.Length > 7)
+                {
+                    this.ipRangeStart = value;
+                    this.IpRangeStartIsSet = true;
+                    
+                }
+                else
+                {
+                    this.IpRangeStartIsSet = true;
+                }
                 NotifyPropertyChanged(IpRangeStart);
-                IOController.Log(this, this.ipRangeStart, IOController.Flag.debug);
+                IOController.Log(this, value, IOController.Flag.debug);
             }
         }
         public bool IpRangeEndIsSet { get; private set; }

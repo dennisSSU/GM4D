@@ -78,18 +78,18 @@ namespace GM4D
             }
             catch (Exception exc)
             {
-                IOController.Log(this, "InitShell " + exc.Message, IOController.Flag.error);
+                IOController.Log(this, "GetHostInfo " + exc.Message, IOController.Flag.error);
             }
-            worker.ReportProgress(50);
+            worker.ReportProgress(40);
             try
             {
                 this.ioController.GetDHCPServerInstallStatus();
             }
             catch (Exception exc)
             {
-                IOController.Log(this, "InitShell " + exc.Message, IOController.Flag.error);
+                IOController.Log(this, "GetDHCPServerInstallStatus " + exc.Message, IOController.Flag.error);
             }
-            worker.ReportProgress(60);
+            worker.ReportProgress(50);
             try
             {
                 this.ioController.GetDHCPServerStatus();
@@ -98,7 +98,28 @@ namespace GM4D
             {
                 IOController.Log(this, "GetDHCPServerStatus " + exc.Message, IOController.Flag.error);
             }
+            worker.ReportProgress(60);
+            try
+            {
+                this.ioController.GetSelectedInterfaceFromEtcDefault();
+            }
+            catch (Exception exc)
+            {
+                IOController.Log(this, "GetSelectedInterfaceFromEtcDeafult " + exc.Message, IOController.Flag.error);
+            }
             worker.ReportProgress(70);
+            try
+            {
+                if (settings.IsDHCPServerRunning)
+                {
+                    this.ioController.LoadSettingsFile("/etc/dhcp/dhcpd.conf");
+                }
+            }
+            catch (Exception exc)
+            {
+                IOController.Log(this, "LoadSettingsFile " + exc.Message, IOController.Flag.error);
+            }
+            worker.ReportProgress(80);
             try
             {
                 this.ioController.InitiateDhcpdLeasesFileWatcher();
@@ -107,7 +128,7 @@ namespace GM4D
             {
                 IOController.Log(this, "InitiateDhcpdLeasesFileWatcher " + exc.Message, IOController.Flag.error);
             }
-            worker.ReportProgress(80);
+            worker.ReportProgress(90);
             try
             {
                 this.ioController.ReadDhcpdLeasesFile("/var/lib/dhcp/dhcpd.leases");
@@ -116,46 +137,12 @@ namespace GM4D
             {
                 IOController.Log(this, "ReadDhcpdLeasesFile " + exc.Message, IOController.Flag.error);
             }
-            worker.ReportProgress(90);
-            try
-            {
-                this.ioController.GetSelectedInterfaceFromEtcDeafult();
-            }
-            catch (Exception exc)
-            {
-                IOController.Log(this, "GetSelectedInterfaceFromEtcDeafult " + exc.Message, IOController.Flag.error);
-            }
-            if (settings.SelectedInterfaceID == null)
-            {
-                if (settings.Interfaces.Count > 0) settings.SelectInterface(0);
-            }
             worker.ReportProgress(100);
             System.Threading.Thread.Sleep(800);
         }
         private void mainWindow_Shown(object sender, EventArgs e)
         {
-            if (settings.IsDHCPServerRunning)
-            {
-                bw = new BackgroundWorker();
-                bw.DoWork += bw_loadDHCPDconf;
-                bw.RunWorkerCompleted += bw_loadDHCPDconfCompleted;
-                bw.WorkerReportsProgress = false;
-                bw.RunWorkerAsync();
-            }
+            
         }
-
-        private void bw_loadDHCPDconfCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            bw.DoWork -= bw_loadDHCPDconf;
-            bw.RunWorkerCompleted -= bw_loadDHCPDconfCompleted;
-        }
-
-        void bw_loadDHCPDconf(object sender, DoWorkEventArgs e)
-        {
-            this.ioController.LoadSettingsFile("/etc/dhcp/dhcpd.conf");
-        }
-
-
-
     }
 }
