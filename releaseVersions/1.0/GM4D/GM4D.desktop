@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=GM4D
+Comment=A GUI tool to administrate the isc-dhcp-server
+Terminal=false
+Exec=/usr/local/bin/GM4D/RunGM4D.sh
+Icon=/usr/local/bin/GM4D/GM4Dicon.png
