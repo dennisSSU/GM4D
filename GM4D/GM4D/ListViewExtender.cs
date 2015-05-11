@@ -14,10 +14,8 @@ namespace GM4D
         {
             if (listView == null)
                 throw new ArgumentNullException("listView");
-
             if (listView.View != View.Details)
                 throw new ArgumentException(null, "listView");
-
             ListView = listView;
             ListView.OwnerDraw = true;
             ListView.DrawItem += OnDrawItem;
@@ -25,7 +23,6 @@ namespace GM4D
             ListView.DrawColumnHeader += OnDrawColumnHeader;
             ListView.MouseMove += OnMouseMove;
             ListView.MouseClick += OnMouseClick;
-
             Font = new Font(ListView.Font.FontFamily, ListView.Font.Size - 2);
         }
 
@@ -97,14 +94,13 @@ namespace GM4D
 
         protected virtual void OnDrawItem(object sender, DrawListViewItemEventArgs e)
         {
-            // do nothing
+
         }
 
         public void AddColumn(ListViewColumn column)
         {
             if (column == null)
                 throw new ArgumentNullException("column");
-
             column.Extender = this;
             _columns[column.ColumnIndex] = column;
         }
@@ -136,7 +132,6 @@ namespace GM4D
     public abstract class ListViewColumn
     {
         public event EventHandler<ListViewColumnMouseEventArgs> Click;
-
         protected ListViewColumn(int columnIndex)
         {
             if (columnIndex < 0)
@@ -144,10 +139,8 @@ namespace GM4D
 
             ColumnIndex = columnIndex;
         }
-
         public virtual ListViewExtender Extender { get; protected internal set; }
         public int ColumnIndex { get; private set; }
-
         public virtual Font Font
         {
             get
@@ -155,7 +148,6 @@ namespace GM4D
                 return Extender == null ? null : Extender.Font;
             }
         }
-
         public ListView ListView
         {
             get

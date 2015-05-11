@@ -2,7 +2,12 @@
 using System.Collections;
 using System.ComponentModel;
 using System.Text;
-
+/* 
+ * Filename: Settings.cs
+ * Author: Dennis Stodko
+ * Date: 2015
+ * Description: storage object, contains host settings, network settings and GUI settings
+ */
 namespace GM4D
 {
     public class Settings : INotifyPropertyChanged 
@@ -41,7 +46,6 @@ namespace GM4D
             this.DefaultLeaseTimeIsSet = false;
             this.MaxLeaseTime = 7200;
             this.MaxLeaseTimeIsSet = false;
-
         }
         public void ClearHostSettings()
         {

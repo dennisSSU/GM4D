@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{7F8FA37E-CA22-478B-81BD-3799B474F767}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>GM4D</RootNamespace>
     <AssemblyName>GM4D</AssemblyName>
@@ -91,9 +91,7 @@
   <ItemGroup>
     <Compile Include="Controller.cs" />
     <Compile Include="DhcpdLease.cs" />
-    <Compile Include="HostInfo.cs" />
     <Compile Include="HostNIC.cs" />
-    <Compile Include="InputValidation.cs" />
     <Compile Include="IOController.cs" />
     <Compile Include="ListViewExtender.cs" />
     <Compile Include="LoadingWindow.cs">
@@ -109,6 +107,7 @@
     <Compile Include="IpInput.Designer.cs">
       <DependentUpon>IpInput.cs</DependentUpon>
     </Compile>
+    <Compile Include="Test.cs" />
     <Compile Include="TextInputPrompt.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Form1.cs">
@@ -142,6 +141,7 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <None Include="app.config" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="GM4D_TemporaryKey.pfx" />
     <None Include="Properties\DataSources\Settings.datasource" />
     <None Include="Properties\Settings.settings">
@@ -170,7 +170,6 @@
     <Content Include="res\errorIcon.ico" />
     <Content Include="res\gm4dlogo.ico" />
     <Content Include="res\okIcon.ico" />
-    <Content Include="res\testIcon.ico" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

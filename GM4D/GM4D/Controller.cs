@@ -6,6 +6,12 @@ using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+/* 
+ * Filename: Controller.cs
+ * Author: Dennis Stodko
+ * Date: 2015
+ * Description: main controller, initializes the application
+ */
 
 namespace GM4D
 {
@@ -16,6 +22,7 @@ namespace GM4D
         private IOController ioController;
         private BackgroundWorker bw;
         private LoadingWindow loadingWindow;
+
         public Controller()
         {
             System.Windows.Forms.Application.EnableVisualStyles();
@@ -29,6 +36,9 @@ namespace GM4D
             this.loadingWindow = new LoadingWindow();
         }
 
+        /// <summary>
+        /// function to start the application
+        /// </summary>
         public void Run()
         {
             bw.ProgressChanged += loadingWindow.OnProgressChange;
@@ -38,7 +48,11 @@ namespace GM4D
             mainWindow.Shown += mainWindow_Shown;
             System.Windows.Forms.Application.Run(mainWindow);
         }
-
+        /// <summary>
+        /// this function is called when the BackgroundWorker completes the init function. It closes the loading window.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void bw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             this.loadingWindow.Close();
@@ -46,7 +60,11 @@ namespace GM4D
             bw.ProgressChanged -= loadingWindow.OnProgressChange;
             bw.RunWorkerCompleted -= bw_RunWorkerCompleted;
         }
-
+        /// <summary>
+        /// Run all neccassary functions to gather information at the start of the application and reports progress.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void init(object sender, DoWorkEventArgs e)
         {
             BackgroundWorker worker = sender as BackgroundWorker;
@@ -140,6 +158,11 @@ namespace GM4D
             worker.ReportProgress(100);
             System.Threading.Thread.Sleep(800);
         }
+        /// <summary>
+        /// is called when the main window is shown
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void mainWindow_Shown(object sender, EventArgs e)
         {
             

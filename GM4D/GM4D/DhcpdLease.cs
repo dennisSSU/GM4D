@@ -2,7 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+/* 
+ * Filename: DhcpdLease.cs
+ * Author: Dennis Stodko
+ * Date: 2015
+ * Description: object for leases issued by the dhcpd service
+ */
 namespace GM4D
 {
     public class DhcpdLease

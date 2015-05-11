@@ -8,6 +8,12 @@ using System.Drawing;
 using System.Resources;
 using System.Text;
 using System.Windows.Forms;
+/* 
+ * Filename: Form1.cs
+ * Author: Dennis Stodko
+ * Date: 2015
+ * Description: contains GUI controller and GUI related code
+ */
 
 namespace GM4D
 {
@@ -140,7 +146,16 @@ namespace GM4D
         #endregion Main
 
         #region MenuPanel
+        // region for the main menue panel on the left
+
+        /// <summary>
+        /// this enum contains all possible views
+        /// </summary>
         private enum views {none, overview, changenic, sethostip, settings, staticLeases, clients, about};
+        /// <summary>
+        /// switches to the panal of the view passed in the parameter
+        /// </summary>
+        /// <param name="view">view from the view enum of the MasinWindow class</param>
         private void switchView(views view)
         {
             IOController.Log(this, "switchView: " + view.ToString(), IOController.Flag.status);
@@ -188,7 +203,7 @@ namespace GM4D
                     break;
             }
         }
-        // region for the menue button handler
+        
 
         /// <summary>
         /// first menue button click
@@ -545,6 +560,11 @@ namespace GM4D
         #endregion OverviewPanel
 
         #region SettingsPanel
+        /// <summary>
+        /// This function validates the input of the IPAddressControl for the startng address of the IP range
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void settings_validateIpInput(object sender, EventArgs e)
         {
             try
@@ -555,11 +575,31 @@ namespace GM4D
                 {
                     if (settings.HostNetCalcTool.CheckSameSubnet(ipAddress.ToString(), settings.HostIP, settings.HostSubnet))
                     {
-                        this.validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "");
-                        this.validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "valid IP address");
-                        this.ipRangeStart_lblInfo.Text = "";
-                        this.settings.IpRangeStart = ipAddress.ToString();
-                        calculateSubnetId();
+                        if (settings.SubnetMaskIsSet && settings.IpRangeEndIsSet)
+                        {
+                            if (settings.DHCPNetCalcTool.CheckSameSubnet(ipAddress.ToString(), settings.IpRangeEnd, settings.SubnetMask))
+                            {
+                                this.validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "");
+                                this.validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "valid IP address");
+                                this.ipRangeStart_lblInfo.Text = "";
+                                this.settings.IpRangeStart = ipAddress.ToString();
+                                calculateSubnetId();
+                            }
+                            else
+                            {
+                                validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "");
+                                validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "please enter valid IP address");
+                                this.ipRangeStart_lblInfo.Text = "start and end address not in the same subnet";
+                            }
+                        }
+                        else
+                        {
+                            this.validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "");
+                            this.validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "valid IP address");
+                            this.ipRangeStart_lblInfo.Text = "";
+                            this.settings.IpRangeStart = ipAddress.ToString();
+                            calculateSubnetId();
+                        }
                     }
                     else
                     {
@@ -589,10 +629,40 @@ namespace GM4D
                 System.Net.IPAddress ipAddress;
                 if (System.Net.IPAddress.TryParse(((IPAddressControlLib.IPAddressControl)sender).Text, out ipAddress))
                 {
-                    this.validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "");
-                    this.validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "valid IP address");
-                    this.ipRangeEnd_lblInfo.Text = "";
-                    this.settings.IpRangeEnd = ipAddress.ToString();
+                    if (settings.HostNetCalcTool.CheckSameSubnet(ipAddress.ToString(), settings.HostIP, settings.HostSubnet))
+                    {
+                        if (settings.SubnetMaskIsSet && settings.IpRangeStartIsSet)
+                        {
+                            if (settings.DHCPNetCalcTool.CheckSameSubnet(ipAddress.ToString(), settings.IpRangeStart, settings.SubnetMask))
+                            {
+                                this.validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "");
+                                this.validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "valid IP address");
+                                this.ipRangeEnd_lblInfo.Text = "";
+                                this.settings.IpRangeEnd = ipAddress.ToString();
+                                calculateSubnetId();
+                            }
+                            else
+                            {
+                                validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "");
+                                validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "please enter valid IP address");
+                                this.ipRangeEnd_lblInfo.Text = "start and end address not in the same subnet";
+                            }
+                        }
+                        else
+                        {
+                            this.validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "");
+                            this.validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "valid IP address");
+                            this.ipRangeEnd_lblInfo.Text = "";
+                            this.settings.IpRangeEnd = ipAddress.ToString();
+                        }
+                    }
+                    else
+                    {
+                        validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "");
+                        validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "please enter valid IP address");
+                        this.ipRangeEnd_lblInfo.Text = "address is not in the same subnet as host ip";
+                    }
+                    
                 }
                 else
                 {
@@ -658,11 +728,33 @@ namespace GM4D
                 // check if ip address is valid
                 if (System.Net.IPAddress.TryParse(((IPAddressControlLib.IPAddressControl)sender).Text, out ipAddress))
                 {
-                    this.validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "");
-                    this.validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "valid IP address");
-                    this.subnetMask_lblInfo.Text = "";
-                    this.settings.SubnetMask = ipAddress.ToString();
-                    calculateSubnetId();
+                    if (settings.IpRangeStartIsSet && settings.IpRangeEndIsSet)
+                    {
+                        if (settings.DHCPNetCalcTool.CheckSameSubnet(settings.IpRangeEnd, settings.IpRangeStart, ipAddress.ToString()))
+                        {
+                            this.validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "");
+                            this.validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "valid IP address");
+                            this.subnetMask_lblInfo.Text = "";
+                            this.settings.SubnetMask = ipAddress.ToString();
+                            settings_validateIpRangeEndInput(ipRangeEnd_input, new EventArgs());
+                            settings_validateIpInput(ipRangeStart_input, new EventArgs());
+                            calculateSubnetId();
+                        }
+                        else
+                        {
+                            validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "");
+                            validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "please enter valid IP address");
+                            this.subnetMask_lblInfo.Text = "start and/or end do not match subnet";
+                        }
+                    }
+                    else
+                    {
+                        this.validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "");
+                        this.validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "valid IP address");
+                        this.subnetMask_lblInfo.Text = "";
+                        this.settings.SubnetMask = ipAddress.ToString();
+                    }
+                    
                 }
                 else
                 {

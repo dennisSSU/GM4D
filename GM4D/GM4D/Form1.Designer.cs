@@ -42,6 +42,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
             this.hostGateway_tb = new System.Windows.Forms.TextBox();
+            this.settingsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.hostGateway_lbl = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.hostSubnetMask_tb = new System.Windows.Forms.TextBox();
@@ -184,11 +185,11 @@
             this.copyright_header = new System.Windows.Forms.Label();
             this.feedback_panel = new System.Windows.Forms.Panel();
             this.feedback_lbl = new System.Windows.Forms.Label();
-            this.settingsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.menu_panelMain.SuspendLayout();
             this.settings_panelMain.SuspendLayout();
             this.settings_panelInfo.SuspendLayout();
             this.panel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.settingsBindingSource)).BeginInit();
             this.panel3.SuspendLayout();
             this.panel2.SuspendLayout();
             this.settings_panelInput.SuspendLayout();
@@ -226,7 +227,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.copyright_panel.SuspendLayout();
             this.feedback_panel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.settingsBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // menu_btnOverview
@@ -434,6 +434,10 @@
             this.hostGateway_tb.Size = new System.Drawing.Size(150, 30);
             this.hostGateway_tb.TabIndex = 0;
             this.hostGateway_tb.TabStop = false;
+            // 
+            // settingsBindingSource
+            // 
+            this.settingsBindingSource.DataSource = typeof(GM4D.Settings);
             // 
             // hostGateway_lbl
             // 
@@ -2210,21 +2214,17 @@
             this.feedback_lbl.Text = "feedback feedback feedback";
             this.feedback_lbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // settingsBindingSource
-            // 
-            this.settingsBindingSource.DataSource = typeof(GM4D.Settings);
-            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.ClientSize = new System.Drawing.Size(864, 611);
+            this.Controls.Add(this.settings_panelMain);
             this.Controls.Add(this.feedback_panel);
             this.Controls.Add(this.copyright_panel);
             this.Controls.Add(this.menu_panelMain);
             this.Controls.Add(this.menuBottom_panelMain);
-            this.Controls.Add(this.settings_panelMain);
             this.Controls.Add(this.overview_panelMain);
             this.Controls.Add(this.changeNic_panelMain);
             this.Controls.Add(this.clients_panelMain);
@@ -2244,6 +2244,7 @@
             this.settings_panelInfo.PerformLayout();
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.settingsBindingSource)).EndInit();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             this.panel2.ResumeLayout(false);
@@ -2293,7 +2294,6 @@
             this.copyright_panel.ResumeLayout(false);
             this.copyright_panel.PerformLayout();
             this.feedback_panel.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.settingsBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }

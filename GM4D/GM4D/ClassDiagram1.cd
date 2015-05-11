@@ -1,0 +1,193 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="GM4D.Controller" Collapsed="true">
+    <Position X="2.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAACAAAAAIAAAAAAAAIAAABACCAAIAAAAAAAAAAAI=</HashCode>
+      <FileName>Controller.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GM4D.DhcpdLease" Collapsed="true">
+    <Position X="7" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgIBAAAAAAAAEAAAAAAAAAAAAAACAAAAIAAACAAA=</HashCode>
+      <FileName>DhcpdLease.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GM4D.MainWindow" Collapsed="true">
+    <Position X="4.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>Nv61m7jpID5X9/6LV4vDb/8aj77PmnOa/dGCP6eaHz4=</HashCode>
+      <FileName>Form1.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GM4D.HostInfo" Collapsed="true">
+    <Position X="8.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>HostInfo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GM4D.HostNIC" Collapsed="true">
+    <Position X="7" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACQAAAEAAABACEAAAAIAQAAAIAAAAIAQAAAAACAAA=</HashCode>
+      <FileName>HostNIC.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GM4D.InputValidation" Collapsed="true">
+    <Position X="10.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAABAABAAAA=</HashCode>
+      <FileName>InputValidation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GM4D.IOController" Collapsed="true">
+    <Position X="2.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgKgRgBAQAIQABJABAIEAELIiIEUAEIACEABQAhDQ=</HashCode>
+      <FileName>IOController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GM4D.IpInput" Collapsed="true">
+    <Position X="8.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAQAACEAQAAAAACAADRCIAAAAAAAAEAAAAAABCA=</HashCode>
+      <FileName>IpInput.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GM4D.ListViewExtender" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="10.25" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQQgAACACAAAAAAAABAAEBBAAAAAAggAAAAgCAAA=</HashCode>
+      <FileName>ListViewExtender.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="GM4D.ListViewColumn" Collapsed="true">
+    <Position X="8.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAEEAAAAgAAAAAAAAAAAAAgAAAAgAAAAAACAgA=</HashCode>
+      <FileName>ListViewExtender.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GM4D.ListViewColumnMouseEventArgs" Collapsed="true">
+    <Position X="8.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAEAAQAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ListViewExtender.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GM4D.ListViewButtonColumn" Collapsed="true">
+    <Position X="8.75" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAACAAAAAAgAAAAAAAAAAAAAgAAAAAAAAAgAAAAA=</HashCode>
+      <FileName>ListViewExtender.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GM4D.LoadingWindow" Collapsed="true">
+    <Position X="4.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQACAAABAAAACAAAACAAAAAAAAAAAAAIAAAAA=</HashCode>
+      <FileName>LoadingWindow.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GM4D.NetCalcTool" Collapsed="true">
+    <Position X="0.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAQAACAACAACAJAAAAYAAIAEAAAAAACQAAAAAAIAA=</HashCode>
+      <FileName>NetCalcTool.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GM4D.Program" Collapsed="true">
+    <Position X="2.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GM4D.Settings" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>iAMiWIQEdtAEBfChCFlg5YgBmIMlKCDiIAyhSIkvCQI=</HashCode>
+      <FileName>Settings.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.1" Collapsed="true" />
+  </Class>
+  <Class Name="GM4D.StaticLease" Collapsed="true">
+    <Position X="7" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAEAAAAAAAAAAAAAACAAAAIAAACAAA=</HashCode>
+      <FileName>StaticLease.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GM4D.SubnetMask" Collapsed="true">
+    <Position X="8.75" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAARAAAAEAAAAAAAAAAAAAAAABQAAAAAAAAA=</HashCode>
+      <FileName>SubnetMask.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GM4D.TextInputPrompt" Collapsed="true">
+    <Position X="8.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAABAEAACAAAAEEAAEAAEAAAACAAAIACAAgA=</HashCode>
+      <FileName>TextInputPrompt.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GM4D.Properties.Resources" Collapsed="true">
+    <Position X="10.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAAAAAAAAAABEAAAAQAAAAAAAAAEAAAAAIA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GM4D.Properties.Settings" Collapsed="true">
+    <Position X="10.25" Y="3.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="GM4D.ifa_ifu" Collapsed="true">
+    <Position X="10.5" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAACAAAAACAAAAAAAAAAA=</HashCode>
+      <FileName>SubnetMask.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="GM4D.ifaddrs" Collapsed="true">
+    <Position X="10.5" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAQACAAAAAAAAAAAAAEwAAAAgAEAAAAAAAA=</HashCode>
+      <FileName>SubnetMask.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="GM4D.sockaddr_in" Collapsed="true">
+    <Position X="10.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAAAAAAAAAAAAIAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SubnetMask.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="GM4D.sockaddr_in6" Collapsed="true">
+    <Position X="10.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAAAAAAAAAAAAAAQAAgAAAAACAEAAAAAA=</HashCode>
+      <FileName>SubnetMask.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="GM4D.in6_addr" Collapsed="true">
+    <Position X="10.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAA=</HashCode>
+      <FileName>SubnetMask.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="GM4D.sockaddr_ll" Collapsed="true">
+    <Position X="10.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAKAAAAAAAAAAAAAhAAAAAAAAIAAAAAACAACAAAA=</HashCode>
+      <FileName>SubnetMask.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

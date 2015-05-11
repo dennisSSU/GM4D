@@ -5,6 +5,8 @@
 # isc-dhcp-server - the DHCP server from the ISC (https://www.isc.org/downloads/dhcp/)
 sudo apt-get --yes --force-yes install gksu mono-complete isc-dhcp-server
 sudo cp -a -r GM4D /usr/local/bin
-sudo cp GM4D/GM4D.desktop /usr/share/applications/GM4D.desktop
+sudo chmod a+rx /usr/local/bin/GM4D/RunGM4D.sh
+sudo chmod a+rx /usr/local/bin/GM4D/GM4D.desktop
+sudo desktop-file-install /usr/local/bin/GM4D/GM4D.desktop
 
 

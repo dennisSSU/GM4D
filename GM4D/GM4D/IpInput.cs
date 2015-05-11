@@ -6,7 +6,12 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-
+/* 
+ * Filename: IpInput.cs
+ * Author: Dennis Stodko
+ * Date: 2015
+ * Description: custom control for iP address input
+ */
 namespace GM4D
 {
     public partial class IpInput : UserControl

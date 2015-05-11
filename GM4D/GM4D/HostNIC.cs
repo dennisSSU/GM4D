@@ -2,7 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+/* 
+ * Filename: HostNIC.cs
+ * Author: Dennis Stodko
+ * Date: 2015
+ * Description: object to store all related information for a host network interface
+ */
 namespace GM4D
 {
     public class HostNIC

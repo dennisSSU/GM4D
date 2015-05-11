@@ -4,7 +4,13 @@ using System.Linq;
 using System.Net;
 using System.Runtime.InteropServices;
 using System.Text;
-
+/* 
+ * Filename: SubnetMask.cs
+ * Author: Dennis Stodko
+ * Date: 2015
+ * Description: gets the subnet mask in Linux using Mono
+ * Based on an idea/source code of M. Duerst (2011)
+ */
 namespace GM4D
 {
     [StructLayout(LayoutKind.Explicit)]
@@ -40,11 +46,11 @@ namespace GM4D
     [StructLayout(LayoutKind.Sequential)]
     struct sockaddr_in6
     {
-        public ushort sin6_family;   /* AF_INET6 */
-        public ushort sin6_port;     /* Transport layer port # */
-        public uint sin6_flowinfo; /* IPv6 flow information */
-        public in6_addr sin6_addr;     /* IPv6 address */
-        public uint sin6_scope_id; /* scope id (new in RFC2553) */
+        public ushort sin6_family;
+        public ushort sin6_port;
+        public uint sin6_flowinfo;
+        public in6_addr sin6_addr; 
+        public uint sin6_scope_id;
     }
 
     [StructLayout(LayoutKind.Sequential)]
@@ -102,13 +108,12 @@ namespace GM4D
                         switch (sockaddr.sin_family)
                         {
                             case AF_INET6:
-                                //sockaddr_in6 sockaddr6 = (sockaddr_in6)Marshal.PtrToStructure(addr.ifa_addr, typeof(sockaddr_in6));
                                 break;
                             case AF_INET:
                                 if (name == networkInterfaceName)
                                 {
                                     var netmask = (sockaddr_in)Marshal.PtrToStructure(addr.ifa_netmask, typeof(sockaddr_in));
-                                    var ipAddr = new IPAddress(netmask.sin_addr);  // IPAddress to format into default string notation
+                                    var ipAddr = new IPAddress(netmask.sin_addr); 
                                     return ipAddr.ToString();
                                 }
                                 break;
@@ -117,7 +122,7 @@ namespace GM4D
                                     var sockaddrll = (sockaddr_ll)Marshal.PtrToStructure(addr.ifa_addr, typeof(sockaddr_ll));
                                     if (sockaddrll.sll_halen > sockaddrll.sll_addr.Length)
                                     {
-                                        Console.Error.WriteLine("Got a bad hardware address length for an AF_PACKET {0} {1}",
+                                        Console.Error.WriteLine("wrong hardware address length AF_PACKET {0} {1}",
                                                                 sockaddrll.sll_halen, sockaddrll.sll_addr.Length);
                                         next = addr.ifa_next;
                                         continue;

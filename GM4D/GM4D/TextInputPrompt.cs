@@ -3,14 +3,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-
+/* 
+ * Filename: TextInputPrompt.cs
+ * Author: Dennis Stodko
+ * Date: 2015
+ * Description: Input prompt to get text input as string or secure string
+ */
 namespace GM4D
 {
+    /// <summary>
+    /// This class shows a promt window with header, message and text input. The if the property PasswordInput is set to true, the input is returned as secure string.
+    /// </summary>
     public class TextInputPrompt
     {
+        /// <summary>
+        /// return the input string as secure string
+        /// </summary>
         public bool PasswordInput { get; set; }
+        /// <summary>
+        /// input promt message
+        /// </summary>
         public string Message { get; set; }
+        /// <summary>
+        /// window heading
+        /// </summary>
         public string Caption { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
         public string Input { get; private set; }
         public bool CloseOK { get; private set; }
         private Form form;
