@@ -24,6 +24,9 @@ namespace GM4D
             this.overviewDhcpServerInstallStatus = "no status";
             this.overviewDhcpServerStatus = "no status";
         }
+        /// <summary>
+        /// cleares all DHCP related settings and set the isset properties to false
+        /// </summary>
         public void ClearDHCPSettings()
         {
             this.ipRangeStart = "";
@@ -47,6 +50,9 @@ namespace GM4D
             this.MaxLeaseTime = 7200;
             this.MaxLeaseTimeIsSet = false;
         }
+        /// <summary>
+        /// cleares all host related settings and set the isset properties to false
+        /// </summary>
         public void ClearHostSettings()
         {
             this.HostIpIsSet = false;
@@ -59,12 +65,34 @@ namespace GM4D
         }
         //################################################################### eventhandling
         #region eventhandling
+        /// <summary>
+        /// occures when a property of settings changes
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
+        /// <summary>
+        /// occurs when dhcpd leases change
+        /// </summary>
         public event PropertyChangedEventHandler DhcpdLeasesChangedEvt;
+        /// <summary>
+        /// occurs when static leases change
+        /// </summary>
         public event PropertyChangedEventHandler StaticLeasesChangedEvt;
+        /// <summary>
+        /// occurs when dhcp running status changes
+        /// </summary>
         public event PropertyChangedEventHandler IsDHCPServerRunningChangedEvt;
+        /// <summary>
+        /// occurs when dhcp install status changes
+        /// </summary>
         public event PropertyChangedEventHandler IsDHCPServerInstalledChangedEvt;
+        /// <summary>
+        /// occurs when interface is added
+        /// </summary>
         public event PropertyChangedEventHandler InterfaceAddedEvt;
+        /// <summary>
+        /// raises the propertychanged event for string properties
+        /// </summary>
+        /// <param name="value">name of property</param>
         private void NotifyPropertyChanged(String value)
         {
             if (PropertyChanged != null)
@@ -72,6 +100,10 @@ namespace GM4D
                 PropertyChanged(this, new PropertyChangedEventArgs(value));
             }
         }
+        /// <summary>
+        /// raises the propertychanged event for int properties
+        /// </summary>
+        /// <param name="value">property name</param>
         private void NotifyPropertyChanged(int value)
         {
             if (PropertyChanged != null)
@@ -82,6 +114,10 @@ namespace GM4D
         #endregion eventhandling
         //################################################################### interface selection
         #region interface selection
+        /// <summary>
+        /// selects the inface with the given index 
+        /// </summary>
+        /// <param name="i">index of the interface</param>
         public void SelectInterface(int i)
         {
             if (i < Interfaces.Count)
@@ -105,6 +141,9 @@ namespace GM4D
             }
         }
         private ArrayList interfaces;
+        /// <summary>
+        /// arraylist of all interfaces as HostNIC objects
+        /// </summary>
         public ArrayList Interfaces 
         {
             get
@@ -116,6 +155,10 @@ namespace GM4D
                 this.interfaces = value;
             }
         }
+        /// <summary>
+        /// adds a new HoatNIC to the arraylist
+        /// </summary>
+        /// <param name="nic">interface as HostNIC</param>
         public void AddInterface(HostNIC nic)
         {
             this.interfaces.Add(nic);
@@ -125,8 +168,14 @@ namespace GM4D
                 InterfaceAddedEvt(this.interfaces, new PropertyChangedEventArgs("InterfaceAdded"));
             }
         }
+        /// <summary>
+        /// ID of the currently selected interface
+        /// </summary>
         public string SelectedInterfaceID { get; set; }
         private int selectedInterfaceIndex;
+        /// <summary>
+        /// index of the currently selected interface
+        /// </summary>
         public int SelectedInterfaceIndex
         {
             get
@@ -143,8 +192,10 @@ namespace GM4D
         #endregion interface selection
         //################################################################### host
         #region host
+        /// <summary>
+        /// netcalctool for host related calculations
+        /// </summary>
         public NetCalcTool HostNetCalcTool { get; set; }
-
         public bool HostIpIsSet { get; private set; }
         private String hostIP;
         public String HostIP
@@ -319,6 +370,9 @@ namespace GM4D
         #endregion host
         //################################################################### network
         #region network
+        /// <summary>
+        /// netcalctool for dhcp related calculations
+        /// </summary>
         public NetCalcTool DHCPNetCalcTool { get; set; }
         public bool IpRangeStartIsSet { get; private set; }
         private String ipRangeStart;
@@ -464,6 +518,9 @@ namespace GM4D
         }
         public bool StaticLeasesIsSet { get; private set; }
         private System.Collections.Generic.Dictionary<String, StaticLease> staticLeases;
+        /// <summary>
+        /// dictionary collection of static leases as StaticLease objects
+        /// </summary>
         public System.Collections.Generic.Dictionary<String, StaticLease> StaticLeases
         {
             get
@@ -476,16 +533,28 @@ namespace GM4D
                 StaticLeasesChangedEvt(this, new PropertyChangedEventArgs("StaticLeases"));
             }
         }
+        /// <summary>
+        /// returns all satic leases
+        /// </summary>
+        /// <returns></returns>
         public System.Collections.Generic.Dictionary<String, StaticLease> GetStaticLeases()
         {
                 return this.staticLeases;
         }
+        /// <summary>
+        /// adds a new static lease to the dictionary collection
+        /// </summary>
+        /// <param name="staticLease">StaticLease object</param>
         public void AddStaticLease(StaticLease staticLease)
         {
             this.staticLeases[staticLease.MACAddress] = staticLease;
             this.StaticLeasesIsSet = true;
             StaticLeasesChangedEvt(this, new PropertyChangedEventArgs("StaticLeases"));
         }
+        /// <summary>
+        /// removes a static lease from the collection
+        /// </summary>
+        /// <param name="MacAdress">mac address of lease to remove</param>
         public void RemoveStaticLease(string MacAdress)
         {
             this.staticLeases.Remove(MacAdress);
@@ -542,6 +611,9 @@ namespace GM4D
         //################################################################### StaticLeases
         public bool DhcpdLeasesIsSet { get; private set; }
         private System.Collections.Generic.Dictionary<String, DhcpdLease> dhcpdLeases;
+        /// <summary>
+        /// dictionary collection of all issued leases as DhcpdLease objects
+        /// </summary>
         public System.Collections.Generic.Dictionary<String, DhcpdLease> DhcpdLeases
         {
             get
@@ -558,11 +630,19 @@ namespace GM4D
                 IOController.Log(this, "DhcpdLeases set", IOController.Flag.debug);
             }
         }
+        /// <summary>
+        /// adds a new DhcpdLease to the collection
+        /// </summary>
+        /// <param name="dhcpdLease">DhcpdLease object</param>
         public void AddDhcpdLease(DhcpdLease dhcpdLease)
         {
             this.dhcpdLeases.Add(dhcpdLease.MACAddress, dhcpdLease);
             DhcpdLeasesChangedEvt(this.dhcpdLeases, new PropertyChangedEventArgs("DhcpdLeases"));
         }
+        /// <summary>
+        /// removes a lease from the collection
+        /// </summary>
+        /// <param name="macaddress">Mac address of lease to remove</param>
         public void RemoveDhcpdLease(string macaddress)
         {
             this.dhcpdLeases.Remove(macaddress);
@@ -617,6 +697,9 @@ namespace GM4D
             }
         }
         private String overviewDhcpServerInstallStatus;
+        /// <summary>
+        /// install status of dhcp server as string for the gui
+        /// </summary>
         public String OverviewDhcpServerInstallStatus
         {
             get
@@ -630,6 +713,9 @@ namespace GM4D
             }
         }
         private String overviewDhcpServerStatus;
+        /// <summary>
+        /// status of dhcp server as string for the gui
+        /// </summary>
         public String OverviewDhcpServerStatus
         {
             get
@@ -643,6 +729,9 @@ namespace GM4D
             }
         }
         private string overviewSelectedInterfaceName;
+        /// <summary>
+        /// selected interface as string for the gui
+        /// </summary>
         public string OverviewSelectedInterfaceName
         {
             get

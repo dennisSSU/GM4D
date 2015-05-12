@@ -153,7 +153,7 @@ namespace GM4D
         /// </summary>
         private enum views {none, overview, changenic, sethostip, settings, staticLeases, clients, about};
         /// <summary>
-        /// switches to the panal of the view passed in the parameter
+        /// makes the panel of the view passed in the parameter visible and hides all other
         /// </summary>
         /// <param name="view">view from the view enum of the MasinWindow class</param>
         private void switchView(views view)
@@ -569,24 +569,31 @@ namespace GM4D
         {
             try
             {
+                // disblae required icon
                 this.statusRequired.SetError((IPAddressControlLib.IPAddressControl)sender, "");
                 System.Net.IPAddress ipAddress;
+                // check if input is valid ip address
                 if (System.Net.IPAddress.TryParse(((IPAddressControlLib.IPAddressControl)sender).Text, out ipAddress))
                 {
+                    // check if IP is ist ssame subnet as host IP
                     if (settings.HostNetCalcTool.CheckSameSubnet(ipAddress.ToString(), settings.HostIP, settings.HostSubnet))
                     {
                         if (settings.SubnetMaskIsSet && settings.IpRangeEndIsSet)
                         {
+                            // check if IP range end is in same subnet
                             if (settings.DHCPNetCalcTool.CheckSameSubnet(ipAddress.ToString(), settings.IpRangeEnd, settings.SubnetMask))
                             {
+                                // set OK icon
                                 this.validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "");
                                 this.validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "valid IP address");
                                 this.ipRangeStart_lblInfo.Text = "";
                                 this.settings.IpRangeStart = ipAddress.ToString();
+                                // calculate&set netmask
                                 calculateSubnetId();
                             }
                             else
                             {
+                                // set Error
                                 validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "");
                                 validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "please enter valid IP address");
                                 this.ipRangeStart_lblInfo.Text = "start and end address not in the same subnet";
@@ -594,6 +601,7 @@ namespace GM4D
                         }
                         else
                         {
+                            // set OK icon
                             this.validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "");
                             this.validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "valid IP address");
                             this.ipRangeStart_lblInfo.Text = "";
@@ -603,6 +611,7 @@ namespace GM4D
                     }
                     else
                     {
+                        // set Error
                         validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "");
                         validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "please enter valid IP address");
                         this.ipRangeStart_lblInfo.Text = "address is not in the same subnet as host ip";
@@ -610,6 +619,7 @@ namespace GM4D
                 }
                 else
                 {
+                    // set Error
                     validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "");
                     validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "please enter valid IP address");
                     this.ipRangeStart_lblInfo.Text = "address is not a valid ip address";
@@ -893,6 +903,11 @@ namespace GM4D
                 IOController.Log(this, ex.Message, IOController.Flag.error);
             }
         }
+        /// <summary>
+        /// called when settings file is loaded, refreshes GUI
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="ea"></param>
         public void OnSettingsFileLoaded(object sender, EventArgs ea)
         {
             IOController.Log(this, "OnSettingsFileLoaded called, calling refreshSettings...", IOController.Flag.debug);

@@ -376,26 +376,6 @@ namespace GM4D
                 IOController.Log(this, "SetNewHostIp " + shellProc.StandardOutput.ReadToEnd() , Flag.debug);
                 shellProc.WaitForExit();
                 GetHostInfo();
-                /*
-                SaveSettingsFile(Environment.CurrentDirectory.ToString() + "/dhcpd.gm4d");
-                var psi = new System.Diagnostics.ProcessStartInfo
-                {
-                    FileName = "/bin/bash",
-                    UseShellExecute = false,
-                    RedirectStandardOutput = true,
-                    Arguments = string.Format("-c \"gksudo ifconfig " + ((HostNIC)this.settings.Interfaces[this.settings.SelectedInterface]).Id + " " + this.settings.NewHostIP + " netmask " + this.settings.NewHostSubnetMask + "\"")
-                };
-
-                using (var p = System.Diagnostics.Process.Start(psi))
-                {
-                    if (p != null)
-                    {
-                        var strOutput = p.StandardOutput.ReadToEnd();
-                        p.WaitForExit();
-                    }
-                }
-                GetHostInfo();
-                */ 
             }
             else
             {
@@ -413,25 +393,6 @@ namespace GM4D
                 IOController.Log(this, "InstallDHCPServer " + shellProc.StandardOutput.ReadToEnd(), Flag.debug);
                 shellProc.WaitForExit();
                 GetDHCPServerInstallStatus();
-                /*
-                SaveSettingsFile(Environment.CurrentDirectory.ToString() + "/dhcpd.gm4d");
-                var psi = new System.Diagnostics.ProcessStartInfo
-                {
-                    FileName = "/bin/bash",
-                    UseShellExecute = false,
-                    RedirectStandardOutput = true,
-                    Arguments = string.Format("-c \"gksudo apt-get install isc-dhcp-server\"")
-                };
-
-                using (var p = System.Diagnostics.Process.Start(psi))
-                {
-                    if (p != null)
-                    {
-                        var strOutput = p.StandardOutput.ReadToEnd();
-                        p.WaitForExit();
-                    }
-                }
-                 */
             }
             else
             {
@@ -853,22 +814,6 @@ namespace GM4D
                 IOController.Log(this, "RestartDHCPServer " + shellProc.StandardOutput.ReadToEnd(), Flag.debug);
                 shellProc.WaitForExit();
                 GetDHCPServerStatus();
-                /*
-                SaveSettingsFile(Environment.CurrentDirectory.ToString() + "/dhcpd.gm4d");
-                var psi = new System.Diagnostics.ProcessStartInfo
-                {
-                    FileName = "/bin/bash",
-                    UseShellExecute = false,
-                    RedirectStandardOutput = true,
-                    Arguments = string.Format("-c \"gksudo service isc-dhcp-server restart\"")
-                };
-                using (var p = System.Diagnostics.Process.Start(psi))
-                {
-                    var strOutput = p.StandardOutput.ReadToEnd();
-                    p.WaitForExit();
-                    IOController.Log(this, "\n\nRestartDHCPServer\n" + strOutput);
-                }
-                 */
             }
             else
             {
