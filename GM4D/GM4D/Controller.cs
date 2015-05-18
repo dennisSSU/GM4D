@@ -12,17 +12,36 @@ using System.Threading.Tasks;
  * Date: 2015
  * Description: main controller, initializes the application
  */
-
 namespace GM4D
 {
+    /// <summary>
+    ///  main controller, initializes the application
+    /// </summary>
     class Controller
     {
+        /// <summary>
+        /// main application window
+        /// </summary>
         private MainWindow mainWindow;
-        private Settings settings;
-        private IOController ioController;
-        private BackgroundWorker bw;
+        /// <summary>
+        /// loading indicator
+        /// </summary>
         private LoadingWindow loadingWindow;
-
+        /// <summary>
+        /// data storage object
+        /// </summary>
+        private Settings settings;
+        /// <summary>
+        /// controller for IO operations
+        /// </summary>
+        private IOController ioController;
+        /// <summary>
+        /// backgroundworker user for getting host information during application start
+        /// </summary>
+        private BackgroundWorker bw;
+        /// <summary>
+        /// creates a new controller instance
+        /// </summary>
         public Controller()
         {
             System.Windows.Forms.Application.EnableVisualStyles();
@@ -35,9 +54,10 @@ namespace GM4D
             this.mainWindow = new MainWindow(this.settings, this.ioController);
             this.loadingWindow = new LoadingWindow();
         }
-
         /// <summary>
         /// function to start the application
+        /// starts the backgroundworker with the init function and show the loading window
+        /// when the loading windows is closed the main window is shown
         /// </summary>
         public void Run()
         {
@@ -71,6 +91,7 @@ namespace GM4D
             worker.ReportProgress(1);
             try
             {
+                // initialize a bash instance in the IOController
                 this.ioController.InitShell();
             }
             catch (Exception exc)
@@ -82,6 +103,7 @@ namespace GM4D
             {
                 if (!ioController.GetGksudoInstallStatus())
                 {
+                    // check if gksu is installed
                     IOController.Log(this, "gksu not installed ", IOController.Flag.error);
                 }
             }
@@ -92,6 +114,7 @@ namespace GM4D
             worker.ReportProgress(30);
             try
             {
+                // get information about the host computer
                 this.ioController.GetHostInfo();
             }
             catch (Exception exc)
@@ -101,6 +124,7 @@ namespace GM4D
             worker.ReportProgress(40);
             try
             {
+                // get status of isc-dhcp-server installation
                 this.ioController.GetDHCPServerInstallStatus();
             }
             catch (Exception exc)
@@ -110,6 +134,7 @@ namespace GM4D
             worker.ReportProgress(50);
             try
             {
+                // get running status of isc-dhcp-server
                 this.ioController.GetDHCPServerStatus();
             }
             catch (Exception exc)
@@ -119,6 +144,7 @@ namespace GM4D
             worker.ReportProgress(60);
             try
             {
+                // get the inface selected in the /etc/default/isc-dhcp-server file
                 this.ioController.GetSelectedInterfaceFromEtcDefault();
             }
             catch (Exception exc)
@@ -130,6 +156,7 @@ namespace GM4D
             {
                 if (settings.IsDHCPServerRunning)
                 {
+                    // load the setting from the /etc/dhcp/dhcpd/conf file if dhcp server is running
                     this.ioController.LoadSettingsFile("/etc/dhcp/dhcpd.conf");
                 }
             }
@@ -140,6 +167,7 @@ namespace GM4D
             worker.ReportProgress(80);
             try
             {
+                // create the filewatcher to track changes in the /var/lib/dhcp/dhcpd. leases file
                 this.ioController.InitiateDhcpdLeasesFileWatcher();
             }
             catch (Exception exc)
@@ -149,7 +177,11 @@ namespace GM4D
             worker.ReportProgress(90);
             try
             {
-                this.ioController.ReadDhcpdLeasesFile("/var/lib/dhcp/dhcpd.leases");
+                if (settings.IsDHCPServerRunning)
+                {
+                    // read in existing leases if dhcp server is running
+                    this.ioController.ReadDhcpdLeasesFile("/var/lib/dhcp/dhcpd.leases");
+                }
             }
             catch (Exception exc)
             {
@@ -165,7 +197,7 @@ namespace GM4D
         /// <param name="e"></param>
         private void mainWindow_Shown(object sender, EventArgs e)
         {
-            
+            // do stuff after the main window is visible
         }
     }
 }

@@ -10,8 +10,14 @@ using System.Text;
  */
 namespace GM4D
 {
+    /// <summary>
+    /// object representing a host network interface
+    /// </summary>
     public class HostNIC
     {
+        /// <summary>
+        /// object representing a host network interface
+        /// </summary>
         public HostNIC()
         {
             this.Name = "";
@@ -27,19 +33,54 @@ namespace GM4D
             this.SecondaryDNS = "";
             this.Gateway = "";
         }
+        /// <summary>
+        /// name of the interface
+        /// </summary>
         public string Name { get; set; }
+        /// <summary>
+        /// unique id of the interface
+        /// </summary>
         public string Id { get; set; }
+        /// <summary>
+        /// type of the interface (e.g. loopback...)
+        /// </summary>
         public string Type { get; set; }
+        /// <summary>
+        /// IPv4 enabled status
+        /// </summary>
         public bool Ipv4Enabled { get; set; }
+        /// <summary>
+        /// IPv4 address as string
+        /// </summary>
         public string IPAddress { get; set; }
+        /// <summary>
+        /// boll if the ip address is confiogured static (static = true)
+        /// </summary>
         public bool StaticIPAddress { get; set; } 
+        /// <summary>
+        /// IPv4 subnet address as string
+        /// </summary>
         public string SubnetIdentifier { get; set; }
+        /// <summary>
+        /// IPv4 subnet mask as string
+        /// </summary>
         public string SubnetMask { get; set; }
+        /// <summary>
+        /// MAC address in format (00:00:00:00)
+        /// </summary>
         public string MacAddress { get; set; }
+        /// <summary>
+        /// IPv4 address of primary DNS
+        /// </summary>
         public string PrimaryDNS { get; set; }
+        /// <summary>
+        /// IPv4 address of secondary DNS
+        /// </summary>
         public string SecondaryDNS { get; set; }
+        /// <summary>
+        /// IPv4 address of gateway
+        /// </summary>
         public string Gateway { get; set; }
-
         public override string ToString()
         {
             return "Name: " + Name + " ID: " + Id + " IPAddress: " + IPAddress + " Static: " + StaticIPAddress + " NetworkAddress: " + SubnetIdentifier + " SubnetMask: " + SubnetMask + " MACAddress: " + MacAddress + " DNS1: " + PrimaryDNS + " DNS2: " + SecondaryDNS + " Gateway: " + Gateway;

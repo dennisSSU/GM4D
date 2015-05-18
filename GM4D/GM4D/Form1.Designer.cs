@@ -263,7 +263,7 @@
             this.menu_btnBasicSettings.TabStop = false;
             this.menu_btnBasicSettings.Text = "DHCP Settings";
             this.menu_btnBasicSettings.UseVisualStyleBackColor = false;
-            this.menu_btnBasicSettings.Click += new System.EventHandler(this.btnBasicSettings_Click);
+            this.menu_btnBasicSettings.Click += new System.EventHandler(this.btnSettings_Click);
             // 
             // menu_btnStaticLeases
             // 
@@ -336,7 +336,7 @@
             this.button1.TabStop = false;
             this.button1.Text = "About";
             this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button1.Click += new System.EventHandler(this.btnAbout_Click);
             // 
             // menuBottom_btnSave
             // 
@@ -803,7 +803,7 @@
             this.ipRangeStart_input.Size = new System.Drawing.Size(150, 26);
             this.ipRangeStart_input.TabIndex = 1;
             this.ipRangeStart_input.Text = "...";
-            this.ipRangeStart_input.Validated += new System.EventHandler(this.settings_validateIpInput);
+            this.ipRangeStart_input.Validated += new System.EventHandler(this.settings_validateIpRangeStartInput);
             // 
             // subnet_panelInput
             // 

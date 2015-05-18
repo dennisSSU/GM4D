@@ -14,27 +14,61 @@ using System.Windows.Forms;
  * Date: 2015
  * Description: contains GUI controller and GUI related code
  */
-
 namespace GM4D
 {
     partial class MainWindow : Form
     {
+        // main region for settings for the whole GUI
         #region Main
-        private Settings settings;
-        private BackgroundWorker bw;
-        private IOController ioController;
-        private Color buttonColorBgInactive = SystemColors.Control;
-        private Color buttonColorBgActive = System.Drawing.ColorTranslator.FromHtml("#E36C43");
-        private Color buttonColorMouseOver = System.Drawing.ColorTranslator.FromHtml("#E05A2B");
-        private Color buttonColorMouseDown = System.Drawing.ColorTranslator.FromHtml("#DD4814");
-        private Color menuColorBg = SystemColors.Control;
-        private Color panelColorBg = System.Drawing.ColorTranslator.FromHtml("#AEA79F");
-        private Color listViewColorBg = System.Drawing.ColorTranslator.FromHtml("#F6F6F5");
+        //################################################################################################# Main
         /// <summary>
-        /// constructor for MainWindow
+        /// data storage object
         /// </summary>
-        /// <param name="_settings"></param>
-        /// <param name="_ioCOntroller"></param>
+        private Settings settings;
+        /// <summary>
+        /// backgroundworker for asynchronous tasks
+        /// </summary>
+        private BackgroundWorker bw;
+        /// <summary>
+        /// controller for IO operations
+        /// </summary>
+        private IOController ioController;
+        #region colours
+        // colours that will be set to controls on application start
+        /// <summary>
+        /// background colour for inactive (default) buttons
+        /// </summary>
+        private Color buttonColorBgInactive = SystemColors.Control;
+        /// <summary>
+        /// background colour for active (after click) buttons
+        /// </summary>
+        private Color buttonColorBgActive = System.Drawing.ColorTranslator.FromHtml("#E36C43");
+        /// <summary>
+        /// background colour for buttons on mouse over
+        /// </summary>
+        private Color buttonColorMouseOver = System.Drawing.ColorTranslator.FromHtml("#E05A2B");
+        /// <summary>
+        /// background colour for buttons on mouse down
+        /// </summary>
+        private Color buttonColorMouseDown = System.Drawing.ColorTranslator.FromHtml("#DD4814");
+        /// <summary>
+        /// background colour for the menu panels
+        /// </summary>
+        private Color menuColorBg = SystemColors.Control;
+        /// <summary>
+        /// background colour for all panels
+        /// </summary>
+        private Color panelColorBg = System.Drawing.ColorTranslator.FromHtml("#AEA79F");
+        /// <summary>
+        /// background colour for the list views
+        /// </summary>
+        private Color listViewColorBg = System.Drawing.ColorTranslator.FromHtml("#F6F6F5");
+        #endregion colours
+        /// <summary>
+        /// contructor, registers event handlers
+        /// </summary>
+        /// <param name="_settings">Settings (data storage) object</param>
+        /// <param name="_ioCOntroller">IOController object</param>
         public MainWindow(Settings _settings, IOController _ioCOntroller)
         {
             InitializeComponent();
@@ -48,7 +82,11 @@ namespace GM4D
             this.ioController.UserIsSUChanged += this.OnUserIsSUChanged;
             this.ioController.OsIsUnixChanged += this.OnOsIsUnixChanged;
         }
-
+        /// <summary>
+        /// function to show a warning message if OS is not a Unix environment
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OnOsIsUnixChanged(object sender, EventArgs e)
         {
             if (!this.ioController.OsIsUnix)
@@ -56,29 +94,34 @@ namespace GM4D
                 MessageBox.Show("The current environment is not a Unix environment. Not all functions will be working.", "No Unix environment");
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OnUserIsSUChanged(object sender, EventArgs e)
         {
             if (!this.ioController.UserIsSU)
             {
-                MessageBox.Show("Some features require root privilleges. Please run the application with sudo privilleges e.g. 'gksudo mono GM4D.exe'.", "No root privilleges");
+                MessageBox.Show("Some features require root privilleges. It is recommended to run the application with sudo privilleges e.g. 'gksudo mono GM4D.exe'. Otherwise each single command will prompt for SU passward.", "No root privilleges");
             }
         }
-
         /// <summary>
         /// funtion called automatically after the MainWindow has loaded
+        /// registers event handlers and extends the listviews
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         public void MainWindow_Load(object sender, EventArgs e)
         {
+            // set required icon to inputs
             this.statusRequired.SetError(this.ipRangeStart_input, "this field is required");
             this.statusRequired.SetError(this.subnet_input, "this field is required");
             this.statusRequired.SetError(this.ipRangeEnd_input, "this field is required");
             this.statusRequired.SetError(this.subnetMask_input, "this field is required");
-            //set source of databindings source
+            // set source of databindings source
             this.settingsBindingSource.DataSource = settings;
-            //listview staticleases
+            // extend listview staticleases with buttons
             ListViewExtender lve = new ListViewExtender(staticLeases_listview);
             ListViewButtonColumn lvbcEdit = new ListViewButtonColumn(4);
             lvbcEdit.Click += ListViewEditClick;
@@ -88,13 +131,13 @@ namespace GM4D
             lvbcDelete.Click += ListViewDeleteClick;
             lvbcDelete.FixedWidth = true;
             lve.AddColumn(lvbcDelete);
-            //listview clients
+            // extend listview clients with buttons
             ListViewExtender clients_lve = new ListViewExtender(clients_dhcpdLeases_listView);
             ListViewButtonColumn clients_lvbc_addStatic = new ListViewButtonColumn(5);
             clients_lvbc_addStatic.Click += ClientsListviewAddStaticClick;
             clients_lvbc_addStatic.FixedWidth = true;
             clients_lve.AddColumn(clients_lvbc_addStatic);
-            //listview switch nic
+            // extend listview switch nic with buttons
             ListViewExtender switchNic_lve = new ListViewExtender(selectNic_listview);
             ListViewButtonColumn switchNic_lvbc_select = new ListViewButtonColumn(5);
             switchNic_lvbc_select.Click += switchNicSelectClick;
@@ -104,6 +147,9 @@ namespace GM4D
             this.MaximizeBox = false;
             switchView(views.about);
         }
+        /// <summary>
+        /// runs throuh all child controls and calls setColors
+        /// </summary>
         private void updateColors()
         {
             foreach (Control c in this.Controls)
@@ -111,6 +157,10 @@ namespace GM4D
                 setColors(c);
             }
         }
+        /// <summary>
+        /// runs through the control and all children to set the colours specified in colour region
+        /// </summary>
+        /// <param name="ctrl">control to run through</param>
         private void setColors(Control ctrl)
         {
             foreach (Control c in ctrl.Controls)
@@ -144,21 +194,22 @@ namespace GM4D
             this.menuBottom_panelMain.BackColor = this.menuColorBg;
         }
         #endregion Main
-
+        // region for the main menu panel on the left
         #region MenuPanel
-        // region for the main menue panel on the left
-
+        //################################################################################################# MenuPanel
         /// <summary>
-        /// this enum contains all possible views
+        /// enum containing all possible views
         /// </summary>
         private enum views {none, overview, changenic, sethostip, settings, staticLeases, clients, about};
         /// <summary>
-        /// makes the panel of the view passed in the parameter visible and hides all other
+        /// switches the view
+        /// makes the view passed in the parameter visible and hides all others
         /// </summary>
-        /// <param name="view">view from the view enum of the MasinWindow class</param>
+        /// <param name="view">views enum to chenge to</param>
         private void switchView(views view)
         {
-            IOController.Log(this, "switchView: " + view.ToString(), IOController.Flag.status);
+            IOController.Log(this, "switchView: " + view.ToString(), IOController.Flag.debug);
+            // hide panels and set button colours to inactive
             this.overview_panelMain.Visible = false;
             this.menu_btnOverview.BackColor = this.buttonColorBgInactive;
             this.settings_panelMain.Visible = false;
@@ -170,7 +221,8 @@ namespace GM4D
             this.changeNic_panelMain.Visible = false;
             this.setHostIp_panelMain.Visible = false;
             this.copyright_panel.Visible = false;
-            IOController.Log(this, "switchView: all panels invisible", IOController.Flag.status);
+            IOController.Log(this, "switchView: all panels invisible", IOController.Flag.debug);
+            // show panel of selected view
             switch (view)
             {
                 case views.overview: 
@@ -203,10 +255,8 @@ namespace GM4D
                     break;
             }
         }
-        
-
         /// <summary>
-        /// first menue button click
+        /// first menue button click, switches to overview view
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -215,16 +265,16 @@ namespace GM4D
             switchView(views.overview);
         }
         /// <summary>
-        /// second menue button click
+        /// second menue button click, switches to settings view
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btnBasicSettings_Click(object sender, EventArgs e)
+        private void btnSettings_Click(object sender, EventArgs e)
         {
             switchView(views.settings);
         }
         /// <summary>
-        /// third menue button click
+        /// third menue button click, switches to staticleases view
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -233,7 +283,7 @@ namespace GM4D
             switchView(views.staticLeases);
         }
         /// <summary>
-        /// fourth menue button click
+        /// fourth menue button click, switch to clients view
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -241,13 +291,22 @@ namespace GM4D
         {
             switchView(views.clients);
         }
-        private void button1_Click(object sender, EventArgs e)
+        /// <summary>
+        /// switches to about view
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnAbout_Click(object sender, EventArgs e)
         {
             switchView(views.about);
         }
         #endregion MenuPanel
-
+        // region for the overview panel
         #region OverviewPanel
+        //################################################################################################# OverviewPanel
+        /// <summary>
+        /// refresh the labels and values from settings object (needed because the data binding does not always in Linux/Mono)
+        /// </summary>
         private void overviewRefresh()
         {
             this.overview_hostNic_status_lbl.Text = this.settings.OverviewSelectedInterfaceName;
@@ -311,7 +370,11 @@ namespace GM4D
                 IOController.Log(this, ex.Message, IOController.Flag.error);
             }
         }
-
+        /// <summary>
+        /// switches view to set host ip
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void overview_hostip_btn_Click(object sender, EventArgs e)
         {
             if (ioController.OsIsUnix)
@@ -339,14 +402,20 @@ namespace GM4D
                 MessageBox.Show("This feature is only supported in an Unix environment.", "Not an Unix environment!");
             }
         }
-
+        /// <summary>
+        /// sets the new host ip
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void overview_setHostIp_set_btn_Click(object sender, EventArgs e)
         {
             try
             {
+                // trigger validation
                 this.overview_setHostIp_ip_ipinput.Focus();
                 this.overview_setHostIp_subnetmask_ipinput.Focus();
                 this.overview_panelMain.Focus();
+                // set new host ip
                 if (this.settings.NewHostIpIsSet && this.settings.NewHostSubnetMaskIsSet)
                 {
                     try
@@ -374,13 +443,20 @@ namespace GM4D
                 IOController.Log(this, ex.Message, IOController.Flag.error);
             }
         }
+        /// <summary>
+        /// cancels setting the new host ip and switches view back to overview
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void overview_setHostIp_cancel_btn_Click(object sender, EventArgs e)
         {
             try
             {
                 this.overview_hostip_btn.Enabled = true;
                 switchView(views.overview);
+                this.settings.NewHostIP = "";
                 this.settings.NewHostIpIsSet = false;
+                this.settings.NewHostSubnetMask = "";
                 this.settings.NewHostSubnetMaskIsSet = false;
                 this.overview_setHostIp_ip_ipinput.Clear();
                 this.overview_setHostIp_subnetmask_ipinput.Clear();
@@ -394,6 +470,11 @@ namespace GM4D
                 IOController.Log(this, ex.Message, IOController.Flag.error);
             }
         }
+        /// <summary>
+        /// sets available interfaces to list view and switches view to select nic
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void overview_hostNic_btn_Click(object sender, EventArgs e)
         {
             this.selectNic_listview.Items.Clear();
@@ -414,6 +495,11 @@ namespace GM4D
             switchView(views.changenic);
             this.selectNic_listview.Refresh();
         }
+        /// <summary>
+        /// switches to the interface clicked on
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void switchNicSelectClick(object sender, ListViewColumnMouseEventArgs e)
         {
             int i = int.Parse(e.Item.Text);
@@ -436,6 +522,11 @@ namespace GM4D
                 switchView(views.overview);
             }
         }
+        /// <summary>
+        /// installes the isc-dhcp-server package
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void overview_dhcpServer_btn_Click(object sender, EventArgs e)
         {
             if (ioController.OsIsUnix)
@@ -456,6 +547,11 @@ namespace GM4D
                 MessageBox.Show("This feature is only supported in an Unix environment.", "Not an Unix environment!");
             }
         }
+        /// <summary>
+        /// starts or stops the dhcp server service
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void overview_dhcpDeamon_btn_Click(object sender, EventArgs e)
         {
             if (ioController.OsIsUnix)
@@ -497,6 +593,11 @@ namespace GM4D
                 MessageBox.Show("This feature is only supported in an Unix environment.", "Not an Unix environment!");
             }
         }
+        /// <summary>
+        /// eventhandler, calls function to change the install button for dhcp server
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void OnIsDHCPServerInstalledChange(object sender, PropertyChangedEventArgs e)
         {
             if (this.overview_dhcpServer_btn.InvokeRequired)
@@ -510,6 +611,9 @@ namespace GM4D
             }
         }
         private delegate void changeDhcpServerInstallButtonCallback();
+        /// <summary>
+        /// changes the install button for dhcp server - use OnIsDHCPServerInstalledChange to call threadsafe
+        /// </summary>
         private void changeDhcpServerInstallButton()
         {
             try
@@ -524,6 +628,11 @@ namespace GM4D
                 IOController.Log(this, ex.Message, IOController.Flag.error);
             }
         }
+        /// <summary>
+        /// eventhalndler, calls function to cahnge start/stop button for dhcp server service
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void OnIsDHCPServerRunningChange(object sender, PropertyChangedEventArgs e)
         {
             if (this.overview_dhcpDeamon_btn.InvokeRequired)
@@ -537,6 +646,9 @@ namespace GM4D
             }
         }
         private delegate void changeDhcpServerRunningButtonCallback();
+        /// <summary>
+        /// changes the button to start or stop dhcp server service, fo rthreadsafe call use OnIsDHCPServerRunningChange
+        /// </summary>
         private void changeDhcpServerRunningButton()
         {
             try
@@ -558,14 +670,15 @@ namespace GM4D
             }
         }
         #endregion OverviewPanel
-
+        // region for the settings panel
         #region SettingsPanel
+        //################################################################################################# SettingsPanel
         /// <summary>
         /// This function validates the input of the IPAddressControl for the startng address of the IP range
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void settings_validateIpInput(object sender, EventArgs e)
+        private void settings_validateIpRangeStartInput(object sender, EventArgs e)
         {
             try
             {
@@ -630,7 +743,11 @@ namespace GM4D
                 IOController.Log(this, ex.Message, IOController.Flag.error);
             }
         }
-
+        /// <summary>
+        /// validates input for IP range end
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void settings_validateIpRangeEndInput(object sender, EventArgs e)
         {
             try
@@ -686,6 +803,11 @@ namespace GM4D
                 IOController.Log(this, ex.Message, IOController.Flag.error);
             }
         }
+        /// <summary>
+        /// validates input for subnet address
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void settings_validateSubnetInput(object sender, EventArgs e)
         {
             try
@@ -711,6 +833,9 @@ namespace GM4D
                 IOController.Log(this, ex.Message, IOController.Flag.error);
             }
         }
+        /// <summary>
+        /// calculates subnet address from IP address and subnet mask
+        /// </summary>
         private void calculateSubnetId()
         {
             // automatically calculate and set subnet id
@@ -729,6 +854,11 @@ namespace GM4D
                 }
             }
         }
+        /// <summary>
+        /// validates input for subnet mask
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void settings_validateSubnetMaskInput(object sender, EventArgs e)
         {
             try
@@ -747,7 +877,7 @@ namespace GM4D
                             this.subnetMask_lblInfo.Text = "";
                             this.settings.SubnetMask = ipAddress.ToString();
                             settings_validateIpRangeEndInput(ipRangeEnd_input, new EventArgs());
-                            settings_validateIpInput(ipRangeStart_input, new EventArgs());
+                            settings_validateIpRangeStartInput(ipRangeStart_input, new EventArgs());
                             calculateSubnetId();
                         }
                         else
@@ -778,6 +908,11 @@ namespace GM4D
                 IOController.Log(this, ex.Message, IOController.Flag.error);
             }
         }
+        /// <summary>
+        /// validates input for gateway address
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void settings_validateGatewayInput(object sender, EventArgs e)
         {
             try
@@ -809,6 +944,11 @@ namespace GM4D
                 IOController.Log(this, ex.Message, IOController.Flag.error);
             }
         }
+        /// <summary>
+        /// validates input for primary DNS
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void settings_validatePrimaryDNSInput(object sender, EventArgs e)
         {
             try
@@ -840,6 +980,11 @@ namespace GM4D
                 IOController.Log(this, ex.Message, IOController.Flag.error);
             }
         }
+        /// <summary>
+        /// validates input for secondary DNS
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void settings_validateSecondaryDNSInput(object sender, EventArgs e)
         {
             try
@@ -871,6 +1016,11 @@ namespace GM4D
                 IOController.Log(this, ex.Message, IOController.Flag.error);
             }
         }
+        /// <summary>
+        /// validates input for default lease time
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void settings_validateDefaultLeaseInput(object sender, EventArgs e)
         {
             try
@@ -887,6 +1037,11 @@ namespace GM4D
                 IOController.Log(this, ex.Message, IOController.Flag.error);
             }
         }
+        /// <summary>
+        /// validates input for max lease time
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void settings_validateMaxLeaseInput(object sender, EventArgs e)
         {
             try
@@ -904,7 +1059,7 @@ namespace GM4D
             }
         }
         /// <summary>
-        /// called when settings file is loaded, refreshes GUI
+        /// called when settings file is loaded, calls function to refresh GUI elements (because data binding does not work always in Linux/Mono)
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="ea"></param>
@@ -922,6 +1077,9 @@ namespace GM4D
             }
         }
         private delegate void refreshSettingsCallback();
+        /// <summary>
+        /// refresh GUI elements of settings panel
+        /// </summary>
         private void refreshSettings()
         {
             
@@ -955,6 +1113,9 @@ namespace GM4D
             }
              
         }
+        /// <summary>
+        /// trigger validation for settings panel inputs
+        /// </summary>
         private void settingsTriggerValidation()
         {
             IOController.Log(this, "settingsTriggerValidation called, triggering...", IOController.Flag.debug);
@@ -993,8 +1154,14 @@ namespace GM4D
             IOController.Log(this, "settingsTriggerValidation Hostinfo refreshed.", IOController.Flag.debug);
         }
         #endregion SettingsPanel
-
+        // region for the menu panel on the bottom
         #region MenuBottomPanel
+        //################################################################################################# MenuBottomPanel
+        /// <summary>
+        /// shows save file dialog
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnSave_Click(object sender, EventArgs e)
         {
             try
@@ -1007,6 +1174,11 @@ namespace GM4D
                 MessageBox.Show("Error while saving file. See log for details.");
             }
         }
+        /// <summary>
+        /// saves settings file using backgroundworker
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void saveFileDialog_FileOk(object sender, CancelEventArgs e)
         {
             try
@@ -1045,6 +1217,11 @@ namespace GM4D
                 MessageBox.Show("Error while saving file. See log for details.");
             }
         }
+        /// <summary>
+        /// shows load file dialog
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void menuBottom_btnLoad_Click(object sender, EventArgs e)
         {
             try
@@ -1057,6 +1234,11 @@ namespace GM4D
                 MessageBox.Show("Error while loading file. See log for details.");
             }
         }
+        /// <summary>
+        /// loads selected file using background worker
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void openFileDialog_FileOk(object sender, CancelEventArgs e)
         {
             try
@@ -1095,11 +1277,17 @@ namespace GM4D
                 MessageBox.Show("Error while opening file. See log for details.");
             }
         }
-
+        /// <summary>
+        /// applies settings to dhcpd.conf and restarts service (if running)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void menuBottom_btnApply_Click(object sender, EventArgs e)
         {
             if (ioController.OsIsUnix)
             {
+                // check if all validations ok here
+                // not implemented
                 try
                 {
                     bw = new BackgroundWorker();
@@ -1152,6 +1340,11 @@ namespace GM4D
                 MessageBox.Show("This feature requires a Linux environment.");
             }
         }
+        /// <summary>
+        /// load settings from dhcpd.conf
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void menuBottom_loadFromDhcp_Click(object sender, EventArgs e)
         {
             if (ioController.OsIsUnix)
@@ -1197,6 +1390,11 @@ namespace GM4D
                 MessageBox.Show("This feature requires a Linux environment.");
             }
         }
+        /// <summary>
+        /// user feedback if asynchronous operation was succussful
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="colour"></param>
         public void GiveUserFeedback(string text, Color colour)
         {
             feedback_panel.BackColor = Color.Green;
@@ -1213,25 +1411,15 @@ namespace GM4D
             };
             t.Start();
         }
-
         #endregion MenuBottomPanel
-
-        #region Validation
-        private void setValidationError (object sender, string message)
-        {
-            this.statusRequired.SetError((IPAddressControlLib.IPAddressControl)sender, "");
-            this.validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "");
-            this.validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, message);
-        }
-        private void setValidationOk(object sender, string message)
-        {
-            this.statusRequired.SetError((IPAddressControlLib.IPAddressControl)sender, "");
-            this.validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "");
-            this.validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, message);
-        }
-        #endregion Validation
-
+        // region for the static leases panel
         #region StaticLeases
+        //################################################################################################# StaticLeases
+        /// <summary>
+        /// calls function to update static leases listview
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void StaticLeases_ListView_update(object sender, PropertyChangedEventArgs e)
         {
             if (this.staticLeases_listview.InvokeRequired)
@@ -1245,6 +1433,9 @@ namespace GM4D
             }
         }
         private delegate void updateStaticLeasesListViewCallback();
+        /// <summary>
+        /// updates static leases listview, use StaticLeases_ListView_update for threadsafe call
+        /// </summary>
         private void updateStaticLeasesListView()
         {
             try
@@ -1267,6 +1458,11 @@ namespace GM4D
                 IOController.Log(this, "updateStaticLeasesListView FAILED: " + ex.Message, IOController.Flag.error);
             }
         }
+        /// <summary>
+        /// calls staticLeasesListViewAdd threadsafe
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void staticLeases_input_btn_add_Click(object sender, EventArgs e)
         {
             if (this.staticLeases_panelMain.InvokeRequired)
@@ -1280,6 +1476,9 @@ namespace GM4D
             }
         }
         private delegate void staticLeasesListViewAddCallback();
+        /// <summary>
+        /// adds static lease (StaticLease object) to the list view
+        /// </summary>
         private void staticLeasesListViewAdd()
         {
             this.staticLeasesTriggerValidation();
@@ -1287,7 +1486,7 @@ namespace GM4D
             {
                 try
                 {
-                    IOController.Log(this, "called", IOController.Flag.debug);
+                    IOController.Log(this, "staticLeasesListViewAdd called", IOController.Flag.debug);
                     StaticLease staticLease = new StaticLease();
                     staticLease.IPAddress = staticLeases_input_tb_ip.Text;
                     staticLease.MACAddress = staticLeases_input_tb_mac.Text;
@@ -1311,9 +1510,23 @@ namespace GM4D
                 this.staticLeases_input_lbl.Text = "Invalid Input! Please make sure to enter a valid MAC and IP address!";
             }
         }
+        /// <summary>
+        /// id (text of first field - MAC address) of list view item
+        /// </summary>
         private string listviewitemid;
+        /// <summary>
+        /// zero based index of list view item
+        /// </summary>
         private int listviewindex;
+        /// <summary>
+        /// true if editing (or false if adding new)
+        /// </summary>
         private bool staticLeaseEditing = false;
+        /// <summary>
+        /// calls function to edit item threadsafe
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ListViewEditClick(object sender, ListViewColumnMouseEventArgs e)
         {
             if (this.staticLeases_panelMain.InvokeRequired)
@@ -1328,6 +1541,10 @@ namespace GM4D
             
         }
         private delegate void staticLeasesListViewEditCallback(ListViewColumnMouseEventArgs e);
+        /// <summary>
+        /// edit a listview item, loads values into text fields and changes buttons
+        /// </summary>
+        /// <param name="e"></param>
         private void staticLeasesListViewEdit(ListViewColumnMouseEventArgs e)
         {
             try
@@ -1351,6 +1568,11 @@ namespace GM4D
                 IOController.Log(this, ex.Message, IOController.Flag.error);
             }
         }
+        /// <summary>
+        /// calls function to save changes threadsafe
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void staticLeases_input_btn_saveEdit_Click(object sender, EventArgs e)
         {
             if (this.staticLeases_panelMain.InvokeRequired)
@@ -1364,6 +1586,9 @@ namespace GM4D
             }
         }
         private delegate void staticLeasesListViewSaveEditCallback();
+        /// <summary>
+        /// saves changes to an edited item
+        /// </summary>
         private void staticLeasesListViewSaveEdit()
         {
             staticLeasesTriggerValidation();
@@ -1398,6 +1623,11 @@ namespace GM4D
                 this.staticLeases_input_lbl.Text = "Invalid Input! Please make sure to enter a valid MAC and IP address!";
             }
         }
+        /// <summary>
+        /// calls function to delete item threadsafe
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ListViewDeleteClick(object sender, ListViewColumnMouseEventArgs e)
         {
             if (this.staticLeases_panelMain.InvokeRequired)
@@ -1411,6 +1641,10 @@ namespace GM4D
             }
         }
         private delegate void staticLeasesListViewDeleteCallback(ListViewColumnMouseEventArgs e);
+        /// <summary>
+        /// removes the listview item and corresponding static lease from settings 
+        /// </summary>
+        /// <param name="e"></param>
         private void staticLeasesListViewDelete(ListViewColumnMouseEventArgs e)
         {
             try
@@ -1434,6 +1668,11 @@ namespace GM4D
             }
         }
         private bool staticLeasesIpInputIsValid;
+        /// <summary>
+        /// validation for static lease ip address input
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void staticLeases_validateIpInput(object sender, EventArgs e)
         {
             staticLeasesIpInputIsValid = false;
@@ -1482,6 +1721,11 @@ namespace GM4D
             }
         }
         private bool staticLeasesMacInputIsValid;
+        /// <summary>
+        /// validation for static lease mac address input
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void staticLeases_validateMacInput(object sender, EventArgs e)
         {
             staticLeasesMacInputIsValid = false;
@@ -1536,6 +1780,9 @@ namespace GM4D
                 IOController.Log(this, ex.Message, IOController.Flag.error);
             }
         }
+        /// <summary>
+        /// triggers validation of static lease inputs
+        /// </summary>
         private void staticLeasesTriggerValidation()
         {
             this.staticLeases_input_tb_ip.Focus();
@@ -1543,8 +1790,14 @@ namespace GM4D
             this.staticLeases_input_tb_name.Focus();
         }
         #endregion StaticLeases
-
+        // region for the client leases panel
         #region DhcpdLeases
+        //################################################################################################# DhcpdLeases
+        /// <summary>
+        /// calls function to update list view threadsafe
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void OnSettingsDhcpdLeasesChange(object sender, PropertyChangedEventArgs e)
         {
             if (this.clients_dhcpdLeases_listView.InvokeRequired)
@@ -1558,6 +1811,9 @@ namespace GM4D
             }
         }
         private delegate void updateDhcpdLeasesListViewCallback();
+        /// <summary>
+        /// updates the list view for client leases
+        /// </summary>
         private void updateDhcpdLeasesListView()
         {
             IOController.Log(this, "called", IOController.Flag.debug);
@@ -1585,6 +1841,11 @@ namespace GM4D
                 IOController.Log(this, ex.Message, IOController.Flag.error);
             }
         }
+        /// <summary>
+        /// transfers the data of the lease to static lease view and changes view
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void ClientsListviewAddStaticClick(object sender, ListViewColumnMouseEventArgs e)
         {
             try
@@ -1601,6 +1862,5 @@ namespace GM4D
             }
         }
         #endregion DhcpdLeases
-        
     }
 }

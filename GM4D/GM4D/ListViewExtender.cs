@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
-
+/* 
+ * Filename: IOController.cs
+ * Description: Extends a ListView control to modify a column to act and look like buttons
+ */
 namespace GM4D
 {
     public class ListViewExtender : IDisposable

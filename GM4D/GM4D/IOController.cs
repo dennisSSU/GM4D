@@ -17,13 +17,21 @@ using System.Threading.Tasks;
  * Date: 2015
  * Description: handles all IO connections and actions
  */
-
 namespace GM4D
 {
+    /// <summary>
+    /// controller for IO operations
+    /// </summary>
     class IOController
     {
+        /// <summary>
+        /// raised if OS changes or is detected
+        /// </summary>
         public event EventHandler OsIsUnixChanged;
         private bool osIsUnix;
+        /// <summary>
+        /// true if OS is Unix type
+        /// </summary>
         public bool OsIsUnix
         {
             get
@@ -36,8 +44,14 @@ namespace GM4D
                 OsIsUnixChanged(this, new EventArgs());
             }
         }
+        /// <summary>
+        /// raised if user is detected/changes
+        /// </summary>
         public event EventHandler UserIsSUChanged;
         private bool userIsSU;
+        /// <summary>
+        /// true if the user has SU privilleges
+        /// </summary>
         public bool UserIsSU 
         {
             get
@@ -50,19 +64,34 @@ namespace GM4D
                 UserIsSUChanged(this, new EventArgs());
             } 
         }
+        /// <summary>
+        /// Settings object (data storage)
+        /// </summary>
         private Settings settings;
+        /// <summary>
+        /// process for bash
+        /// </summary>
         private Process shellProc;
+        /// <summary>
+        /// ProcessStartInfo for the bash, pass shell command to execute in Arguments
+        /// </summary>
         private ProcessStartInfo shellStartInfo;
         private delegate void SaveSettingsToFileDelegate(string filename);
         private delegate ArrayList ReadDhcpdLeasesFileDelegate(string filename);
         private delegate ArrayList ReadConfigFileDelegate(string filename);
+        /// <summary>
+        /// raised when configuration file was loaded
+        /// </summary>
         public event EventHandler SettingsFileLoadedEvt;
+        /// <summary>
+        /// controller for IO operations
+        /// </summary>
         public IOController(Settings _settings)
         {
             this.settings = _settings;
         }
         /// <summary>
-        /// initialises a bash process
+        /// initialises a bash process in shellProc
         /// </summary>
         public void InitShell()
         {
@@ -70,6 +99,7 @@ namespace GM4D
             if (Environment.OSVersion.ToString().Contains("Unix"))
             {
                 this.OsIsUnix = true;
+                // initialize bash process
                 this.shellProc = new Process();
                 this.shellStartInfo = new ProcessStartInfo();
                 this.shellStartInfo.FileName = "/bin/bash";
@@ -78,6 +108,7 @@ namespace GM4D
                 this.shellStartInfo.Arguments = "-c \"whoami\"";
                 this.shellProc.StartInfo = this.shellStartInfo;
                 this.shellProc.Start();
+                // check if application was started with su privilleges
                 string username = this.shellProc.StandardOutput.ReadToEnd();
                 username = Regex.Replace(username, @"\s+", "");
                 if (username == "root")
@@ -110,7 +141,7 @@ namespace GM4D
         /// <summary>
         /// the process of writing the config to a file
         /// </summary>
-        /// <param name="filename"></param>
+        /// <param name="filename">path and filename as string</param>
         private void writeSettingsToFile(String filename)
         {
             System.IO.StreamWriter streamWriter = new System.IO.StreamWriter(filename);
@@ -121,7 +152,7 @@ namespace GM4D
         /// <summary>
         /// creates the dhcpd.conf code from the data in the settings object
         /// </summary>
-        /// <returns></returns>
+        /// <returns>config code as string</returns>
         public String CreateConfig()
         {
             String dhcpConfig = "#dhcpd.conf created by GM4D tool" + Environment.NewLine +
@@ -193,7 +224,7 @@ namespace GM4D
         /// takes a filename, reads in the text content of file and returns contents as ArrayList of lines
         /// </summary>
         /// <param name="filename"></param>
-        /// <returns></returns>
+        /// <returns>filecontent as string</returns>
         private ArrayList ProcessConfigFile(string filename)
         {
             IOController.Log(this, "ProcessConfigFile entered", IOController.Flag.debug);
@@ -214,7 +245,6 @@ namespace GM4D
             else
             {
                 throw new FileNotFoundException(filename + " not found.");
-                return null;
             }
         }
         /// <summary>
@@ -231,8 +261,10 @@ namespace GM4D
             this.settings.StaticLeases.Clear();
             foreach (string line in filecontent)
             {
+                // clean line from tabs, break, whitespaces etc.
                 string cleanline = Regex.Replace(line, @"\s+", " ");
                 cleanline = cleanline.Trim();
+                // check for valid tags
                 if (cleanline.StartsWith("default-lease-time"))
                 {
                     int endindex = cleanline.IndexOf(";");
@@ -364,7 +396,7 @@ namespace GM4D
             }
         }
         /// <summary>
-        /// function to set a static host ip
+        /// sets a static host ip
         /// </summary>
         public void SetNewHostIp()
         {
@@ -382,7 +414,9 @@ namespace GM4D
                 throw new System.Exception("System is not a Unix environment");
             }
         }
-
+        /// <summary>
+        /// installes isc-dhcp-server package
+        /// </summary>
         public void InstallDHCPServer()
         {
             if (OsIsUnix)
@@ -423,12 +457,17 @@ namespace GM4D
                 throw new System.Exception("System is not a Unix environment");
             }
         }
-
+        /// <summary>
+        /// calls functions to load, modify and save /etc/default/isc-dhcp-server file
+        /// </summary>
         public void ApplySelectedInterface()
         {
             LoadEtcDefaultConfigFile();
             SaveEtcDefaultConfigFile();
         }
+        /// <summary>
+        /// retrieves selected interface from /etc/default/isc-dhcp-server file
+        /// </summary>
         public void GetSelectedInterfaceFromEtcDefault()
         {
             IOController.Log(this, "GetSelectedInterfaceFromEtcDeafult enter", Flag.debug);
@@ -478,7 +517,9 @@ namespace GM4D
                 }
             }
         }
-
+        /// <summary>
+        /// loads /etc/default/isc-dhcp-server file
+        /// </summary>
         public void LoadEtcDefaultConfigFile()
         {
             this.newEtcDefaultConfig = null;
@@ -511,6 +552,9 @@ namespace GM4D
                 throw new System.Exception("System in not a Unix environment");
             }
         }
+        /// <summary>
+        /// arraylist to store lines of code for /etc/default/isc-dhcp-server
+        /// </summary>
         private ArrayList newEtcDefaultConfig;
         /// <summary>
         /// edites the config of /etc/default/isc-dhcp-server to set the seletc interface
@@ -540,7 +584,9 @@ namespace GM4D
             }
             IOController.Log(this, "newEtcDefaultConfig created:\n" + string.Join("\n",newEtcDefaultConfig), Flag.debug);
         }
-
+        /// <summary>
+        /// saves new config to /etc/default/isc-dhcp-server
+        /// </summary>
         public void SaveEtcDefaultConfigFile()
         {
             if (newEtcDefaultConfig != null)
@@ -551,7 +597,10 @@ namespace GM4D
                 IAsyncResult saveSettingsToFileResult = saveSettingsToFileDelegate.BeginInvoke(filename, writeEtcDefaultConfigFileComplete, null);
             }
         }
-
+        /// <summary>
+        /// writes newEtcDefaultConfig to file
+        /// </summary>
+        /// <param name="filename"></param>
         private void writeEtcDefaultConfigFile(String filename)
         {
             System.IO.StreamWriter streamWriter = new System.IO.StreamWriter(filename);
@@ -561,7 +610,10 @@ namespace GM4D
             streamWriter.Flush();
             streamWriter.Close();
         }
-
+        /// <summary>
+        /// makes backup of /etc/default/isc-dhcp-server and writes new /etc/default/isc-dhcp-server file
+        /// </summary>
+        /// <param name="ar"></param>
         private void writeEtcDefaultConfigFileComplete(IAsyncResult ar)
         {
             if (OsIsUnix)

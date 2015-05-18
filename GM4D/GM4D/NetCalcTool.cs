@@ -10,19 +10,51 @@ using System.Text;
  */
 namespace GM4D
 {
+    /// <summary>
+    /// function for IP/subnet calculations
+    /// </summary>
     public class NetCalcTool
     {
+        /// <summary>
+        /// IPv4 address
+        /// </summary>
         public string Ip { get; private set; }
+        /// <summary>
+        /// first usable IPv4 address of subnet
+        /// </summary>
         public string FirstIp { get; private set; }
+        /// <summary>
+        /// last usable IPv4 address of subnet
+        /// </summary>
         public string LastIp { get; private set; }
+        /// <summary>
+        /// broadcast address of subnet
+        /// </summary>
         public string Broadcast { get; private set; }
+        /// <summary>
+        /// subnet address
+        /// </summary>
         public string NetworkId { get; private set; }
+        /// <summary>
+        /// subnet mask as bits
+        /// </summary>
         public int SubnetBits { get; private set; }
+        /// <summary>
+        /// IPv4 subnet mask
+        /// </summary>
         public string SubnetMask { get; private set; }
         private IPAddress ipAddressIP;
         private IPAddress subnetMaskIP;
         private IPAddress networkAddressIP;
+        /// <summary>
+        /// function for IP/subnet calculations
+        /// </summary>
         public NetCalcTool() { }
+        /// <summary>
+        /// calculates subnet, first-, last usable ip and broadcast adresses of the given IP address & subnet mask and stores them in object properties
+        /// </summary>
+        /// <param name="ipAddress">IPv4 address</param>
+        /// <param name="subnetMask">IPv4 subnet mask</param>
         public void calculate(string ipAddress, string subnetMask)
         {
             if (IPAddress.TryParse(ipAddress, out ipAddressIP) && IPAddress.TryParse(subnetMask, out subnetMaskIP))
@@ -129,6 +161,11 @@ namespace GM4D
                 throw new ArgumentException("arguments not valid ip addresses");
             }
         }
+        /// <summary>
+        /// convert subnet mask in IP address fromat (as string) to bit
+        /// </summary>
+        /// <param name="mask"></param>
+        /// <returns></returns>
         private int stringMaskToBits(String mask)
         {
             int totalBits = 0;

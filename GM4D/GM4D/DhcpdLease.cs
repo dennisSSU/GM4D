@@ -10,13 +10,34 @@ using System.Text;
  */
 namespace GM4D
 {
+    /// <summary>
+    /// object for leases issued by the dhcpd service
+    /// </summary>
     public class DhcpdLease
     {
+        /// <summary>
+        /// hostname of the device (optional)
+        /// </summary>
         public String DeviceName { get; set; }
+        /// <summary>
+        /// unique hardware (MAC) address as string in format "00:00:00:00"
+        /// </summary>
         public String MACAddress { get; set; }
+        /// <summary>
+        /// IP address as string
+        /// </summary>
         public String IPAddress { get; set; }
+        /// <summary>
+        /// lease start, date/time as string in format "YYYY/MM/DD hh:mm:ss"
+        /// </summary>
         public String LeaseStart { get; set; }
+        /// <summary>
+        /// lease end, date/time as string in format "YYYY/MM/DD hh:mm:ss"
+        /// </summary>
         public String LeaseEnd { get; set; }
+        /// <summary>
+        /// binding state from dhcpd.leases ("actice" if in use or "free" if not)
+        /// </summary>
         public String LeaseState { get; set; }
         public DhcpdLease()
         {

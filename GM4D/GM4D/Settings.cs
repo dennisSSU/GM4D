@@ -10,8 +10,17 @@ using System.Text;
  */
 namespace GM4D
 {
-    public class Settings : INotifyPropertyChanged 
+    /// <summary>
+    /// storage object, contains host settings, network settings and GUI settings
+    /// </summary>
+    public class Settings : INotifyPropertyChanged
     {
+        // main region (constructor etc.)
+        #region main
+        //################################################################### main
+        /// <summary>
+        /// storage object, contains host settings, network settings and GUI settings
+        /// </summary>
         public Settings()
         {
             this.staticLeases = new System.Collections.Generic.Dictionary<String, StaticLease>();
@@ -63,8 +72,10 @@ namespace GM4D
             this.NewHostIpIsSet = false;
             this.NewHostSubnetMaskIsSet = false;
         }
-        //################################################################### eventhandling
+        #endregion main
+        // region for event handling
         #region eventhandling
+        //################################################################### eventhandling
         /// <summary>
         /// occures when a property of settings changes
         /// </summary>
@@ -112,8 +123,9 @@ namespace GM4D
             }
         }
         #endregion eventhandling
-        //################################################################### interface selection
+        // region for interface selection
         #region interface selection
+        //################################################################### interface selection
         /// <summary>
         /// selects the inface with the given index 
         /// </summary>
@@ -190,8 +202,9 @@ namespace GM4D
             }
         }
         #endregion interface selection
-        //################################################################### host
+        // region for host related settings
         #region host
+        //################################################################### host
         /// <summary>
         /// netcalctool for host related calculations
         /// </summary>
@@ -368,8 +381,9 @@ namespace GM4D
             }
         }
         #endregion host
-        //################################################################### network
+        // region for settings related to dhcp server network
         #region network
+        //################################################################### network
         /// <summary>
         /// netcalctool for dhcp related calculations
         /// </summary>
@@ -649,8 +663,9 @@ namespace GM4D
             DhcpdLeasesChangedEvt(this.dhcpdLeases, new PropertyChangedEventArgs("DhcpdLeases"));
         }
         #endregion network
-        //################################################################### GUIStatus
+        // region for GUI specific settings
         #region GUIStatus
+        //################################################################### GUIStatus
         private bool isDHCPServerRunning;
         public bool IsDHCPServerRunning 
         {
