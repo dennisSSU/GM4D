@@ -776,9 +776,9 @@
             this.ipRangeStart_panelInput.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.ipRangeStart_panelInput.BackColor = System.Drawing.Color.Transparent;
             this.ipRangeStart_panelInput.Controls.Add(this.ipRangeStart_input);
-            this.statusRequired.SetIconPadding(this.ipRangeStart_panelInput, 1);
             this.validationStatus_error.SetIconPadding(this.ipRangeStart_panelInput, 1);
             this.validationStatus_ok.SetIconPadding(this.ipRangeStart_panelInput, 1);
+            this.statusRequired.SetIconPadding(this.ipRangeStart_panelInput, 1);
             this.ipRangeStart_panelInput.Location = new System.Drawing.Point(150, 0);
             this.ipRangeStart_panelInput.Margin = new System.Windows.Forms.Padding(0);
             this.ipRangeStart_panelInput.Name = "ipRangeStart_panelInput";
@@ -811,9 +811,9 @@
             this.subnet_panelInput.Controls.Add(this.ipRangeEnd_input);
             this.subnet_panelInput.Dock = System.Windows.Forms.DockStyle.Fill;
             this.subnet_panelInput.Font = new System.Drawing.Font("Ubuntu", 12F);
-            this.statusRequired.SetIconPadding(this.subnet_panelInput, 1);
             this.validationStatus_error.SetIconPadding(this.subnet_panelInput, 1);
             this.validationStatus_ok.SetIconPadding(this.subnet_panelInput, 1);
+            this.statusRequired.SetIconPadding(this.subnet_panelInput, 1);
             this.subnet_panelInput.Location = new System.Drawing.Point(150, 30);
             this.subnet_panelInput.Margin = new System.Windows.Forms.Padding(0);
             this.subnet_panelInput.Name = "subnet_panelInput";
@@ -846,9 +846,9 @@
             this.subnetMask_panelInput.BackColor = System.Drawing.Color.Transparent;
             this.subnetMask_panelInput.Controls.Add(this.subnetMask_input);
             this.subnetMask_panelInput.Font = new System.Drawing.Font("Ubuntu", 12F);
-            this.statusRequired.SetIconPadding(this.subnetMask_panelInput, 1);
             this.validationStatus_error.SetIconPadding(this.subnetMask_panelInput, 1);
             this.validationStatus_ok.SetIconPadding(this.subnetMask_panelInput, 1);
+            this.statusRequired.SetIconPadding(this.subnetMask_panelInput, 1);
             this.subnetMask_panelInput.Location = new System.Drawing.Point(150, 60);
             this.subnetMask_panelInput.Margin = new System.Windows.Forms.Padding(0);
             this.subnetMask_panelInput.Name = "subnetMask_panelInput";
@@ -881,9 +881,9 @@
             this.gateway_inputPanel.BackColor = System.Drawing.Color.Transparent;
             this.gateway_inputPanel.Controls.Add(this.gateway_input);
             this.gateway_inputPanel.Font = new System.Drawing.Font("Ubuntu", 12F);
-            this.statusRequired.SetIconPadding(this.gateway_inputPanel, 1);
             this.validationStatus_error.SetIconPadding(this.gateway_inputPanel, 1);
             this.validationStatus_ok.SetIconPadding(this.gateway_inputPanel, 1);
+            this.statusRequired.SetIconPadding(this.gateway_inputPanel, 1);
             this.gateway_inputPanel.Location = new System.Drawing.Point(150, 90);
             this.gateway_inputPanel.Margin = new System.Windows.Forms.Padding(0);
             this.gateway_inputPanel.Name = "gateway_inputPanel";
@@ -915,9 +915,9 @@
             this.primaryDNS_panelInput.BackColor = System.Drawing.Color.Transparent;
             this.primaryDNS_panelInput.Controls.Add(this.primaryDNS_input);
             this.primaryDNS_panelInput.Font = new System.Drawing.Font("Ubuntu", 12F);
-            this.statusRequired.SetIconPadding(this.primaryDNS_panelInput, 1);
             this.validationStatus_error.SetIconPadding(this.primaryDNS_panelInput, 1);
             this.validationStatus_ok.SetIconPadding(this.primaryDNS_panelInput, 1);
+            this.statusRequired.SetIconPadding(this.primaryDNS_panelInput, 1);
             this.primaryDNS_panelInput.Location = new System.Drawing.Point(150, 120);
             this.primaryDNS_panelInput.Margin = new System.Windows.Forms.Padding(0);
             this.primaryDNS_panelInput.Name = "primaryDNS_panelInput";
@@ -950,9 +950,9 @@
             this.secondaryDNS_panelInput.BackColor = System.Drawing.Color.Transparent;
             this.secondaryDNS_panelInput.Controls.Add(this.secondaryDNS_input);
             this.secondaryDNS_panelInput.Font = new System.Drawing.Font("Ubuntu", 12F);
-            this.statusRequired.SetIconPadding(this.secondaryDNS_panelInput, 1);
             this.validationStatus_error.SetIconPadding(this.secondaryDNS_panelInput, 1);
             this.validationStatus_ok.SetIconPadding(this.secondaryDNS_panelInput, 1);
+            this.statusRequired.SetIconPadding(this.secondaryDNS_panelInput, 1);
             this.secondaryDNS_panelInput.Location = new System.Drawing.Point(150, 150);
             this.secondaryDNS_panelInput.Margin = new System.Windows.Forms.Padding(0);
             this.secondaryDNS_panelInput.Name = "secondaryDNS_panelInput";
@@ -985,9 +985,9 @@
             this.ipRangeEnde_panelInput.BackColor = System.Drawing.Color.Transparent;
             this.ipRangeEnde_panelInput.Controls.Add(this.subnet_input);
             this.ipRangeEnde_panelInput.Font = new System.Drawing.Font("Ubuntu", 12F);
-            this.statusRequired.SetIconPadding(this.ipRangeEnde_panelInput, 1);
             this.validationStatus_error.SetIconPadding(this.ipRangeEnde_panelInput, 1);
             this.validationStatus_ok.SetIconPadding(this.ipRangeEnde_panelInput, 1);
+            this.statusRequired.SetIconPadding(this.ipRangeEnde_panelInput, 1);
             this.ipRangeEnde_panelInput.Location = new System.Drawing.Point(150, 180);
             this.ipRangeEnde_panelInput.Margin = new System.Windows.Forms.Padding(0);
             this.ipRangeEnde_panelInput.Name = "ipRangeEnde_panelInput";

@@ -398,7 +398,7 @@ namespace GM4D
             }
             set
             {
-                if (value.Length > 7)
+                if (value.Length >= 7)
                 {
                     this.ipRangeStart = value;
                     this.IpRangeStartIsSet = true;
@@ -423,7 +423,7 @@ namespace GM4D
             }
             set
             {
-                if (value.Length > 7)
+                if (value.Length >= 7)
                 {
                     this.ipRangeEnd = value;
                     this.IpRangeEndIsSet = true;
@@ -485,16 +485,16 @@ namespace GM4D
             }
             set
             {
-                if (value.Length > 3)
+                if (value.Length >= 7)
                 {
                     this.gateway = value;
                     this.GatewayIsSet = true;
-                    NotifyPropertyChanged(this.Gateway);
                 }
                 else
                 {
                     this.GatewayIsSet = false;
                 }
+                NotifyPropertyChanged(this.Gateway);
             }
         }
         public bool GatewayIsValid { get; set; }
@@ -508,16 +508,16 @@ namespace GM4D
             }
             set
             {
-                if (value.Length > 3)
+                if (value.Length >= 7)
                 {
                     this.primaryDNS = value;
                     this.PrimaryDNSIsSet = true;
-                    NotifyPropertyChanged(PrimaryDNS);
                 }
                 else
                 {
                     this.PrimaryDNSIsSet = false;
                 }
+                NotifyPropertyChanged(PrimaryDNS);
             }
         }
         public bool PrimaryDNSIsValid { get; set; }
@@ -531,16 +531,16 @@ namespace GM4D
             }
             set
             {
-                if (value.Length > 3)
+                if (value.Length >= 7)
                 {
                     this.secondaryDNS = value;
                     this.SecondaryDNSIsSet = true;
-                    NotifyPropertyChanged(SecondaryDNS);
                 }
                 else
                 {
                     this.SecondaryDNSIsSet = false;
                 }
+                NotifyPropertyChanged(SecondaryDNS);
             }
         }
         public bool SecondaryDNSIsValid { get; set; }

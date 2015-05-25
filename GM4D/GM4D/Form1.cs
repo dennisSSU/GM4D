@@ -933,6 +933,7 @@ namespace GM4D
                     this.validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "");
                     this.validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "");
                     this.gateway_lblInfo.Text = "";
+                    this.settings.Gateway = "";
                     return;
                 }
                 System.Net.IPAddress ipAddress;
@@ -971,6 +972,7 @@ namespace GM4D
                     this.validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "");
                     this.validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "");
                     this.primaryDNS_lblInfo.Text = "";
+                    this.settings.PrimaryDNS = "";
                     return;
                 }
                 System.Net.IPAddress ipAddress;
@@ -1009,6 +1011,7 @@ namespace GM4D
                     this.validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "");
                     this.validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "");
                     this.secondaryDNS_lblInfo.Text = "";
+                    this.settings.SecondaryDNS = "";
                     return;
                 }
                 System.Net.IPAddress ipAddress;
