@@ -680,6 +680,7 @@ namespace GM4D
         /// <param name="e"></param>
         private void settings_validateIpRangeStartInput(object sender, EventArgs e)
         {
+            this.settings.IpRangeStartIsValid = false;
             try
             {
                 // disblae required icon
@@ -700,6 +701,7 @@ namespace GM4D
                                 this.validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "");
                                 this.validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "valid IP address");
                                 this.ipRangeStart_lblInfo.Text = "";
+                                this.settings.IpRangeStartIsValid = true;
                                 this.settings.IpRangeStart = ipAddress.ToString();
                                 // calculate&set netmask
                                 calculateSubnetId();
@@ -718,6 +720,7 @@ namespace GM4D
                             this.validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "");
                             this.validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "valid IP address");
                             this.ipRangeStart_lblInfo.Text = "";
+                            this.settings.IpRangeStartIsValid = true;
                             this.settings.IpRangeStart = ipAddress.ToString();
                             calculateSubnetId();
                         }
@@ -750,6 +753,7 @@ namespace GM4D
         /// <param name="e"></param>
         private void settings_validateIpRangeEndInput(object sender, EventArgs e)
         {
+            this.settings.IpRangeEndIsValid = false;
             try
             {
                 this.statusRequired.SetError((IPAddressControlLib.IPAddressControl)sender, "");
@@ -765,6 +769,7 @@ namespace GM4D
                                 this.validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "");
                                 this.validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "valid IP address");
                                 this.ipRangeEnd_lblInfo.Text = "";
+                                this.settings.IpRangeEndIsValid = true;
                                 this.settings.IpRangeEnd = ipAddress.ToString();
                                 calculateSubnetId();
                             }
@@ -780,6 +785,7 @@ namespace GM4D
                             this.validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "");
                             this.validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "valid IP address");
                             this.ipRangeEnd_lblInfo.Text = "";
+                            this.settings.IpRangeEndIsValid = true;
                             this.settings.IpRangeEnd = ipAddress.ToString();
                         }
                     }
@@ -810,6 +816,7 @@ namespace GM4D
         /// <param name="e"></param>
         private void settings_validateSubnetInput(object sender, EventArgs e)
         {
+            this.settings.SubnetIsValid = false;
             try
             {
                 this.statusRequired.SetError((IPAddressControlLib.IPAddressControl)sender, "");
@@ -819,6 +826,7 @@ namespace GM4D
                     this.validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "");
                     this.validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "valid IP address");
                     this.subnet_lblInfo.Text = "";
+                    this.settings.SubnetIsValid = true;
                     this.settings.Subnet = ipAddress.ToString();
                 }
                 else
@@ -861,6 +869,7 @@ namespace GM4D
         /// <param name="e"></param>
         private void settings_validateSubnetMaskInput(object sender, EventArgs e)
         {
+            this.settings.SubnetMaskIsValid = false;
             try
             {
                 this.statusRequired.SetError((IPAddressControlLib.IPAddressControl)sender, "");
@@ -875,6 +884,7 @@ namespace GM4D
                             this.validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "");
                             this.validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "valid IP address");
                             this.subnetMask_lblInfo.Text = "";
+                            this.settings.SubnetMaskIsValid = true;
                             this.settings.SubnetMask = ipAddress.ToString();
                             settings_validateIpRangeEndInput(ipRangeEnd_input, new EventArgs());
                             settings_validateIpRangeStartInput(ipRangeStart_input, new EventArgs());
@@ -915,6 +925,7 @@ namespace GM4D
         /// <param name="e"></param>
         private void settings_validateGatewayInput(object sender, EventArgs e)
         {
+            this.settings.GatewayIsValid = false;
             try
             {
                 if (((IPAddressControlLib.IPAddressControl)sender).Text == "...")
@@ -930,6 +941,7 @@ namespace GM4D
                     this.validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "");
                     this.validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "valid IP address");
                     this.gateway_lblInfo.Text = "";
+                    this.settings.GatewayIsValid = true;
                     this.settings.Gateway = ipAddress.ToString();
                 }
                 else
@@ -951,6 +963,7 @@ namespace GM4D
         /// <param name="e"></param>
         private void settings_validatePrimaryDNSInput(object sender, EventArgs e)
         {
+            this.settings.PrimaryDNSIsValid = false;
             try
             {
                 if (((IPAddressControlLib.IPAddressControl)sender).Text == "...")
@@ -966,6 +979,7 @@ namespace GM4D
                     this.validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "");
                     this.validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "valid IP address");
                     this.primaryDNS_lblInfo.Text = "";
+                    this.settings.PrimaryDNSIsValid = true;
                     this.settings.PrimaryDNS = ipAddress.ToString();
                 }
                 else
@@ -987,6 +1001,7 @@ namespace GM4D
         /// <param name="e"></param>
         private void settings_validateSecondaryDNSInput(object sender, EventArgs e)
         {
+            this.settings.SecondaryDNSIsValid = false;
             try
             {
                 if (((IPAddressControlLib.IPAddressControl)sender).Text == "...")
@@ -1002,6 +1017,7 @@ namespace GM4D
                     this.validationStatus_error.SetError((IPAddressControlLib.IPAddressControl)sender, "");
                     this.validationStatus_ok.SetError((IPAddressControlLib.IPAddressControl)sender, "valid IP address");
                     this.secondaryDNS_lblInfo.Text = "";
+                    this.settings.SecondaryDNSIsValid = true;
                     this.settings.SecondaryDNS = ipAddress.ToString();
                 }
                 else
@@ -1286,53 +1302,60 @@ namespace GM4D
         {
             if (ioController.OsIsUnix)
             {
-                // check if all validations ok here
-                // not implemented
-                try
+                if (this.settingsAreValid())
                 {
-                    bw = new BackgroundWorker();
-                    bw.DoWork += delegate
+                    IOController.Log(this, "settingsAreValid true", IOController.Flag.debug);
+                    try
                     {
-                        try
+                        bw = new BackgroundWorker();
+                        bw.DoWork += delegate
                         {
-                            ioController.ApplySettingsToDHCPServer();
-                        }
-                        catch (Exception ex)
-                        {
-                            IOController.Log(this, ex.Message, IOController.Flag.error);
-                            MessageBox.Show(ex.Message, "Settings could not be applied.");
-                        }
-                    };
-                    bw.WorkerReportsProgress = false;
-                    bw.RunWorkerCompleted += (bgsender, bge) =>
-                    {
-                        if (bge.Error == null)
-                        {
-                            if (this.feedback_panel.InvokeRequired)
+                            try
                             {
-                                this.feedback_panel.Invoke((MethodInvoker)delegate
+                                ioController.ApplySettingsToDHCPServer();
+                            }
+                            catch (Exception ex)
+                            {
+                                IOController.Log(this, ex.Message, IOController.Flag.error);
+                                MessageBox.Show(ex.Message, "Settings could not be applied.");
+                            }
+                        };
+                        bw.WorkerReportsProgress = false;
+                        bw.RunWorkerCompleted += (bgsender, bge) =>
+                        {
+                            if (bge.Error == null)
+                            {
+                                if (this.feedback_panel.InvokeRequired)
+                                {
+                                    this.feedback_panel.Invoke((MethodInvoker)delegate
+                                    {
+                                        GiveUserFeedback("settings applied", Color.Green);
+                                    });
+                                }
+                                else
                                 {
                                     GiveUserFeedback("settings applied", Color.Green);
-                                });
+                                }
                             }
                             else
                             {
-                                GiveUserFeedback("settings applied", Color.Green);
+                                IOController.Log(this, bge.Error.Message, IOController.Flag.error);
+                                MessageBox.Show("Error applying settings. See log for details.");
                             }
-                        }
-                        else
-                        {
-                            IOController.Log(this, bge.Error.Message, IOController.Flag.error);
-                            MessageBox.Show("Error applying settings. See log for details.");
-                        }
-                        bw.Dispose();
-                    };
-                    bw.RunWorkerAsync();
-                }
-                catch (System.Exception ex)
+                            bw.Dispose();
+                        };
+                        bw.RunWorkerAsync();
+                    }
+                    catch (System.Exception ex)
+                    {
+                        IOController.Log(this, ex.Message, IOController.Flag.error);
+                        MessageBox.Show("Exception while applying settings. See log for details.");
+                    }
+                }//end if (this.settingsAreValid())
+                else
                 {
-                    IOController.Log(this, ex.Message, IOController.Flag.error);
-                    MessageBox.Show("Exception while applying settings. See log for details.");
+                    IOController.Log(this, "settingsAreValid false", IOController.Flag.debug);
+                    GiveUserFeedback("Please make sure all settings are valid before applying!", Color.Red);
                 }
             }
             else
@@ -1393,23 +1416,73 @@ namespace GM4D
         /// <summary>
         /// user feedback if asynchronous operation was succussful
         /// </summary>
-        /// <param name="text"></param>
-        /// <param name="colour"></param>
+        /// <param name="text">text to display</param>
+        /// <param name="colour">color for background</param>
         public void GiveUserFeedback(string text, Color colour)
         {
-            feedback_panel.BackColor = Color.Green;
+            feedback_panel.BackColor = colour;
             feedback_panel.Visible = true;
+            feedback_panel.BringToFront();
             feedback_lbl.Text = text;
             feedback_lbl.Refresh();
             feedback_panel.Refresh();
             Timer t = new Timer();
-            t.Interval = 1500;
+            t.Interval = 1800;
             t.Tick += (object sender, EventArgs e) =>
             {
                 feedback_panel.Visible = false;
                 t.Stop();
             };
             t.Start();
+        }
+        /// <summary>
+        /// checks if settings are valid
+        /// </summary>
+        /// <returns>true if all settings are valid, false if one setting is invalid</returns>
+        private bool settingsAreValid()
+        {
+            // trigger validation
+            settingsTriggerValidation();
+            IOController.Log(this, "checking if settings are valid", IOController.Flag.debug);
+            // check if setings are valid
+            if (!this.settings.IpRangeStartIsValid)
+            {
+                return false;
+            }
+            if (!this.settings.IpRangeEndIsValid)
+            {
+                return false;
+            }
+            if (!this.settings.SubnetIsValid)
+            {
+                return false;
+            }
+            if (!this.settings.SubnetMaskIsValid)
+            {
+                return false;
+            }
+            if (this.settings.GatewayIsSet)
+            {
+                if (!this.settings.GatewayIsValid)
+                {
+                    return false;
+                }
+            }
+            if (this.settings.PrimaryDNSIsSet)
+            {
+                if (!this.settings.PrimaryDNSIsValid)
+                {
+                    return false;
+                }
+            }
+            if (this.settings.SecondaryDNSIsSet)
+            {
+                if (!this.settings.SecondaryDNSIsValid)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
         #endregion MenuBottomPanel
         // region for the static leases panel

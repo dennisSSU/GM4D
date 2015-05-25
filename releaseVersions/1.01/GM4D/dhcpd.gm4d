@@ -1,0 +1,6 @@
+#dhcpd.conf created by GM4D tool
+one-lease-per-client true;
+update-static-leases true;
+default-lease-time 600;
+max-lease-time 7200;
+option subnet-mask 255.255.255.0;

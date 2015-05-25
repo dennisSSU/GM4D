@@ -406,12 +406,13 @@ namespace GM4D
                 }
                 else
                 {
-                    this.IpRangeStartIsSet = true;
+                    this.IpRangeStartIsSet = false;
                 }
                 NotifyPropertyChanged(IpRangeStart);
                 IOController.Log(this, value, IOController.Flag.debug);
             }
         }
+        public bool IpRangeStartIsValid { get; set; }
         public bool IpRangeEndIsSet { get; private set; }
         private String ipRangeEnd;
         public String IpRangeEnd
@@ -422,11 +423,19 @@ namespace GM4D
             }
             set
             {
-                this.ipRangeEnd = value;
-                this.IpRangeEndIsSet = true;
+                if (value.Length > 7)
+                {
+                    this.ipRangeEnd = value;
+                    this.IpRangeEndIsSet = true;
+                }
+                else
+                {
+                    this.IpRangeEndIsSet = false;
+                }
                 NotifyPropertyChanged(IpRangeEnd);
             }
         }
+        public bool IpRangeEndIsValid { get; set; }
         public bool SubnetIsSet { get; private set;}
         private String subnet;
         public String Subnet
@@ -442,6 +451,7 @@ namespace GM4D
                 NotifyPropertyChanged(Subnet);
             }
         }
+        public bool SubnetIsValid { get; set; }
         public bool SubnetMaskIsSet { get; private set; }
         private String subnetMask;
         public String SubnetMask
@@ -457,6 +467,7 @@ namespace GM4D
                 NotifyPropertyChanged(SubnetMask);
             }
         }
+        public bool SubnetMaskIsValid { get; set; }
         public bool GatewayIsSet { get; private set; }
         private String gateway;
         public String Gateway
@@ -486,6 +497,7 @@ namespace GM4D
                 }
             }
         }
+        public bool GatewayIsValid { get; set; }
         public bool PrimaryDNSIsSet { get; private set; }
         private String primaryDNS;
         public String PrimaryDNS
@@ -508,6 +520,7 @@ namespace GM4D
                 }
             }
         }
+        public bool PrimaryDNSIsValid { get; set; }
         public bool SecondaryDNSIsSet { get; private set; }
         private String secondaryDNS;
         public String SecondaryDNS
@@ -530,6 +543,7 @@ namespace GM4D
                 }
             }
         }
+        public bool SecondaryDNSIsValid { get; set; }
         public bool StaticLeasesIsSet { get; private set; }
         private System.Collections.Generic.Dictionary<String, StaticLease> staticLeases;
         /// <summary>
